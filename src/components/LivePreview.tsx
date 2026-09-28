@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { Monitor, Tablet, Smartphone, Maximize2, RotateCcw } from "lucide-react";
+import { Monitor, Tablet, Smartphone, Maximize2, RotateCcw, Globe } from "lucide-react";
 
 interface LivePreviewProps {
   htmlCode: string;
@@ -23,18 +23,23 @@ export default function LivePreview({
 
   // Combine HTML and CSS safely for iframe srcDoc
   const srcDoc = useMemo(() => {
-    // If the HTML already has </head>, inject style before it; otherwise append
     const cleanHtml = htmlCode || "";
     const cleanCss = cssCode || "";
 
-    const injectedStyle = `<style>${cleanCss}</style>`;
+    const injectedStyle = `
+      <style>
+        /* Base preview reset */
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        ${cleanCss}
+      </style>
+    `;
 
     if (cleanHtml.includes("</head>")) {
       return cleanHtml.replace("</head>", `${injectedStyle}</head>`);
     } else if (cleanHtml.includes("<body")) {
       return `${injectedStyle}${cleanHtml}`;
     }
-    return `<!DOCTYPE html><html><head><meta charset="utf-8">${injectedStyle}</head><body>${cleanHtml}</body></html>`;
+    return `<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">${injectedStyle}</head><body>${cleanHtml}</body></html>`;
   }, [htmlCode, cssCode]);
 
   const viewportWidth = useMemo(() => {
@@ -50,18 +55,26 @@ export default function LivePreview({
   }, [viewport]);
 
   return (
-    <div className="flex flex-col h-full bg-[#0d0d0d] border border-[#333333] overflow-hidden">
-      {/* Preview Header & Controls */}
+    <div className="flex flex-col h-full bg-[#0d0d0d] border border-[#333333] overflow-hidden rounded">
+      {/* Mini Browser Top Header */}
       <div className="flex items-center justify-between px-3 py-2 bg-[#050505] border-b border-dashed border-[#333333]">
-        <div className="flex items-center gap-1">
-          <div className="flex items-center gap-1.5 px-2 py-0.5 bg-[#161616] border border-[#262626] rounded text-[11px] font-mono text-[#aaaaaa]">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            SANDBOX PREVIEW
+        <div className="flex items-center gap-2">
+          {/* Traffic light dots */}
+          <div className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#333333]"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#333333]"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#333333]"></span>
+          </div>
+
+          {/* Fake URL Bar */}
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-0.5 bg-[#141414] border border-[#262626] rounded text-[10px] font-mono text-[#888888]">
+            <Globe size={11} className="text-emerald-400" />
+            <span>https://kopicode-sandbox.local</span>
           </div>
         </div>
 
         {/* Viewport Toggles & Actions */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5">
           <div className="flex items-center bg-[#111111] p-0.5 border border-[#2a2a2a] rounded">
             <button
               type="button"
@@ -118,9 +131,9 @@ export default function LivePreview({
       </div>
 
       {/* Frame Container */}
-      <div className="flex-1 bg-[#0a0a0a] flex items-center justify-center p-2 overflow-auto" style={{ minHeight: height }}>
+      <div className="flex-1 bg-[#0a0a0a] flex items-center justify-center p-3 overflow-auto">
         <div
-          className="h-full bg-white shadow-2xl transition-all duration-300 relative border border-[#333333]"
+          className="h-full bg-white shadow-2xl transition-all duration-300 relative border border-[#333333] rounded overflow-hidden"
           style={{
             width: viewportWidth,
             minHeight: height,
@@ -131,7 +144,7 @@ export default function LivePreview({
             title="Live Runner Sandbox"
             srcDoc={srcDoc}
             sandbox="allow-scripts"
-            className="w-full h-full min-h-[300px] border-none bg-white block"
+            className="w-full h-full min-h-[320px] border-none bg-white block"
           />
         </div>
       </div>

@@ -15,16 +15,16 @@
   --color-danger: #EF4444;
 }
 
-* {
+*, ::before, ::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
-body {
+html, body {
+  margin: 0;
+  padding: 0;
   background-color: var(--color-base);
   color: var(--color-text-primary);
-  font-family: var(--font-geist-sans), sans-serif;
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
@@ -41,16 +41,72 @@ code, pre, .font-mono {
   font-family: var(--font-jetbrains-mono), monospace;
 }
 
+/* Course Content Typography & Spacing */
+.course-prose h1 {
+  font-size: 1.75rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #FFFFFF;
+}
+
+.course-prose h2 {
+  font-size: 1.35rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #FFFFFF;
+}
+
+.course-prose h3 {
+  font-size: 1.1rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #FFFFFF;
+}
+
+.course-prose p {
+  margin-bottom: 1rem;
+  line-height: 1.75;
+  color: #CCCCCC;
+}
+
+.course-prose ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.course-prose ol {
+  list-style-type: decimal;
+  margin-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.course-prose li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.course-prose hr {
+  margin: 1.75rem 0;
+  border: none;
+  border-top: 1px dashed var(--color-border);
+}
+
+.course-prose pre {
+  margin-top: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
 /* Bracket Framer Signature (from portfolio) */
 .bracket-framer {
   position: relative;
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.5rem;
+  padding: 0.35rem 0.65rem;
   color: var(--color-text-secondary);
   text-decoration: none;
   font-family: var(--font-jetbrains-mono), monospace;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   transition: color 0.2s ease;
   cursor: pointer;
 }
@@ -69,12 +125,12 @@ code, pre, .font-mono {
 
 .bracket-framer::before {
   content: '[';
-  left: -0.4rem;
+  left: -0.3rem;
 }
 
 .bracket-framer::after {
   content: ']';
-  right: -0.4rem;
+  right: -0.3rem;
 }
 
 .bracket-framer:hover,
@@ -149,6 +205,7 @@ code, pre, .font-mono {
 
 .cm-scroller {
   font-family: var(--font-jetbrains-mono), monospace !important;
+  padding: 8px 0 !important;
 }
 
 .cm-gutters {

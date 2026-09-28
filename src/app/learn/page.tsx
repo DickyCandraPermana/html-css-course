@@ -217,10 +217,10 @@ export default function LearnPage() {
       <Navbar />
 
       {/* Step Progress Top Bar */}
-      <div className="bg-[#0a0a0a] border-b border-dashed border-[#333333] px-4 py-2 overflow-x-auto">
+      <div className="bg-[#0a0a0a] border-b border-dashed border-[#333333] px-4 py-2.5 overflow-x-auto">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           {/* Step Pill Indicators */}
-          <div className="flex items-center space-x-1 sm:space-x-2">
+          <div className="flex items-center gap-2">
             {MODULES.map((m) => {
               const isActive = m.id === currentStep;
               const isPast = m.id < currentStep;
@@ -230,16 +230,16 @@ export default function LearnPage() {
                   key={m.id}
                   type="button"
                   onClick={() => setCurrentStep(m.id)}
-                  className={`flex items-center gap-1 px-2.5 py-1 text-xs font-mono rounded transition-all ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded transition-all whitespace-nowrap ${
                     isActive
-                      ? "bg-white text-black font-bold shadow"
+                      ? "bg-white text-black font-bold shadow-md ring-1 ring-white"
                       : isPast
                       ? "bg-[#161616] text-emerald-400 hover:bg-[#202020] border border-emerald-950"
                       : "bg-[#111111] text-[#777777] hover:text-white border border-[#222222]"
                   }`}
                 >
-                  {isPast ? <CheckCircle2 size={12} className="text-emerald-400" /> : <span>0{m.id}</span>}
-                  <span className="hidden md:inline truncate max-w-[100px]">{m.title.split(",")[0]}</span>
+                  {isPast ? <CheckCircle2 size={13} className="text-emerald-400" /> : <span>0{m.id}</span>}
+                  <span className="hidden sm:inline truncate max-w-[130px]">{m.title.split(",")[0]}</span>
                 </button>
               );
             })}
@@ -254,7 +254,7 @@ export default function LearnPage() {
             <button
               type="button"
               onClick={() => setIsSidebarOpen((prev) => !prev)}
-              className="bracket-framer text-xs text-[#888888] hover:text-white flex items-center gap-1"
+              className="bracket-framer text-xs text-[#aaaaaa] hover:text-white flex items-center gap-1"
             >
               {isSidebarOpen ? <PanelRightClose size={13} /> : <PanelRightOpen size={13} />}
               {isSidebarOpen ? "Tutup Sidebar" : "Buka Sidebar"}
@@ -267,14 +267,14 @@ export default function LearnPage() {
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden max-w-7xl mx-auto w-full">
         {/* Left Column: Course Theory & Tasks */}
         <div
-          className={`flex-1 p-4 sm:p-8 overflow-y-auto transition-all ${
+          className={`flex-1 p-6 sm:p-10 overflow-y-auto transition-all ${
             isSidebarOpen ? "lg:max-w-[55%]" : "w-full max-w-4xl mx-auto"
           }`}
         >
           {/* Module Header */}
-          <div className="mb-6">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="px-2 py-0.5 bg-[#1a1a1a] border border-[#333333] rounded text-[11px] font-mono text-amber-400 font-semibold">
+          <div className="mb-8 pb-6 border-b border-dashed border-[#222222]">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="px-2.5 py-1 bg-[#1a1a1a] border border-[#333333] rounded text-[11px] font-mono text-amber-400 font-semibold tracking-wider">
                 {activeModule.badge}
               </span>
               <span className="text-[11px] font-mono text-[#666666]">
@@ -282,7 +282,7 @@ export default function LearnPage() {
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-2">
+            <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-white mb-2">
               {activeModule.title}
             </h1>
             <p className="text-xs sm:text-sm font-mono text-[#aaaaaa]">
@@ -290,8 +290,8 @@ export default function LearnPage() {
             </p>
           </div>
 
-          {/* Theory Section */}
-          <div className="space-y-6 text-sm text-[#cccccc] leading-relaxed mb-8">
+          {/* Theory Section with course-prose */}
+          <div className="course-prose space-y-6 text-sm text-[#cccccc] leading-relaxed mb-8">
             {/* Analogy Callout Card */}
             <div className="p-4 bg-[#0e0e0e] border border-dashed border-[#333333] rounded">
               <div className="flex items-start gap-2.5">
