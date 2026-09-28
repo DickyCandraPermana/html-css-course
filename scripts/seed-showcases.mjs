@@ -7,7 +7,7 @@ if (!process.env.DATABASE_URL) {
 
 const sql = neon(process.env.DATABASE_URL);
 
-const SEED_SHOWCASES = [
+export const SEED_SHOWCASES = [
   {
     participant: {
       name: "Bambang Triyono",
@@ -28,20 +28,26 @@ const SEED_SHOWCASES = [
 </head>
 <body>
   <div class="pawon-container">
+    <nav class="navbar">
+      <div class="logo">☕ Pawon Klotok</div>
+      <div class="nav-links">
+        <a href="#fasilitas">Fasilitas</a>
+        <a href="#menu">Menu Pawon</a>
+        <a href="#reservasi">Reservasi Bale</a>
+      </div>
+    </nav>
+
     <header class="pawon-header">
       <div class="badge-pawon">PAWON JOGJA // EST. 1984</div>
       <h1>Kopi Klotok & Pawon Ndeso</h1>
       <p class="tagline">
-        Seduhan arang <strong>tungku kayu bakar</strong> & kehangatan pisang goreng kepok di bawah sejuknya <em>lereng Gunung Merapi</em>.
+        Seduhan arang <strong>tungku kayu bakar</strong> & kehangatan pisang kepok panas di lereng <em>Gunung Merapi</em>.
       </p>
       <hr class="garis-motif">
+      <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=900" alt="Suasana Pawon Kopi Klotok Pedesaan">
     </header>
 
-    <div class="banner-box">
-      <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=900" alt="Suasana Pawon Kopi Klotok Pedesaan">
-    </div>
-
-    <section id="fasilitas" class="card-seksi">
+    <div id="fasilitas" class="card-seksi">
       <h2>Kenyamanan & Suasana Pedesaan</h2>
       <ul class="list-pawon">
         <li>Bale bambu lesehan dengan semilir angin sawah terasering</li>
@@ -49,66 +55,78 @@ const SEED_SHOWCASES = [
         <li>Pisang goreng kepok kuning dan jadah bakar panas setiap jam</li>
         <li>Area parkir luas, mushola joglo kayu, dan bebas polusi kota</li>
       </ul>
-      <a href="#menu" class="btn-tautan">Lihat Daftar Seduhan &rarr;</a>
-    </section>
+      <p><a href="#menu" class="btn-tautan">Lihat Daftar Seduhan &rarr;</a></p>
+    </div>
 
-    <section id="menu" class="card-seksi">
+    <div id="menu" class="card-seksi">
       <h2>Sajian Khas Tungku & Wedangan</h2>
       <table class="tabel-pawon">
         <thead>
           <tr>
+            <th>Kategori</th>
             <th>Menu Pawon</th>
-            <th>Ciri Khas</th>
             <th>Harga</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>Kopi Klotok Gula Aren</strong></td>
-            <td>Dimasak bersama bubuk kopi hingga meletup</td>
-            <td><span class="harga">Rp 12.000</span></td>
+            <td>Seduhan Arang</td>
+            <td>Kopi Klotok Gula Aren <mark>Favorit</mark></td>
+            <td>Rp 12.000</td>
           </tr>
           <tr>
-            <td><strong>Wedang Uwuh Rempah</strong></td>
-            <td>Secang, jahe bakar, cengkeh & gula batu</td>
-            <td><span class="harga">Rp 14.000</span></td>
+            <td>Rempah Alami</td>
+            <td>Wedang Uwuh Secang Jahe</td>
+            <td>Rp 14.000</td>
           </tr>
           <tr>
-            <td><strong>Pisang Goreng Kepok</strong></td>
-            <td>Garing di luar, manis lumer bertabur gula semut</td>
-            <td><span class="harga">Rp 15.000</span></td>
+            <td>Gorengan Hangat</td>
+            <td>Pisang Goreng Kepok Garing</td>
+            <td>Rp 15.000</td>
           </tr>
           <tr>
-            <td><strong>Jadah Bakar Gurih</strong></td>
-            <td>Ketan putih kelapa gurih beraroma asap daun pisang</td>
-            <td><span class="harga">Rp 10.000</span></td>
+            <td>Camilan Bakar</td>
+            <td>Jadah Bakar Gurih Daun Pisang</td>
+            <td>Rp 10.000</td>
           </tr>
         </tbody>
       </table>
-    </section>
+    </div>
 
-    <section id="reservasi" class="card-seksi form-box">
+    <div id="reservasi" class="card-seksi form-box">
       <h2>Pesan Bale Lesehan Rombongan</h2>
-      <form class="form-pawon" onsubmit="event.preventDefault(); alert('Matur nuwun! Bale lesehan Anda telah disiapkan.');">
+      <form id="form-reservasi" class="form-pawon" onsubmit="alert('Matur nuwun! Bale lesehan Anda telah disiapkan.'); return false;">
         <div class="form-group">
-          <label>Nama Lengkap / Kontak Keluarga:</label>
-          <input type="text" required placeholder="Contoh: Pak Rahardjo">
+          <label for="nama">Nama Lengkap Pemesan:</label>
+          <input type="text" id="nama" name="nama" required placeholder="Contoh: Pak Rahardjo">
         </div>
         <div class="form-group">
-          <label>Pilihan Area Duduk:</label>
-          <select>
-            <option>Bale Sawah Terbuka (Angin Sepoi)</option>
-            <option>Area Joglo Kayu Utama</option>
-            <option>Dekat Tungku Pawon Hangat</option>
+          <label for="tanggal">Tanggal Kunjungan:</label>
+          <input type="date" id="tanggal" name="tanggal" required>
+        </div>
+        <div class="form-group">
+          <label for="kursi">Jumlah Tamu (Orang):</label>
+          <input type="number" id="kursi" name="kursi" min="1" value="4" required>
+        </div>
+        <div class="form-group">
+          <label>Pilihan Tempat Duduk:</label>
+          <label class="radio-label"><input type="radio" name="area" value="bale" checked> Bale Lesehan Pinggir Sawah</label>
+          <label class="radio-label"><input type="radio" name="area" value="joglo"> Ruang Joglo Utama</label>
+        </div>
+        <div class="form-group">
+          <label for="sesi">Pilih Waktu Kedatangan:</label>
+          <select id="sesi" name="sesi">
+            <option value="pagi">Sesi Sarapan Pagi (07.00 - 10.00)</option>
+            <option value="sore">Sesi Senja Sawah (15.30 - 18.00)</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Catatan Tambahan / Jam Kedatangan:</label>
-          <textarea rows="3" placeholder="Contoh: Datang pukul 16.00 WIB waktu sunset, mohon siapkan 2 piring pisang kepok."></textarea>
+          <label for="catatan">Catatan / Permintaan Pisang Kepok:</label>
+          <textarea id="catatan" name="catatan" rows="3" placeholder="Contoh: Mohon siapkan 2 porsi pisang goreng hangat saat rombongan tiba..."></textarea>
         </div>
         <button type="submit" class="btn-pawon">Konfirmasi Reservasi Bale</button>
       </form>
-    </section>
+    </div>
 
     <footer class="pawon-footer">
       <p>Kopi Klotok & Pawon Ndeso // Buka Setiap Hari 07.00 - 22.00 WIB // Pakem, Sleman, D.I. Yogyakarta</p>
@@ -123,21 +141,58 @@ const SEED_SHOWCASES = [
 }
 
 body {
-  background-color: #1a130e;
-  color: #f3e8dc;
-  font-family: 'Georgia', serif;
+  background-color: #17110c;
+  color: #f5ebd9;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   line-height: 1.7;
   padding: 24px 16px;
 }
 
 .pawon-container {
-  max-width: 760px;
+  max-width: 820px;
   margin: 0 auto;
 }
 
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: #231811;
+  border: 1px solid #3d2b1f;
+  border-radius: 10px;
+  margin-bottom: 24px;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 15px;
+  color: #e07a3f;
+}
+
+.nav-links {
+  display: flex;
+  gap: 16px;
+}
+
+.nav-links a {
+  color: #d1b89d;
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: #f5ebd9;
+}
+
 .pawon-header {
+  background: linear-gradient(135deg, #2a1a11 0%, #190f09 100%);
+  border: 1px solid #4a3224;
+  border-radius: 12px;
   text-align: center;
-  padding: 28px 16px 20px;
+  padding: 28px 20px 24px;
+  margin-bottom: 24px;
 }
 
 .badge-pawon {
@@ -145,143 +200,116 @@ body {
   font-family: monospace;
   font-size: 11px;
   letter-spacing: 2px;
-  background: #2f2016;
+  background: #382114;
   color: #e07a3f;
   padding: 4px 12px;
   border-radius: 4px;
-  border: 1px solid #4a3222;
   margin-bottom: 12px;
 }
 
 .pawon-header h1 {
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: #fff4eb;
-  letter-spacing: -0.5px;
-  margin-bottom: 10px;
+  font-size: 26px;
+  color: #fceddb;
+  margin-bottom: 8px;
 }
 
-.pawon-header .tagline {
-  font-size: 0.95rem;
-  color: #d1bfae;
-  max-width: 580px;
-  margin: 0 auto;
-}
-
-.pawon-header .tagline strong {
-  color: #e07a3f;
-}
-
-.pawon-header .tagline em {
-  color: #fce7d2;
+.tagline {
+  color: #c9b099;
+  font-size: 14px;
+  margin-bottom: 16px;
 }
 
 .garis-motif {
   border: none;
-  border-top: 2px dashed #4a3222;
-  margin: 24px auto 0;
-  width: 60%;
+  height: 1px;
+  background: #4a3224;
+  margin: 16px 0 20px;
 }
 
-.banner-box {
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid #3d2a1c;
-  margin: 20px 0 28px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-.banner-box img {
+.pawon-header img {
   width: 100%;
-  height: 280px;
+  max-height: 340px;
   object-fit: cover;
-  display: block;
+  border-radius: 8px;
+  border: 1px solid #4a3224;
 }
 
 .card-seksi {
-  background: #241a13;
-  border: 1px solid #38271a;
+  background: linear-gradient(135deg, #22150e 0%, #150c07 100%);
+  border: 1px solid #3d291c;
   border-radius: 12px;
   padding: 24px;
   margin-bottom: 24px;
 }
 
 .card-seksi h2 {
-  font-size: 1.35rem;
-  color: #ffdfc4;
+  font-size: 18px;
+  color: #e07a3f;
   margin-bottom: 16px;
-  border-bottom: 1px solid #3d2a1c;
-  padding-bottom: 10px;
+  border-bottom: 1px dashed #3d291c;
+  padding-bottom: 8px;
 }
 
 .list-pawon {
   list-style: none;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .list-pawon li {
   position: relative;
-  padding-left: 24px;
+  padding-left: 20px;
   margin-bottom: 10px;
-  font-size: 0.92rem;
-  color: #dec8b3;
+  font-size: 14px;
+  color: #dfcdb9;
 }
 
 .list-pawon li::before {
-  content: "☕";
+  content: "✦";
   position: absolute;
   left: 0;
-  font-size: 12px;
+  color: #e07a3f;
 }
 
 .btn-tautan {
   display: inline-block;
   color: #e07a3f;
   text-decoration: none;
-  font-size: 0.88rem;
-  font-weight: bold;
-  border-bottom: 1px solid #e07a3f;
-  padding-bottom: 2px;
-  transition: all 0.2s ease;
+  font-size: 13px;
+  font-weight: 600;
+  transition: transform 0.2s;
 }
 
 .btn-tautan:hover {
-  color: #ff9b66;
-  border-color: #ff9b66;
-  padding-left: 4px;
+  transform: translateX(4px);
+  color: #f7a06d;
 }
 
 .tabel-pawon {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
-  font-size: 0.9rem;
+  font-size: 14px;
+}
+
+.tabel-pawon th,
+.tabel-pawon td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #332014;
 }
 
 .tabel-pawon th {
-  text-align: left;
-  background: #2f2117;
+  background-color: #2b1a10;
   color: #e07a3f;
-  padding: 10px 14px;
   font-weight: 600;
-  font-size: 0.85rem;
-  border-bottom: 2px solid #4a3222;
 }
 
-.tabel-pawon td {
-  padding: 12px 14px;
-  border-bottom: 1px solid #2d1f14;
-  color: #ebdcd0;
-}
-
-.tabel-pawon tr:hover {
-  background: #2c2017;
-}
-
-.tabel-pawon .harga {
-  font-family: monospace;
+mark {
+  background-color: #e07a3f;
+  color: #17110c;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
   font-weight: bold;
-  color: #f7b267;
 }
 
 .form-group {
@@ -290,63 +318,72 @@ body {
 
 .form-group label {
   display: block;
-  font-size: 0.82rem;
-  color: #c9b19b;
+  font-size: 12px;
+  font-weight: 600;
+  color: #c9b099;
   margin-bottom: 6px;
-  font-family: sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
-.form-group input,
+.radio-label {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  margin-right: 16px;
+  font-weight: normal !important;
+  cursor: pointer;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="number"],
 .form-group select,
 .form-group textarea {
   width: 100%;
-  background: #17100b;
-  border: 1px solid #4a3222;
+  padding: 10px 14px;
+  background-color: #120905;
+  border: 1px solid #3d291c;
   border-radius: 6px;
-  padding: 10px 12px;
-  color: #fff;
-  font-family: inherit;
-  font-size: 0.9rem;
+  color: #f5ebd9;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  outline: none;
   border-color: #e07a3f;
 }
 
 .btn-pawon {
-  width: 100%;
-  background: #e07a3f;
-  color: #17100b;
+  background-color: #d97736;
+  color: #17110c;
+  padding: 12px 24px;
   border: none;
   border-radius: 6px;
-  padding: 12px;
-  font-size: 0.95rem;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 13px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
 }
 
 .btn-pawon:hover {
-  background: #ff8e4d;
+  background-color: #f38f4d;
+  transform: translateY(-2px);
 }
 
 .pawon-footer {
   text-align: center;
-  font-size: 0.75rem;
-  color: #8c7664;
-  padding: 24px 0 12px;
-  font-family: sans-serif;
+  font-size: 12px;
+  color: #7d6550;
+  padding-top: 12px;
+  border-top: 1px dashed #332014;
 }`,
     },
   },
   {
     participant: {
-      name: "Farhan Wijaya",
+      name: "Siti Rahmawati",
       sessionCode: "pontianak-brew-club",
       currentStep: 7,
       completedSteps: [0, 1, 2, 3, 4, 5, 6, 7],
@@ -364,78 +401,105 @@ body {
 </head>
 <body>
   <div class="kopitiam-wrap">
+    <nav class="navbar">
+      <div class="logo">☕ AROMA SELAT</div>
+      <div class="nav-links">
+        <a href="#fasilitas">Keunggulan</a>
+        <a href="#menu">Menu Sarapan</a>
+        <a href="#reservasi">Pesan Meja</a>
+      </div>
+    </nav>
+
     <header class="kopitiam-head">
-      <div class="chinese-sign">聯 成 咖 啡 棧</div>
+      <div class="chinese-sign">聯 成 咖 啡 棧 // EST. 1968</div>
       <h1>WARUNG KOPI TIAM AROMA SELAT</h1>
-      <p class="sub">Racikan Kopi Saring Tradisional & Roti Srikaya Panggang Arang Sejak 1968</p>
-      <div class="loc-pill">Jl. Gajah Mada No. 48, Pontianak, Kalimantan Barat</div>
+      <p class="sub">
+        Kopi saring tarik arang & roti srikaya panggang sejak <strong>1968</strong> dengan resep <em>turun-temurun</em>.
+      </p>
+      <hr class="garis-tiam">
+      <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=900" alt="Cangkir Kopi Tarik Kopitiam Jadul">
     </header>
 
-    <div class="frame-banner">
-      <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=900" alt="Cangkir Kopi Tarik Kopitiam Jadul">
+    <div id="fasilitas" class="card-tiam">
+      <h2>Keunggulan Racikan Kopi Selat</h2>
+      <ul class="tiam-list">
+        <li>Biji kopi liberika lokal pilihan disangrai dengan resep turun-temurun</li>
+        <li>Kain saring tarik tinggi menghasilkan busa halus dan rasa mantap</li>
+        <li>Selai srikaya buatan sendiri dari telur bebek dan santan kental murni</li>
+        <li>Meja marmer klasik dingin dan suasana hangat percakapan warga kota</li>
+      </ul>
+      <p><a href="#menu" class="link-menu">Buka Menu Sarapan &rarr;</a></p>
     </div>
 
-    <div class="grid-layout">
-      <section class="card-tiam">
-        <h2>Keunggulan Racikan Kopi Selat</h2>
-        <ul class="tiam-list">
-          <li>Biji kopi liberika lokal pilihan disangrai dengan resep turun-temurun</li>
-          <li>Kain saring tarik tinggi menghasilkan busa halus dan rasa mantap</li>
-          <li>Selai srikaya buatan sendiri dari telur bebek dan santan kental murni</li>
-          <li>Meja marmer klasik dingin dan suasana hangat percakapan warga kota</li>
-        </ul>
-      </section>
-
-      <section class="card-tiam">
-        <h2>Daftar Menu & Kwitansi</h2>
-        <table class="nota-table">
-          <thead>
-            <tr>
-              <th>Nama Pesanan</th>
-              <th>Penyajian</th>
-              <th>Harga</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Kopi O Panas</td>
-              <td>Hitam Pekat Gula Pasir</td>
-              <td class="price">Rp 9.000</td>
-            </tr>
-            <tr>
-              <td>Kopi Susu Tarik Peng</td>
-              <td>Dingin Es Susu Kental Manis</td>
-              <td class="price">Rp 13.000</td>
-            </tr>
-            <tr>
-              <td>Roti Panggang Srikaya</td>
-              <td>Arang Kayu + Mentega Gurih</td>
-              <td class="price">Rp 12.000</td>
-            </tr>
-            <tr>
-              <td>Telur Ayam Setengah Matang</td>
-              <td>2 Butir + Kecap Asin & Lada</td>
-              <td class="price">Rp 8.000</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+    <div id="menu" class="card-tiam">
+      <h2>Daftar Pesanan & Kwitansi</h2>
+      <table class="nota-table">
+        <thead>
+          <tr>
+            <th>Kategori</th>
+            <th>Nama Pesanan</th>
+            <th>Harga</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Minuman Panas</td>
+            <td>Kopi O Panas Pekat</td>
+            <td>Rp 9.000</td>
+          </tr>
+          <tr>
+            <td>Es Segar</td>
+            <td>Kopi Susu Tarik Peng <mark>Favorit</mark></td>
+            <td>Rp 13.000</td>
+          </tr>
+          <tr>
+            <td>Panggangan</td>
+            <td>Roti Panggang Srikaya Mentega</td>
+            <td>Rp 12.000</td>
+          </tr>
+          <tr>
+            <td>Sarapan Pagi</td>
+            <td>Telur Ayam Setengah Matang (2 Butir)</td>
+            <td>Rp 8.000</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <section class="reservasi-tiam">
-      <h2>Pesan Meja Rombongan Sarapan</h2>
-      <form class="form-tiam" onsubmit="event.preventDefault(); alert('Meja sarapan Kopitiam telah diamankan!');">
-        <div class="tiam-fields">
-          <input type="text" placeholder="Nama Pemesan..." required>
-          <select>
-            <option>Sesi Pagi (06.00 - 09.00)</option>
-            <option>Sesi Siang (10.00 - 14.00)</option>
-            <option>Sesi Sore & Malam (16.00 - 22.00)</option>
-          </select>
-          <button type="submit">Amankan Kursi Meja Marmer</button>
+    <div id="reservasi" class="card-tiam form-reservasi-box">
+      <h2>Pesan Meja Marmer Rombongan</h2>
+      <form id="form-reservasi" class="form-tiam" onsubmit="alert('Terima kasih! Meja marmer sarapan Anda telah diamankan.'); return false;">
+        <div class="form-group">
+          <label for="nama">Nama Pemesan:</label>
+          <input type="text" id="nama" name="nama" placeholder="Contoh: Koh Hendra" required>
         </div>
+        <div class="form-group">
+          <label for="tanggal">Tanggal Kunjungan:</label>
+          <input type="date" id="tanggal" name="tanggal" required>
+        </div>
+        <div class="form-group">
+          <label for="kursi">Jumlah Kursi:</label>
+          <input type="number" id="kursi" name="kursi" min="1" value="2" required>
+        </div>
+        <div class="form-group">
+          <label>Pilihan Area:</label>
+          <label class="radio-label"><input type="radio" name="area" value="marmer" checked> Meja Marmer Dalam</label>
+          <label class="radio-label"><input type="radio" name="area" value="teras"> Teras Depan Pasar</label>
+        </div>
+        <div class="form-group">
+          <label for="sesi">Pilih Waktu Kedatangan:</label>
+          <select id="sesi" name="sesi">
+            <option value="pagi">Sesi Pagi (06.00 - 09.00)</option>
+            <option value="siang">Sesi Siang (10.00 - 13.00)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="catatan">Catatan Meja:</label>
+          <textarea id="catatan" name="catatan" rows="3" placeholder="Contoh: Roti srikaya disajikan hangat begitu kami duduk..."></textarea>
+        </div>
+        <button type="submit" class="btn-tiam">Amankan Kursi Meja Marmer</button>
       </form>
-    </section>
+    </div>
 
     <footer class="kopitiam-foot">
       &copy; 1968 - 2026 Kedai Kopi Tiam Aroma Selat. Warisan Cita Rasa Khatulistiwa.
@@ -450,214 +514,242 @@ body {
 }
 
 body {
-  background: #0a1410;
-  color: #e5eee8;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #081712;
+  color: #edf7f2;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   line-height: 1.6;
   padding: 24px 16px;
 }
 
 .kopitiam-wrap {
-  max-width: 800px;
+  max-width: 820px;
   margin: 0 auto;
 }
 
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background-color: #0e271f;
+  border: 1px solid #1a4235;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.logo {
+  font-weight: bold;
+  color: #34d399;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 16px;
+}
+
+.nav-links a {
+  color: #a7d9c6;
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: #ffffff;
+}
+
 .kopitiam-head {
+  background: linear-gradient(135deg, #102e24 0%, #061611 100%);
+  border: 1px solid #1e4d3d;
+  border-radius: 10px;
   text-align: center;
-  padding: 20px 10px;
-  border-bottom: 2px solid #1a382c;
+  padding: 28px 20px;
   margin-bottom: 24px;
 }
 
 .chinese-sign {
-  font-size: 1.3rem;
-  letter-spacing: 8px;
+  font-family: monospace;
+  font-size: 12px;
+  letter-spacing: 3px;
   color: #fbbf24;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .kopitiam-head h1 {
-  font-size: 1.8rem;
-  font-weight: 900;
-  color: #f3faf6;
+  font-size: 24px;
+  color: #ffffff;
   letter-spacing: 1px;
+  margin-bottom: 8px;
 }
 
-.kopitiam-head .sub {
-  color: #92b5a5;
-  font-size: 0.95rem;
-  margin-top: 6px;
+.sub {
+  color: #a7d9c6;
+  font-size: 14px;
+  margin-bottom: 16px;
 }
 
-.loc-pill {
-  display: inline-block;
-  background: #12281f;
-  color: #2dd4bf;
-  border: 1px solid #1d4d3a;
-  border-radius: 999px;
-  padding: 4px 14px;
-  font-size: 0.78rem;
-  margin-top: 12px;
-  font-family: monospace;
+.garis-tiam {
+  border: none;
+  height: 1px;
+  background: #1e4d3d;
+  margin: 16px 0 20px;
 }
 
-.frame-banner {
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid #204b38;
-  margin-bottom: 24px;
-}
-
-.frame-banner img {
+.kopitiam-head img {
   width: 100%;
-  height: 260px;
+  max-height: 320px;
   object-fit: cover;
-  display: block;
-}
-
-.grid-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  margin-bottom: 24px;
-}
-
-@media (min-width: 640px) {
-  .grid-layout {
-    grid-template-columns: 1fr 1fr;
-  }
+  border-radius: 6px;
+  border: 1px solid #1e4d3d;
 }
 
 .card-tiam {
-  background: #0f221b;
-  border: 1px solid #1b4533;
-  border-radius: 8px;
-  padding: 20px;
+  background: linear-gradient(135deg, #0d261e 0%, #081712 100%);
+  border: 1px solid #183e31;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 24px;
 }
 
 .card-tiam h2 {
-  font-size: 1.15rem;
-  color: #2dd4bf;
-  margin-bottom: 14px;
-  font-weight: 700;
+  font-size: 17px;
+  color: #34d399;
+  margin-bottom: 16px;
+  border-bottom: 1px dashed #1e4d3d;
+  padding-bottom: 8px;
 }
 
 .tiam-list {
   list-style: none;
+  margin-bottom: 14px;
 }
 
 .tiam-list li {
   padding-left: 20px;
   position: relative;
-  margin-bottom: 10px;
-  font-size: 0.88rem;
-  color: #c0d8cc;
+  font-size: 14px;
+  color: #cce7dc;
+  margin-bottom: 8px;
 }
 
 .tiam-list li::before {
-  content: "✔";
+  content: "✓";
   position: absolute;
   left: 0;
-  color: #fbbf24;
-  font-size: 11px;
+  color: #34d399;
+}
+
+.link-menu {
+  color: #34d399;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.link-menu:hover {
+  text-decoration: underline;
 }
 
 .nota-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.85rem;
+  font-size: 14px;
+}
+
+.nota-table th,
+.nota-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #163a2e;
 }
 
 .nota-table th {
-  text-align: left;
-  padding: 6px 8px;
-  border-bottom: 2px dashed #204b38;
-  color: #2dd4bf;
-  font-size: 0.75rem;
-  text-transform: uppercase;
+  background-color: #133529;
+  color: #34d399;
 }
 
-.nota-table td {
-  padding: 8px;
-  border-bottom: 1px solid #153225;
+mark {
+  background-color: #059669;
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
 }
 
-.nota-table .price {
-  font-family: monospace;
-  font-weight: bold;
-  color: #fbbf24;
-}
-
-.reservasi-tiam {
-  background: #112a20;
-  border: 1px dashed #2dd4bf;
-  border-radius: 8px;
-  padding: 20px;
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.reservasi-tiam h2 {
-  font-size: 1.1rem;
-  color: #f3faf6;
+.form-group {
   margin-bottom: 14px;
 }
 
-.tiam-fields {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 480px;
-  margin: 0 auto;
+.form-group label {
+  display: block;
+  font-size: 12px;
+  color: #a7d9c6;
+  margin-bottom: 6px;
 }
 
-@media (min-width: 480px) {
-  .tiam-fields {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-  .tiam-fields input { flex: 1 1 200px; }
-  .tiam-fields select { flex: 1 1 180px; }
-  .tiam-fields button { flex: 1 1 100%; }
-}
-
-.tiam-fields input,
-.tiam-fields select {
-  background: #091712;
-  border: 1px solid #1d4d3a;
-  padding: 9px 12px;
-  color: white;
-  border-radius: 4px;
-  font-size: 0.85rem;
-}
-
-.tiam-fields button {
-  background: #2dd4bf;
-  color: #071911;
-  font-weight: bold;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 4px;
+.radio-label {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  margin-right: 16px;
+  color: #edf7f2 !important;
   cursor: pointer;
-  transition: opacity 0.2s;
 }
 
-.tiam-fields button:hover {
-  opacity: 0.9;
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="number"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: #05100c;
+  border: 1px solid #1a4235;
+  border-radius: 6px;
+  color: #edf7f2;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #34d399;
+}
+
+.btn-tiam {
+  background-color: #059669;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-tiam:hover {
+  background-color: #10b981;
+  transform: translateY(-2px);
 }
 
 .kopitiam-foot {
   text-align: center;
-  font-size: 0.75rem;
-  color: #6a8e7e;
-  padding-bottom: 12px;
+  font-size: 12px;
+  color: #558774;
+  padding-top: 14px;
+  border-top: 1px dashed #163a2e;
 }`,
     },
   },
   {
     participant: {
-      name: "Nadira Alisya",
-      sessionCode: "dago-indie-creatives",
+      name: "Rian Hidayat",
+      sessionCode: "bandung-roasters",
       currentStep: 7,
       completedSteps: [0, 1, 2, 3, 4, 5, 6, 7],
     },
@@ -673,77 +765,109 @@ body {
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="brutal-wrap">
-    <nav class="brutal-nav">
-      <span class="brand-code">[KS-BDG // 022]</span>
-      <span class="status-live">● ROASTING BATCH #42 TODAY</span>
+  <div class="roastery-shell">
+    <nav class="navbar">
+      <div class="logo">⚡ KALENG & SUNYI</div>
+      <div class="nav-links">
+        <a href="#fasilitas">Lab Spek</a>
+        <a href="#menu">Beans</a>
+        <a href="#reservasi">Sesi Cupping</a>
+      </div>
     </nav>
 
-    <header class="brutal-hero">
-      <div class="tag-orange">GANG SUNYI // DAGO ATAS</div>
-      <h1>KALENG &amp; SUNYI_</h1>
+    <header class="roastery-header">
+      <div class="spec-label">LAB // ROASTING BATCH #049</div>
+      <h1>KALENG & SUNYI // MICRO ROASTERY</h1>
       <p class="manifesto">
-        Ruang kerja hening untuk perajin kode, pembaca zine, dan penikmat pour-over anaerobik Jawa Barat.
+        Eksperimen profil sangrai <strong>aerobic fermentation</strong> & manual brew presisi dalam ruang kedap <em>minimalis</em>.
       </p>
+      <hr class="divider-line">
+      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=900" alt="Ruang Mesin Roasting dan Bar Kaleng Sunyi">
     </header>
 
-    <div class="brutal-image">
-      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=900" alt="V60 Pour Over Dago">
+    <div id="fasilitas" class="brutal-card">
+      <h2>SPESIFIKASI RUANG & PERANGKAT SEDUH</h2>
+      <ul class="spec-list">
+        <li>Mesin Roaster Giesen W6A dengan pencatatan curve Artisan real-time</li>
+        <li>Water filtration system remineralized Magnesium 120 ppm</li>
+        <li>Ruang kedap akustik dengan playlist lo-fi ambient tape deck</li>
+        <li>Tersedia cold brew kaleng nitrogen dingin untuk dibawa pulang</li>
+      </ul>
+      <p><a href="#menu" class="btn-mono">CEK BEANS CATALOG &rarr;</a></p>
     </div>
 
-    <div class="brutal-specs">
-      <div class="spec-card">
-        <h3>SPEK RUANG:</h3>
-        <ul>
-          <li>Wi-Fi simetris 250 Mbps (Fiber Dedicated)</li>
-          <li>Stopkontak perorangan di setiap kubikel beton</li>
-          <li>Koleksi kaset pita lofi &amp; deck tape analog</li>
-          <li>Area bebas asap rokok &amp; zona hening absolut</li>
-        </ul>
-      </div>
-
-      <div class="spec-card">
-        <h3>SINGLE ORIGIN BATCH:</h3>
-        <table class="spec-table">
-          <thead>
-            <tr>
-              <th>ORIGIN</th>
-              <th>PROSES</th>
-              <th>CUPPING</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Pangalengan Natural</td>
-              <td>Anaerobic 72H</td>
-              <td><strong>Rp 30K</strong></td>
-            </tr>
-            <tr>
-              <td>Ciwidey Washed</td>
-              <td>Slow Dry 21D</td>
-              <td><strong>Rp 28K</strong></td>
-            </tr>
-            <tr>
-              <td>Kamojang Honey</td>
-              <td>Yellow Pulp</td>
-              <td><strong>Rp 32K</strong></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div id="menu" class="brutal-card">
+      <h2>DAILY BATCH CATALOGUE</h2>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Origin</th>
+            <th>Proses & Profil</th>
+            <th>Harga Seduh</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Kerinci Kayu Aro</td>
+            <td>Anaerobic Natural, Notes: Strawberry Candy <mark>Favorit</mark></td>
+            <td>Rp 32.000</td>
+          </tr>
+          <tr>
+            <td>Gunung Halu</td>
+            <td>Honey Washed, Notes: Jasmine Green Tea</td>
+            <td>Rp 28.000</td>
+          </tr>
+          <tr>
+            <td>Aceh Pantan Musara</td>
+            <td>Full Washed, Notes: Citrus & Bergamot</td>
+            <td>Rp 30.000</td>
+          </tr>
+          <tr>
+            <td>Nitro Cold Brew</td>
+            <td>Kaleng 250ml Siap Minum</td>
+            <td>Rp 25.000</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="brutal-cta">
-      <div class="cta-inner">
-        <h3>BOOK SILENT WORKSTATION</h3>
-        <p>Tersedia 12 meja kerja fokus dengan kursi ergonomis.</p>
-        <button onclick="alert('Slot meja kerja Anda telah diamankan untuk 4 jam ke depan!')" class="btn-safety">KLAIM MEJA KERJA SEKARANG</button>
-      </div>
+    <div id="reservasi" class="brutal-card">
+      <h2>BOOKING SESI SENSORY CUPPING</h2>
+      <form id="form-reservasi" class="brutal-form" onsubmit="alert('Seat cupping session confirmed.'); return false;">
+        <div class="field-row">
+          <label for="nama">KODE PESERTA / NAMA:</label>
+          <input type="text" id="nama" name="nama" placeholder="Contoh: Rian Hidayat" required>
+        </div>
+        <div class="field-row">
+          <label for="tanggal">TANGGAL SESI:</label>
+          <input type="date" id="tanggal" name="tanggal" required>
+        </div>
+        <div class="field-row">
+          <label for="kursi">JUMLAH SEAT (MAKS 4):</label>
+          <input type="number" id="kursi" name="kursi" min="1" max="4" value="1" required>
+        </div>
+        <div class="field-row">
+          <label>AREA TESTING:</label>
+          <label class="radio-label"><input type="radio" name="area" value="bar" checked> Slow Bar Tasting</label>
+          <label class="radio-label"><input type="radio" name="area" value="lab"> Roastery Lab Table</label>
+        </div>
+        <div class="field-row">
+          <label for="sesi">BATCH WAKTU:</label>
+          <select id="sesi" name="sesi">
+            <option value="batch1">Slot 1 (13.00 - 15.00 WIB)</option>
+            <option value="batch2">Slot 2 (19.00 - 21.00 WIB)</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label for="catatan">CATATAN PREFERENSI CUPPING:</label>
+          <textarea id="catatan" name="catatan" rows="3" placeholder="Sebutkan tingkat toleransi acidity atau proses fermentasi yang ingin dicoba..."></textarea>
+        </div>
+        <button type="submit" class="submit-brutal">KUNCI RESERVASI SEAT</button>
+      </form>
     </div>
 
-    <footer class="brutal-foot">
-      <span>NO COMPROMISE ON COFFEE &amp; FOCUS.</span>
-      <span>BANDUNG, ID // LAT -6.864</span>
+    <footer class="roastery-foot">
+      KALENG & SUNYI // JL. DAGO PAKAR NO. 14, BANDUNG // ALL RIGHTS RESERVED
     </footer>
   </div>
 </body>
@@ -755,204 +879,261 @@ body {
 }
 
 body {
-  background: #101010;
-  color: #e0e0e0;
-  font-family: 'JetBrains Mono', Consolas, monospace;
+  background-color: #0c0c0d;
+  color: #e4e4e7;
+  font-family: 'Plus Jakarta Sans', monospace, sans-serif;
   line-height: 1.6;
-  padding: 16px;
+  padding: 24px 16px;
 }
 
-.brutal-wrap {
+.roastery-shell {
   max-width: 820px;
   margin: 0 auto;
-  border: 1px solid #2a2a2a;
-  background: #080808;
 }
 
-.brutal-nav {
+.navbar {
   display: flex;
   justify-content: space-between;
-  padding: 10px 16px;
-  border-bottom: 1px solid #2a2a2a;
-  font-size: 11px;
+  align-items: center;
+  padding: 14px 18px;
+  background-color: #141416;
+  border: 1px solid #27272a;
+  border-radius: 6px;
+  margin-bottom: 24px;
 }
 
-.brand-code {
-  font-weight: bold;
-  color: #fff;
+.logo {
+  font-weight: 800;
+  font-size: 13px;
+  color: #facc15;
+  letter-spacing: 2px;
 }
 
-.status-live {
-  color: #ff5400;
+.nav-links {
+  display: flex;
+  gap: 16px;
 }
 
-.brutal-hero {
-  padding: 32px 20px 24px;
-  border-bottom: 1px solid #2a2a2a;
-}
-
-.tag-orange {
-  display: inline-block;
-  background: #ff5400;
-  color: #000;
-  font-size: 10px;
-  font-weight: 900;
-  padding: 2px 8px;
+.nav-links a {
+  color: #a1a1aa;
+  text-decoration: none;
+  font-size: 12px;
+  text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 12px;
+  transition: color 0.2s;
 }
 
-.brutal-hero h1 {
-  font-size: 2.4rem;
+.nav-links a:hover {
+  color: #ffffff;
+}
+
+.roastery-header {
+  background: linear-gradient(135deg, #18181b 0%, #09090b 100%);
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  padding: 28px 20px;
+  margin-bottom: 24px;
+}
+
+.spec-label {
+  font-family: monospace;
+  font-size: 11px;
+  color: #facc15;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.roastery-header h1 {
+  font-size: 24px;
   font-weight: 900;
-  letter-spacing: -1.5px;
-  color: #fff;
+  color: #ffffff;
+  letter-spacing: 1px;
   margin-bottom: 8px;
 }
 
 .manifesto {
-  color: #999;
-  font-size: 0.9rem;
-  max-width: 620px;
-}
-
-.brutal-image {
-  border-bottom: 1px solid #2a2a2a;
-  overflow: hidden;
-}
-
-.brutal-image img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  display: block;
-  filter: grayscale(40%) contrast(110%);
-}
-
-.brutal-specs {
-  display: grid;
-  grid-template-columns: 1fr;
-  border-bottom: 1px solid #2a2a2a;
-}
-
-@media (min-width: 640px) {
-  .brutal-specs {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.spec-card {
-  padding: 20px;
-}
-
-.spec-card:first-child {
-  border-bottom: 1px solid #2a2a2a;
-}
-
-@media (min-width: 640px) {
-  .spec-card:first-child {
-    border-bottom: none;
-    border-right: 1px solid #2a2a2a;
-  }
-}
-
-.spec-card h3 {
-  font-size: 0.8rem;
-  letter-spacing: 1.5px;
-  color: #ff5400;
-  margin-bottom: 12px;
-}
-
-.spec-card ul {
-  list-style: none;
-  font-size: 0.82rem;
-  color: #bbb;
-}
-
-.spec-card ul li {
-  padding: 6px 0;
-  border-bottom: 1px dashed #222;
-}
-
-.spec-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.82rem;
-}
-
-.spec-table th {
-  text-align: left;
-  color: #777;
-  font-size: 0.72rem;
-  padding: 6px 0;
-  border-bottom: 1px solid #222;
-}
-
-.spec-table td {
-  padding: 8px 0;
-  border-bottom: 1px dashed #1a1a1a;
-}
-
-.spec-table td strong {
-  color: #fff;
-}
-
-.brutal-cta {
-  padding: 24px 20px;
-  background: #0f0f0f;
-  border-bottom: 1px solid #2a2a2a;
-}
-
-.cta-inner h3 {
-  font-size: 1rem;
-  color: #fff;
-  margin-bottom: 4px;
-}
-
-.cta-inner p {
-  font-size: 0.8rem;
-  color: #777;
+  color: #a1a1aa;
+  font-size: 14px;
   margin-bottom: 16px;
 }
 
-.btn-safety {
-  display: inline-block;
-  background: #fff;
-  color: #000;
+.divider-line {
   border: none;
-  font-family: inherit;
-  font-weight: 900;
-  font-size: 0.82rem;
+  height: 1px;
+  background: #27272a;
+  margin: 16px 0 20px;
+}
+
+.roastery-header img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #27272a;
+  filter: grayscale(20%);
+}
+
+.brutal-card {
+  background: linear-gradient(135deg, #141416 0%, #09090b 100%);
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.brutal-card h2 {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #facc15;
+  margin-bottom: 16px;
+  border-bottom: 1px dashed #27272a;
+  padding-bottom: 8px;
+}
+
+.spec-list {
+  list-style: none;
+  margin-bottom: 14px;
+}
+
+.spec-list li {
+  padding-left: 20px;
+  position: relative;
+  font-size: 13px;
+  color: #d4d4d8;
+  margin-bottom: 8px;
+}
+
+.spec-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #facc15;
+}
+
+.btn-mono {
+  display: inline-block;
+  color: #facc15;
+  text-decoration: none;
+  font-size: 12px;
   letter-spacing: 1px;
-  padding: 12px 20px;
+  font-weight: bold;
+}
+
+.btn-mono:hover {
+  text-decoration: underline;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #27272a;
+}
+
+.data-table th {
+  background-color: #1f1f23;
+  color: #facc15;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+mark {
+  background-color: #facc15;
+  color: #000000;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.field-row {
+  margin-bottom: 14px;
+}
+
+.field-row label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #a1a1aa;
+  margin-bottom: 6px;
+}
+
+.radio-label {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  margin-right: 16px;
+  color: #e4e4e7 !important;
   cursor: pointer;
-  transition: all 0.15s ease;
 }
 
-.btn-safety:hover {
-  background: #ff5400;
-  color: #000;
+.field-row input[type="text"],
+.field-row input[type="date"],
+.field-row input[type="number"],
+.field-row select,
+.field-row textarea {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: #09090b;
+  border: 1px solid #27272a;
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: monospace;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.2s;
 }
 
-.brutal-foot {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 16px;
-  font-size: 10px;
-  color: #555;
+.field-row input:focus,
+.field-row select:focus,
+.field-row textarea:focus {
+  border-color: #facc15;
+}
+
+.submit-brutal {
+  background-color: #facc15;
+  color: #000000;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submit-brutal:hover {
+  background-color: #fde047;
+  transform: translateY(-2px);
+}
+
+.roastery-foot {
+  text-align: center;
+  font-size: 11px;
+  color: #71717a;
+  letter-spacing: 1px;
+  padding-top: 14px;
+  border-top: 1px dashed #27272a;
 }`,
     },
   },
   {
     participant: {
-      name: "Suryo Wicaksono",
-      sessionCode: "solo-heritage-vibes",
+      name: "Dewi Sekar Sari",
+      sessionCode: "solo-klangenan-lab",
       currentStep: 7,
       completedSteps: [0, 1, 2, 3, 4, 5, 6, 7],
     },
     showcase: {
       cafeName: "Kopi Tubruk Sudut Pasar Triwindu",
-      likesCount: 45,
+      likesCount: 47,
       htmlCode: `<!DOCTYPE html>
 <html lang="id">
 <head>
@@ -962,59 +1143,109 @@ body {
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="antik-frame">
-    <header class="antik-header">
-      <div class="cap-vintage">PASAR ANTIK TRIWINDU // SOLO</div>
-      <h1>KOPI TUBRUK SUDUT PASAR</h1>
-      <p class="filosofi">
-        Gilingan kasar wajan tanah liat, cangkir seng blirik loreng hijau, dan canda tawa nostalgia tempo doeloe.
+  <div class="triwindu-wrapper">
+    <nav class="navbar">
+      <div class="logo">☕ SUDUT TRIWINDU</div>
+      <div class="nav-links">
+        <a href="#fasilitas">Suasana</a>
+        <a href="#menu">Wedangan</a>
+        <a href="#reservasi">Booking</a>
+      </div>
+    </nav>
+
+    <header class="triwindu-header">
+      <div class="tag-lawasan">KLANGENAN SURAKARTA // EST. 1978</div>
+      <h1>Kopi Tubruk Sudut Pasar Triwindu</h1>
+      <p class="intro">
+        Kopi tubruk kental bergula batu diapit deretan <strong>benda antik lawasan</strong> dan lantunan <em>kroncong tempo doeloe</em>.
       </p>
+      <hr class="garis-kayu">
+      <img src="https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=900" alt="Kedai Kopi Antik Pasar Triwindu Solo">
     </header>
 
-    <div class="blirik-card">
-      <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?w=900" alt="Cangkir Seng Blirik Kopi Tubruk">
+    <div id="fasilitas" class="card-lawas">
+      <h2>Suasana & Kenyamanan Bernostalgia</h2>
+      <ul class="list-lawas">
+        <li>Duduk di kursi sedan jati otentik tahun 1950-an dan radio tabung tua</li>
+        <li>Seduhan kopi robusta Jawa klasik dengan ampas kental dan aroma harum</li>
+        <li>Koleksi piring enamel blirik, cangkir seng loreng, dan stoples kuno</li>
+        <li>Tepat di jantung pasar barang antik legendaris Triwindu Solo</li>
+      </ul>
+      <p><a href="#menu" class="link-wedangan">Lihat Pilihan Wedangan &rarr;</a></p>
     </div>
 
-    <section class="blok-sejarah">
-      <h2>Pojok Lesehan &amp; Radio Kayu</h2>
-      <p>
-        Duduk bersila di tikar mendong, ditemani alunan tembang keroncong dari radio tabung tua dan kepulan asap kopi hitam kental yang diseduh air mendidih dari ketel tembaga.
-      </p>
-    </section>
+    <div id="menu" class="card-lawas">
+      <h2>Daftar Wedangan & Klangenan</h2>
+      <table class="tabel-lawas">
+        <thead>
+          <tr>
+            <th>Kategori</th>
+            <th>Nama Wedangan</th>
+            <th>Harga</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tubruk Murni</td>
+            <td>Kopi Tubruk Gula Batu <mark>Favorit</mark></td>
+            <td>Rp 11.000</td>
+          </tr>
+          <tr>
+            <td>Rempah Solo</td>
+            <td>Wedang Dongo Jahe Kacang</td>
+            <td>Rp 15.000</td>
+          </tr>
+          <tr>
+            <td>Tradisional</td>
+            <td>Teh Ginastel (Legi Panas Kentel)</td>
+            <td>Rp 8.000</td>
+          </tr>
+          <tr>
+            <td>Camilan Pasar</td>
+            <td>Serabi Gulung Solo Santan</td>
+            <td>Rp 12.000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <section class="blok-menu">
-      <h2>Wedangan &amp; Kudapan Pasar</h2>
-      <div class="menu-retro-grid">
-        <div class="menu-retro-item">
-          <span class="nama">Kopi Tubruk Giling Kasar</span>
-          <span class="garis"></span>
-          <span class="bea">Rp 7.000</span>
+    <div id="reservasi" class="card-lawas">
+      <h2>Pesan Meja Lawasan Sore</h2>
+      <form id="form-reservasi" class="form-lawas" onsubmit="alert('Sampun kuncen! Meja antik Anda telah kami siapkan.'); return false;">
+        <div class="grup-input">
+          <label for="nama">Nama Pemesan:</label>
+          <input type="text" id="nama" name="nama" placeholder="Contoh: Bu Sekar" required>
         </div>
-        <div class="menu-retro-item">
-          <span class="nama">Kopi Jahe Geprek Karanganyar</span>
-          <span class="garis"></span>
-          <span class="bea">Rp 9.000</span>
+        <div class="grup-input">
+          <label for="tanggal">Tanggal Kunjungan:</label>
+          <input type="date" id="tanggal" name="tanggal" required>
         </div>
-        <div class="menu-retro-item">
-          <span class="nama">Teh Kampul Jeruk Khas Solo</span>
-          <span class="garis"></span>
-          <span class="bea">Rp 8.000</span>
+        <div class="grup-input">
+          <label for="kursi">Jumlah Tamu:</label>
+          <input type="number" id="kursi" name="kursi" min="1" value="2" required>
         </div>
-        <div class="menu-retro-item">
-          <span class="nama">Mendoan Panas Sambal Kecap</span>
-          <span class="garis"></span>
-          <span class="bea">Rp 10.000</span>
+        <div class="grup-input">
+          <label>Pilihan Area Duduk:</label>
+          <label class="radio-label"><input type="radio" name="area" value="teras" checked> Kursi Sedan Teras Pasar</label>
+          <label class="radio-label"><input type="radio" name="area" value="dalam"> Pojok Radio Tabung Antik</label>
         </div>
-      </div>
-    </section>
+        <div class="grup-input">
+          <label for="sesi">Waktu Kunjungan:</label>
+          <select id="sesi" name="sesi">
+            <option value="sore">Sore Santai (15.00 - 17.30 WIB)</option>
+            <option value="malam">Malam Teduh (18.30 - 21.00 WIB)</option>
+          </select>
+        </div>
+        <div class="grup-input">
+          <label for="catatan">Catatan Meja:</label>
+          <textarea id="catatan" name="catatan" rows="3" placeholder="Contoh: Mohon meja dekat lampu minyak antik..."></textarea>
+        </div>
+        <button type="submit" class="tombol-lawas">Konfirmasi Reservasi</button>
+      </form>
+    </div>
 
-    <section class="blok-kontak">
-      <p class="pesan-singkat">"Monggo pinarak, kopi anget tansah sumadya."</p>
-      <button class="btn-onthel" onclick="alert('Matur suwun! Tikar lesehan sampun dipun-pesanaken.')">PESAN TIKAR LESEHAN SORE</button>
-    </section>
-
-    <footer class="antik-foot">
-      Surakarta Hadiningrat // Nguri-uri Tradisi Wedangan
+    <footer class="footer-lawas">
+      Kopi Tubruk Sudut Pasar Triwindu // Keprabon, Banjarsari, Kota Surakarta // Solo Tempo Doeloe
     </footer>
   </div>
 </body>
@@ -1026,174 +1257,246 @@ body {
 }
 
 body {
-  background: #17140f;
+  background-color: #191410;
   color: #faebd7;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: 'Plus Jakarta Sans', Georgia, serif;
   line-height: 1.7;
   padding: 24px 16px;
 }
 
-.antik-frame {
-  max-width: 740px;
+.triwindu-wrapper {
+  max-width: 820px;
   margin: 0 auto;
-  border: 1px solid #3d3527;
-  padding: 24px;
-  background: #1c1813;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
 }
 
-.antik-header {
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background-color: #261e18;
+  border: 1px solid #403228;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.logo {
+  font-weight: bold;
+  color: #f59e0b;
+  font-size: 14px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 16px;
+}
+
+.nav-links a {
+  color: #d1bda9;
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: #faebd7;
+}
+
+.triwindu-header {
+  background: linear-gradient(135deg, #2b2018 0%, #150f0c 100%);
+  border: 1px solid #48372b;
+  border-radius: 10px;
   text-align: center;
-  border-bottom: 2px solid #5a4e39;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  padding: 28px 20px;
+  margin-bottom: 24px;
 }
 
-.cap-vintage {
-  display: inline-block;
+.tag-lawasan {
   font-family: monospace;
   font-size: 11px;
-  color: #84cc16;
-  border: 1px solid #556b2f;
-  padding: 3px 10px;
   letter-spacing: 2px;
+  color: #f59e0b;
   margin-bottom: 8px;
 }
 
-.antik-header h1 {
-  font-size: 2rem;
-  letter-spacing: 2px;
-  color: #f7eedd;
+.triwindu-header h1 {
+  font-size: 25px;
+  color: #ffffff;
   margin-bottom: 8px;
 }
 
-.filosofi {
-  font-size: 0.95rem;
-  color: #c9baa4;
-  font-style: italic;
-  max-width: 540px;
-  margin: 0 auto;
+.intro {
+  color: #cfb9a3;
+  font-size: 14px;
+  margin-bottom: 16px;
 }
 
-.blirik-card {
-  border: 1px solid #4a3f2d;
-  margin-bottom: 24px;
+.garis-kayu {
+  border: none;
+  height: 1px;
+  background: #48372b;
+  margin: 16px 0 20px;
 }
 
-.blirik-card img {
+.triwindu-header img {
   width: 100%;
-  height: 250px;
+  max-height: 320px;
   object-fit: cover;
-  display: block;
+  border-radius: 6px;
+  border: 1px solid #48372b;
 }
 
-.blok-sejarah {
-  background: #241f18;
-  border-left: 3px solid #84cc16;
-  padding: 16px 20px;
+.card-lawas {
+  background: linear-gradient(135deg, #221812 0%, #130d0a 100%);
+  border: 1px solid #3c2d22;
+  border-radius: 10px;
+  padding: 24px;
   margin-bottom: 24px;
 }
 
-.blok-sejarah h2 {
-  font-size: 1.2rem;
-  color: #fcefdc;
-  margin-bottom: 8px;
-}
-
-.blok-sejarah p {
-  font-size: 0.92rem;
-  color: #d1c1ab;
-}
-
-.blok-menu {
-  margin-bottom: 28px;
-}
-
-.blok-menu h2 {
-  font-size: 1.25rem;
-  color: #d97706;
-  text-align: center;
+.card-lawas h2 {
+  font-size: 17px;
+  color: #f59e0b;
   margin-bottom: 16px;
-  letter-spacing: 1px;
+  border-bottom: 1px dashed #3c2d22;
+  padding-bottom: 8px;
 }
 
-.menu-retro-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.menu-retro-item {
-  display: flex;
-  align-items: baseline;
-  font-size: 0.95rem;
-}
-
-.menu-retro-item .nama {
-  color: #f7eedd;
-}
-
-.menu-retro-item .garis {
-  flex: 1;
-  border-bottom: 1px dotted #554834;
-  margin: 0 10px;
-}
-
-.menu-retro-item .bea {
-  font-family: monospace;
-  font-weight: bold;
-  color: #84cc16;
-}
-
-.blok-kontak {
-  text-align: center;
-  border-top: 1px dashed #4a3f2d;
-  padding-top: 20px;
-  margin-bottom: 16px;
-}
-
-.pesan-singkat {
-  font-style: italic;
-  font-size: 1rem;
-  color: #ffdfa9;
+.list-lawas {
+  list-style: none;
   margin-bottom: 14px;
 }
 
-.btn-onthel {
-  background: #d97706;
-  color: #17140f;
-  border: none;
-  font-family: monospace;
-  font-weight: bold;
-  font-size: 0.85rem;
-  letter-spacing: 1px;
-  padding: 12px 24px;
+.list-lawas li {
+  padding-left: 20px;
+  position: relative;
+  font-size: 14px;
+  color: #e5d3c0;
+  margin-bottom: 8px;
+}
+
+.list-lawas li::before {
+  content: "♦";
+  position: absolute;
+  left: 0;
+  color: #f59e0b;
+}
+
+.link-wedangan {
+  color: #f59e0b;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.link-wedangan:hover {
+  text-decoration: underline;
+}
+
+.tabel-lawas {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tabel-lawas th,
+.tabel-lawas td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #33241b;
+}
+
+.tabel-lawas th {
+  background-color: #2d1f17;
+  color: #f59e0b;
+}
+
+mark {
+  background-color: #d97706;
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.grup-input {
+  margin-bottom: 14px;
+}
+
+.grup-input label {
+  display: block;
+  font-size: 12px;
+  color: #cfb9a3;
+  margin-bottom: 6px;
+}
+
+.radio-label {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  margin-right: 16px;
+  color: #faebd7 !important;
   cursor: pointer;
-  transition: background 0.2s;
 }
 
-.btn-onthel:hover {
-  background: #f59e0b;
+.grup-input input[type="text"],
+.grup-input input[type="date"],
+.grup-input input[type="number"],
+.grup-input select,
+.grup-input textarea {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: #100b08;
+  border: 1px solid #3c2d22;
+  border-radius: 6px;
+  color: #faebd7;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
 }
 
-.antik-foot {
+.grup-input input:focus,
+.grup-input select:focus,
+.grup-input textarea:focus {
+  border-color: #f59e0b;
+}
+
+.tombol-lawas {
+  background-color: #d97706;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tombol-lawas:hover {
+  background-color: #f59e0b;
+  transform: translateY(-2px);
+}
+
+.footer-lawas {
   text-align: center;
-  font-size: 0.75rem;
-  color: #7c6b54;
-  letter-spacing: 1px;
+  font-size: 12px;
+  color: #7d6550;
+  padding-top: 14px;
+  border-top: 1px dashed #33241b;
 }`,
     },
   },
   {
     participant: {
-      name: "Maria Goretti",
-      sessionCode: "flores-artisan-2026",
+      name: "I Putu Bayu Mahendra",
+      sessionCode: "bali-beach-brew",
       currentStep: 7,
       completedSteps: [0, 1, 2, 3, 4, 5, 6, 7],
     },
     showcase: {
-      cafeName: "Kopi Pesisir Senja Laut // Labuan Bajo",
-      likesCount: 71,
+      cafeName: "Kopi Pesisir Senja Laut",
+      likesCount: 59,
       htmlCode: `<!DOCTYPE html>
 <html lang="id">
 <head>
@@ -1203,66 +1506,109 @@ body {
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="sea-container">
-    <header class="sea-header">
-      <div class="island-badge">FLORES // KOMODO SUNSET VIEW</div>
-      <h1>KOPI PESISIR SENJA LAUT</h1>
-      <p class="ocean-tagline">
-        Seduhan biji <strong>Arabika Bajawa</strong> beraroma manis apel &amp; coklat dengan panorama gradasi senja laut kepulauan Flores.
+  <div class="pesisir-wrapper">
+    <nav class="navbar">
+      <div class="logo">🌊 SENJA LAUT</div>
+      <div class="nav-links">
+        <a href="#fasilitas">Pantai</a>
+        <a href="#menu">Minuman</a>
+        <a href="#reservasi">Booking Sunset</a>
+      </div>
+    </nav>
+
+    <header class="pesisir-header">
+      <div class="coastal-badge">BATU BELIG BEACH // EST. 2021</div>
+      <h1>Kopi Pesisir Senja Laut</h1>
+      <p class="tagline">
+        Menikmati deburan ombak pantai barat dengan <strong>cold brew kelapa muda</strong> saat matahari <em>terbenam</em>.
       </p>
+      <hr class="garis-pantai">
+      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900" alt="Suasana Senja Pantai Tempat Ngopi">
     </header>
 
-    <div class="sea-hero-image">
-      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900" alt="Senja Laut Labuan Bajo">
+    <div id="fasilitas" class="card-pantai">
+      <h2>Kenyamanan Tepi Ombak Pasir Putih</h2>
+      <ul class="list-pantai">
+        <li>Beanbag empuk warna-warni tepat di atas pasir putih berangin sejuk</li>
+        <li>Cold brew khas Kintamani dicampur air kelapa muda segar tanpa pemanis buatan</li>
+        <li>Pemandangan matahari terbenam (golden hour) langsung tanpa terhalang gedung</li>
+        <li>Outdoor sound system santai dengan petikan gitar akustik tropis</li>
+      </ul>
+      <p><a href="#menu" class="link-pantai">Lihat Menu Pantai &rarr;</a></p>
     </div>
 
-    <div class="sea-deck-grid">
-      <div class="sea-box">
-        <h2>Sunset Deck Sanctuary</h2>
-        <ul class="sea-list">
-          <li>Dermaga kayu jati terbuka menghadap gugusan pulau karst</li>
-          <li>Biji kopi single origin Bajawa diproses dry anaerobic</li>
-          <li>Cold brew segar infused air kelapa muda bakar pesisir</li>
-          <li>Spot sunset terbaik dengan live acoustic instrumental santai</li>
-        </ul>
-      </div>
+    <div id="menu" class="card-pantai">
+      <h2>Menu Segar Pesisir</h2>
+      <table class="tabel-pantai">
+        <thead>
+          <tr>
+            <th>Kategori</th>
+            <th>Menu Minuman</th>
+            <th>Harga</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Signature Cold</td>
+            <td>Kopi Kelapa Senja <mark>Favorit</mark></td>
+            <td>Rp 28.000</td>
+          </tr>
+          <tr>
+            <td>Manual Brew</td>
+            <td>V60 Kintamani Orange Notes</td>
+            <td>Rp 26.000</td>
+          </tr>
+          <tr>
+            <td>Espresso Tonic</td>
+            <td>Sparkling Espresso Citrus</td>
+            <td>Rp 27.000</td>
+          </tr>
+          <tr>
+            <td>Camilan Pantai</td>
+            <td>Pisang Karamel Tabur Kayumanis</td>
+            <td>Rp 20.000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-      <div class="sea-box">
-        <h2>Pilihan Seduhan Pesisir</h2>
-        <div class="cocktail-menu">
-          <div class="menu-row">
-            <div>
-              <strong>Flores Bajawa V60</strong>
-              <small>Notes: Apel Merah, Coklat, Karamel Halus</small>
-            </div>
-            <span class="price-pill">Rp 30K</span>
-          </div>
-          <div class="menu-row">
-            <div>
-              <strong>Cold Brew Kelapa Bakar</strong>
-              <small>Infusi air kelapa muda bakar dingin segar</small>
-            </div>
-            <span class="price-pill">Rp 34K</span>
-          </div>
-          <div class="menu-row">
-            <div>
-              <strong>Espresso Sunset Tonic</strong>
-              <small>Espresso dobel + soda tonic + irisan jeruk nipis</small>
-            </div>
-            <span class="price-pill">Rp 28K</span>
-          </div>
+    <div id="reservasi" class="card-pantai">
+      <h2>Reservasi Beanbag Sunset</h2>
+      <form id="form-reservasi" class="form-pantai" onsubmit="alert('Suksma! Spot beanbag sunset Anda telah dicatat.'); return false;">
+        <div class="form-group">
+          <label for="nama">Nama Pemesan:</label>
+          <input type="text" id="nama" name="nama" placeholder="Contoh: Bayu Mahendra" required>
         </div>
-      </div>
+        <div class="form-group">
+          <label for="tanggal">Tanggal Kunjungan:</label>
+          <input type="date" id="tanggal" name="tanggal" required>
+        </div>
+        <div class="form-group">
+          <label for="kursi">Jumlah Orang (Beanbag):</label>
+          <input type="number" id="kursi" name="kursi" min="1" value="2" required>
+        </div>
+        <div class="form-group">
+          <label>Pilihan Baris Duduk:</label>
+          <label class="radio-label"><input type="radio" name="area" value="depan" checked> Baris Terdepan Pinggir Ombak</label>
+          <label class="radio-label"><input type="radio" name="area" value="dek"> Area Dek Kayu Berpayung</label>
+        </div>
+        <div class="form-group">
+          <label for="sesi">Slot Waktu:</label>
+          <select id="sesi" name="sesi">
+            <option value="sunset">Sunset Golden Hour (16.30 - 18.30 WITA)</option>
+            <option value="malam">Bintang Malam Pesisir (19.00 - 22.00 WITA)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="catatan">Catatan Reservasi:</label>
+          <textarea id="catatan" name="catatan" rows="3" placeholder="Contoh: Mohon spot dekat payung pantai untuk perayaan ulang tahun..."></textarea>
+        </div>
+        <button type="submit" class="btn-pantai">Pesan Spot Sunset Sekarang</button>
+      </form>
     </div>
 
-    <section class="booking-deck">
-      <h2>Reservasi Meja Sunset Depan Dermaga</h2>
-      <p>Slot meja terbatas untuk jam emas matahari terbenam (17.00 - 18.30 WITA).</p>
-      <button class="sea-btn" onclick="alert('Meja sunset deck tepi dermaga Anda telah terkonfirmasi!')">AMANKAN MEJA SUNSET DECK</button>
-    </section>
-
-    <footer class="sea-footer">
-      Dermaga Marina Labuan Bajo, Nusa Tenggara Timur // Buka 14.00 - 23.00 WITA
+    <footer class="footer-pantai">
+      Kopi Pesisir Senja Laut // Pantai Batu Belig, Seminyak, Bali // Open Daily 15.00 - 23.00 WITA
     </footer>
   </div>
 </body>
@@ -1274,272 +1620,299 @@ body {
 }
 
 body {
-  background: #061118;
-  color: #e0f2fe;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #0b1520;
+  color: #e2e8f0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   line-height: 1.6;
   padding: 24px 16px;
 }
 
-.sea-container {
-  max-width: 800px;
+.pesisir-wrapper {
+  max-width: 820px;
   margin: 0 auto;
 }
 
-.sea-header {
-  text-align: center;
-  padding: 24px 10px 16px;
-}
-
-.island-badge {
-  display: inline-block;
-  background: #0c2738;
-  color: #38bdf8;
-  border: 1px solid #164e63;
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.sea-header h1 {
-  font-size: 2.1rem;
-  font-weight: 900;
-  letter-spacing: -0.5px;
-  color: #f0f9ff;
-  margin-bottom: 8px;
-}
-
-.ocean-tagline {
-  color: #94a3b8;
-  font-size: 0.95rem;
-  max-width: 580px;
-  margin: 0 auto;
-}
-
-.ocean-tagline strong {
-  color: #38bdf8;
-}
-
-.sea-hero-image {
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid #164e63;
-  margin: 20px 0 24px;
-  box-shadow: 0 12px 30px rgba(6, 17, 24, 0.8);
-}
-
-.sea-hero-image img {
-  width: 100%;
-  height: 260px;
-  object-fit: cover;
-  display: block;
-}
-
-.sea-deck-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  margin-bottom: 24px;
-}
-
-@media (min-width: 640px) {
-  .sea-deck-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.sea-box {
-  background: #091a24;
-  border: 1px solid #15384d;
-  border-radius: 10px;
-  padding: 20px;
-}
-
-.sea-box h2 {
-  font-size: 1.15rem;
-  color: #38bdf8;
-  margin-bottom: 14px;
-}
-
-.sea-list {
-  list-style: none;
-}
-
-.sea-list li {
-  position: relative;
-  padding-left: 20px;
-  margin-bottom: 10px;
-  font-size: 0.88rem;
-  color: #cbd5e1;
-}
-
-.sea-list li::before {
-  content: "🌊";
-  position: absolute;
-  left: 0;
-  font-size: 11px;
-}
-
-.cocktail-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.menu-row {
+.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #07151e;
-  border: 1px solid #133448;
-  padding: 10px 12px;
-  border-radius: 6px;
-}
-
-.menu-row strong {
-  display: block;
-  font-size: 0.9rem;
-  color: #f0f9ff;
-}
-
-.menu-row small {
-  display: block;
-  font-size: 0.75rem;
-  color: #64748b;
-}
-
-.price-pill {
-  font-family: monospace;
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: #f97316;
-  background: #27140a;
-  border: 1px solid #7c2d12;
-  padding: 3px 8px;
-  border-radius: 4px;
-}
-
-.booking-deck {
-  background: linear-gradient(135deg, #0d283b 0%, #153e5c 100%);
-  border: 1px solid #38bdf8;
-  border-radius: 10px;
-  padding: 24px;
-  text-align: center;
+  padding: 14px 18px;
+  background-color: #112233;
+  border: 1px solid #1e3a5a;
+  border-radius: 8px;
   margin-bottom: 24px;
 }
 
-.booking-deck h2 {
-  font-size: 1.25rem;
-  color: #f0f9ff;
-  margin-bottom: 6px;
+.logo {
+  font-weight: bold;
+  color: #38bdf8;
+  font-size: 14px;
 }
 
-.booking-deck p {
-  font-size: 0.85rem;
-  color: #bae6fd;
+.nav-links {
+  display: flex;
+  gap: 16px;
+}
+
+.nav-links a {
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: #38bdf8;
+}
+
+.pesisir-header {
+  background: linear-gradient(135deg, #132a42 0%, #08131d 100%);
+  border: 1px solid #22476d;
+  border-radius: 10px;
+  text-align: center;
+  padding: 28px 20px;
+  margin-bottom: 24px;
+}
+
+.coastal-badge {
+  font-family: monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #f97316;
+  margin-bottom: 8px;
+}
+
+.pesisir-header h1 {
+  font-size: 25px;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.tagline {
+  color: #94a3b8;
+  font-size: 14px;
   margin-bottom: 16px;
 }
 
-.sea-btn {
-  background: #f97316;
-  color: #fff;
+.garis-pantai {
   border: none;
-  font-weight: 800;
-  font-size: 0.85rem;
-  letter-spacing: 0.5px;
-  padding: 12px 24px;
+  height: 1px;
+  background: #22476d;
+  margin: 16px 0 20px;
+}
+
+.pesisir-header img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
   border-radius: 6px;
+  border: 1px solid #22476d;
+}
+
+.card-pantai {
+  background: linear-gradient(135deg, #0e1e2f 0%, #071018 100%);
+  border: 1px solid #1a3857;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.card-pantai h2 {
+  font-size: 17px;
+  color: #38bdf8;
+  margin-bottom: 16px;
+  border-bottom: 1px dashed #1a3857;
+  padding-bottom: 8px;
+}
+
+.list-pantai {
+  list-style: none;
+  margin-bottom: 14px;
+}
+
+.list-pantai li {
+  padding-left: 20px;
+  position: relative;
+  font-size: 14px;
+  color: #cbd5e1;
+  margin-bottom: 8px;
+}
+
+.list-pantai li::before {
+  content: "🌊";
+  position: absolute;
+  left: 0;
+  font-size: 12px;
+}
+
+.link-pantai {
+  color: #38bdf8;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.link-pantai:hover {
+  text-decoration: underline;
+}
+
+.tabel-pantai {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tabel-pantai th,
+.tabel-pantai td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #1a3857;
+}
+
+.tabel-pantai th {
+  background-color: #173250;
+  color: #38bdf8;
+}
+
+mark {
+  background-color: #f97316;
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 6px;
+}
+
+.radio-label {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  margin-right: 16px;
+  color: #e2e8f0 !important;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="number"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: #060e16;
+  border: 1px solid #1e3a5a;
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #38bdf8;
+}
+
+.btn-pantai {
+  background-color: #0284c7;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
   transition: all 0.2s;
 }
 
-.sea-btn:hover {
-  background: #ea580c;
-  transform: translateY(-1px);
+.btn-pantai:hover {
+  background-color: #0ea5e9;
+  transform: translateY(-2px);
 }
 
-.sea-footer {
+.footer-pantai {
   text-align: center;
-  font-size: 0.75rem;
-  color: #475569;
-  padding-bottom: 12px;
+  font-size: 12px;
+  color: #64748b;
+  padding-top: 14px;
+  border-top: 1px dashed #1a3857;
 }`,
     },
   },
 ];
 
 async function seed() {
-  console.log("🌱 Starting Indonesian coffee shop showcase seed...");
+  console.log("🌱 Mulai seeding 5 showcase otentik yang memenuhi seluruh kriteria 8 modul...");
 
-  for (const item of SEED_SHOWCASES) {
-    console.log(`Processing: ${item.showcase.cafeName} by ${item.participant.name}`);
+  try {
+    for (const item of SEED_SHOWCASES) {
+      // 1. Check or insert participant
+      const existingParticipant = await sql`
+        SELECT id FROM participants WHERE name = ${item.participant.name} LIMIT 1
+      `;
+      let participantId;
+      if (existingParticipant && existingParticipant.length > 0) {
+        participantId = existingParticipant[0].id;
+        await sql`
+          UPDATE participants SET
+            session_code = ${item.participant.sessionCode},
+            current_step = ${item.participant.currentStep},
+            completed_steps = ${JSON.stringify(item.participant.completedSteps)},
+            html_draft = ${item.showcase.htmlCode},
+            css_draft = ${item.showcase.cssCode},
+            updated_at = NOW()
+          WHERE id = ${participantId}
+        `;
+      } else {
+        const generatedId = crypto.randomUUID();
+        await sql`
+          INSERT INTO participants (id, name, session_code, current_step, completed_steps, html_draft, css_draft, created_at, updated_at)
+          VALUES (${generatedId}, ${item.participant.name}, ${item.participant.sessionCode}, ${item.participant.currentStep}, ${JSON.stringify(item.participant.completedSteps)}, ${item.showcase.htmlCode}, ${item.showcase.cssCode}, NOW(), NOW())
+        `;
+        participantId = generatedId;
+      }
 
-    // 1. Check or insert participant
-    let participantId;
-    const existing = await sql(
-      `SELECT id FROM participants WHERE name = $1 AND session_code = $2 LIMIT 1`,
-      [item.participant.name, item.participant.sessionCode]
-    );
+      // 2. Check or insert showcase
+      const existingShowcase = await sql`
+        SELECT id FROM showcases WHERE cafe_name = ${item.showcase.cafeName} LIMIT 1
+      `;
+      if (existingShowcase && existingShowcase.length > 0) {
+        await sql`
+          UPDATE showcases SET
+            participant_id = ${participantId},
+            html_code = ${item.showcase.htmlCode},
+            css_code = ${item.showcase.cssCode},
+            likes_count = ${item.showcase.likesCount},
+            updated_at = NOW()
+          WHERE id = ${existingShowcase[0].id}
+        `;
+      } else {
+        const showcaseId = crypto.randomUUID();
+        await sql`
+          INSERT INTO showcases (id, participant_id, cafe_name, html_code, css_code, likes_count, is_approved, created_at, updated_at)
+          VALUES (${showcaseId}, ${participantId}, ${item.showcase.cafeName}, ${item.showcase.htmlCode}, ${item.showcase.cssCode}, ${item.showcase.likesCount}, true, NOW(), NOW())
+        `;
+      }
 
-    if (existing.length > 0) {
-      participantId = existing[0].id;
-      console.log(`  Found existing participant: ${participantId}`);
-    } else {
-      const inserted = await sql(
-        `INSERT INTO participants (name, session_code, current_step, completed_steps, html_draft, css_draft)
-         VALUES ($1, $2, $3, $4, $5, $6)
-         RETURNING id`,
-        [
-          item.participant.name,
-          item.participant.sessionCode,
-          item.participant.currentStep,
-          JSON.stringify(item.participant.completedSteps),
-          item.showcase.htmlCode,
-          item.showcase.cssCode,
-        ]
-      );
-      participantId = inserted[0].id;
-      console.log(`  Created participant: ${participantId}`);
+      console.log(`✅ Berhasil seed: "${item.showcase.cafeName}" oleh ${item.participant.name}`);
     }
 
-    // 2. Check or insert showcase
-    const existingShowcase = await sql(
-      `SELECT id FROM showcases WHERE cafe_name = $1 LIMIT 1`,
-      [item.showcase.cafeName]
-    );
-
-    if (existingShowcase.length > 0) {
-      console.log(`  Showcase already exists for ${item.showcase.cafeName}, updating code & likes...`);
-      await sql(
-        `UPDATE showcases SET html_code = $1, css_code = $2, likes_count = $3, updated_at = NOW() WHERE id = $4`,
-        [item.showcase.htmlCode, item.showcase.cssCode, item.showcase.likesCount, existingShowcase[0].id]
-      );
-    } else {
-      await sql(
-        `INSERT INTO showcases (participant_id, cafe_name, html_code, css_code, likes_count, is_approved)
-         VALUES ($1, $2, $3, $4, $5, $6)`,
-        [
-          participantId,
-          item.showcase.cafeName,
-          item.showcase.htmlCode,
-          item.showcase.cssCode,
-          item.showcase.likesCount,
-          true,
-        ]
-      );
-      console.log(`  Inserted showcase for ${item.showcase.cafeName}`);
-    }
+    console.log("🎉 Seeding 5 showcase selesai & tersimpan di Neon PostgreSQL!");
+  } catch (err) {
+    console.error("❌ Error saat seeding:", err);
+    process.exit(1);
   }
-
-  const count = await sql(`SELECT count(*) FROM showcases`);
-  console.log(`✅ Seeding complete! Total showcases in database: ${count[0].count}`);
 }
 
-seed().catch((err) => {
-  console.error("Seeding failed:", err);
-  process.exit(1);
-});
+seed();

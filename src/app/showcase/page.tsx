@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Heart, Code2, Eye, Coffee, Sparkles, X, Copy, Check } from "lucide-react";
+import { Heart, Code2, Eye, Coffee, X, Copy, Check, Maximize2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import LivePreview from "@/components/LivePreview";
 
 interface ShowcaseItem {
   id: string;
@@ -21,6 +22,7 @@ export default function ShowcasePage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [likedIds, setLikedIds] = useState<Record<string, boolean>>({});
   const [selectedInspect, setSelectedInspect] = useState<ShowcaseItem | null>(null);
+  const [selectedPreview, setSelectedPreview] = useState<ShowcaseItem | null>(null);
   const [inspectTab, setInspectTab] = useState<"html" | "css">("html");
   const [copied, setCopied] = useState<boolean>(false);
 
@@ -41,6 +43,18 @@ export default function ShowcasePage() {
     fetchShowcases();
   }, []);
 
+  // Handle escape key to close modals
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedPreview(null);
+        setSelectedInspect(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const handleLike = async (id: string) => {
     if (likedIds[id]) return;
 
@@ -51,6 +65,13 @@ export default function ShowcasePage() {
         item.id === id ? { ...item, likesCount: item.likesCount + 1 } : item
       )
     );
+
+    // Also update selectedPreview likes count if open
+    if (selectedPreview && selectedPreview.id === id) {
+      setSelectedPreview((prev) =>
+        prev ? { ...prev, likesCount: prev.likesCount + 1 } : null
+      );
+    }
 
     try {
       await fetch(`/api/showcase/${id}/like`, { method: "POST" });
@@ -126,22 +147,34 @@ export default function ShowcasePage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {showcases.map((item) => {
-              const combinedDoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${item.cssCode}</style></head><body>${item.htmlCode}</body></html>`;
+              const combinedDoc = `<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; } ${item.cssCode}</style></head><body>${item.htmlCode}</body></html>`;
 
               return (
                 <div
                   key={item.id}
                   className="bg-[#0e0e0e] border border-[#262626] hover:border-[#444444] rounded overflow-hidden flex flex-col transition-all group"
                 >
-                  {/* Live Iframe Mini Preview Thumbnail */}
-                  <div className="h-[220px] bg-white relative overflow-hidden border-b border-[#262626]">
+                  {/* Clickable Live Preview Thumbnail */}
+                  <div
+                    onClick={() => setSelectedPreview(item)}
+                    className="h-[220px] bg-white relative overflow-hidden border-b border-[#262626] cursor-pointer group/thumb"
+                    role="button"
+                    tabIndex={0}
+                    title="Klik untuk membuka Full Preview"
+                  >
                     <iframe
                       title={item.cafeName}
                       srcDoc={combinedDoc}
                       sandbox="allow-scripts"
                       className="w-[200%] h-[200%] transform scale-50 origin-top-left pointer-events-none bg-white"
                     />
-                    <div className="absolute inset-0 bg-transparent group-hover:bg-black/10 transition-colors pointer-events-none" />
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-all flex items-center justify-center backdrop-blur-[1px]">
+                      <span className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0a0a0a]/90 text-white font-mono text-xs font-semibold rounded border border-[#444444] shadow-lg transform translate-y-1 group-hover/thumb:translate-y-0 transition-transform">
+                        <Eye size={13} className="text-amber-400" />
+                        Full Preview
+                      </span>
+                    </div>
                   </div>
 
                   {/* Card Content Info */}
@@ -152,13 +185,16 @@ export default function ShowcasePage() {
                         <span>{item.sessionCode || "workshop"}</span>
                       </div>
 
-                      <h3 className="text-base font-bold text-white group-hover:text-amber-300 transition-colors mb-3">
+                      <h3
+                        onClick={() => setSelectedPreview(item)}
+                        className="text-base font-bold text-white group-hover:text-amber-300 transition-colors mb-3 cursor-pointer"
+                      >
                         {item.cafeName}
                       </h3>
                     </div>
 
                     {/* Card Actions */}
-                    <div className="pt-3 border-t border-dashed border-[#222222] flex items-center justify-between">
+                    <div className="pt-3 border-t border-dashed border-[#222222] flex items-center justify-between gap-2">
                       <button
                         type="button"
                         onClick={() => handleLike(item.id)}
@@ -175,14 +211,27 @@ export default function ShowcasePage() {
                         <span>{item.likesCount}</span>
                       </button>
 
-                      <button
-                        type="button"
-                        onClick={() => setSelectedInspect(item)}
-                        className="bracket-framer text-xs text-[#888888] hover:text-white flex items-center gap-1"
-                      >
-                        <Code2 size={13} />
-                        Inspect Code
-                      </button>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => setSelectedPreview(item)}
+                          className="px-2.5 py-1 bg-[#1a1a1a] hover:bg-[#252525] text-white hover:text-amber-300 border border-[#333333] rounded text-xs font-mono flex items-center gap-1.5 transition-colors"
+                          title="Buka pratinjau interaktif layar penuh"
+                        >
+                          <Eye size={12} className="text-amber-400" />
+                          <span>Full Preview</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => setSelectedInspect(item)}
+                          className="bracket-framer text-xs text-[#888888] hover:text-white flex items-center gap-1 px-2 py-1"
+                          title="Lihat kode HTML dan CSS"
+                        >
+                          <Code2 size={12} />
+                          <span>Inspect</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -191,6 +240,84 @@ export default function ShowcasePage() {
           </div>
         )}
       </main>
+
+      {/* Full Preview Modal */}
+      {selectedPreview && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex flex-col p-2 sm:p-5 animate-in fade-in duration-150">
+          <div className="bg-[#0d0d0d] border border-[#333333] rounded-lg w-full max-w-7xl h-[92vh] sm:h-[94vh] mx-auto overflow-hidden shadow-2xl flex flex-col">
+            {/* Modal Bar */}
+            <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 bg-[#070707] border-b border-dashed border-[#2c2c2c] shrink-0">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#ef4444]/60"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#f59e0b]/60"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#10b981]/60"></span>
+                </div>
+
+                <div className="flex items-center gap-2 min-w-0">
+                  <h2 className="text-xs sm:text-sm font-bold text-white truncate">
+                    ☕ {selectedPreview.cafeName}
+                  </h2>
+                  <span className="hidden md:inline-flex text-[11px] font-mono px-2 py-0.5 bg-[#161616] border border-[#2c2c2c] rounded text-[#888888]">
+                    Karya: {selectedPreview.authorName || "Peserta"} // {selectedPreview.sessionCode || "workshop"}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => handleLike(selectedPreview.id)}
+                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono transition-colors ${
+                    likedIds[selectedPreview.id]
+                      ? "bg-rose-950/60 text-rose-400 border border-rose-900"
+                      : "bg-[#161616] text-[#888888] hover:text-white border border-[#2c2c2c]"
+                  }`}
+                >
+                  <Heart
+                    size={12}
+                    className={likedIds[selectedPreview.id] ? "fill-rose-400 text-rose-400" : ""}
+                  />
+                  <span>{selectedPreview.likesCount} Suka</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    const curr = selectedPreview;
+                    setSelectedPreview(null);
+                    setSelectedInspect(curr);
+                  }}
+                  className="bracket-framer text-xs text-[#aaaaaa] hover:text-white flex items-center gap-1 px-2.5 py-1 bg-[#161616] border border-[#2c2c2c] rounded font-mono"
+                  title="Buka panel kode"
+                >
+                  <Code2 size={12} />
+                  <span className="hidden sm:inline">Inspect Kode</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setSelectedPreview(null)}
+                  className="flex items-center gap-1 px-2 py-1 text-[#888888] hover:text-white hover:bg-[#202020] rounded transition-colors text-xs font-mono"
+                  title="Tutup (Esc)"
+                >
+                  <span className="hidden sm:inline text-[10px] text-[#666666]">ESC</span>
+                  <X size={16} />
+                </button>
+              </div>
+            </div>
+
+            {/* Interactive Live Preview Component */}
+            <div className="flex-1 min-h-0 bg-[#080808]">
+              <LivePreview
+                htmlCode={selectedPreview.htmlCode}
+                cssCode={selectedPreview.cssCode}
+                height="100%"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Code Inspector Modal */}
       {selectedInspect && (
@@ -208,6 +335,18 @@ export default function ShowcasePage() {
               </div>
 
               <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const curr = selectedInspect;
+                    setSelectedInspect(null);
+                    setSelectedPreview(curr);
+                  }}
+                  className="bracket-framer text-xs text-[#aaaaaa] hover:text-white flex items-center gap-1 font-mono"
+                >
+                  <Eye size={12} className="text-amber-400" />
+                  Pratinjau
+                </button>
                 <button
                   type="button"
                   onClick={handleCopyInspected}
