@@ -3,7 +3,7 @@
 **Date:** 2026-09-28  
 **Spec Reference:** `docs/superpowers/specs/2026-09-28-interactive-html-css-learning-portal-design.md`  
 **Curriculum Reference:** `docs/curriculum-specification.md`  
-**Tech Stack:** Next.js (App Router, TypeScript) + Prisma ORM + PostgreSQL + Tailwind CSS v4 + CodeMirror 6 + Sandboxed Iframe Runner
+**Tech Stack:** Next.js (App Router, TypeScript) + Drizzle ORM + Neon Serverless PostgreSQL + Tailwind CSS v4 + CodeMirror 6 + Sandboxed Iframe Runner
 
 ---
 
@@ -18,10 +18,11 @@
   - Mengonfigurasi font `Space_Grotesk`, `Geist`, `JetBrains_Mono`.
   - Mengonfigurasi kelas `bracket-framer`, palet warna `--color-base: #050505`, dashed border, dan layout responsif.
   - Verifikasi: Inspect tampilan baseline di browser.
-- [ ] **Task 3:** Setup Prisma ORM & Database PostgreSQL.
-  - Target files: `prisma/schema.prisma`, `src/lib/prisma.ts`.
-  - Model `Participant` dan `Showcase`.
-  - Verifikasi: Jalankan `npx prisma generate` dan pastikan Prisma Client ter-generate sempurna.
+- [ ] **Task 3:** Setup Drizzle ORM & Database Neon PostgreSQL.
+  - Target files: `src/db/schema.ts`, `src/db/index.ts`, `drizzle.config.ts`.
+  - Schema tables: `participants` dan `showcases`.
+  - Konfigurasi `@neondatabase/serverless` HTTP client + Drizzle ORM.
+  - Verifikasi: Jalankan `npx drizzle-kit generate` dan pastikan migrasi SQL ter-generate rapi.
 
 ---
 
