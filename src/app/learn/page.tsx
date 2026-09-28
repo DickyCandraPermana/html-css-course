@@ -16,6 +16,8 @@ import {
   PanelRightClose,
   PanelRightOpen,
   Lightbulb,
+  BookOpen,
+  Sparkles,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import CodeEditor from "@/components/CodeEditor";
@@ -37,9 +39,10 @@ export default function LearnPage() {
   const [htmlCode, setHtmlCode] = useState<string>("");
   const [cssCode, setCssCode] = useState<string>("");
 
-  // UI toggles
+  // UI toggles & Read Mode
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const [fullscreenMode, setFullscreenMode] = useState<"none" | "zen-split" | "preview-only">("none");
+  const [isReadMode, setIsReadMode] = useState<boolean>(false);
 
   // Participant info
   const [participant, setParticipant] = useState<{
@@ -81,9 +84,10 @@ export default function LearnPage() {
 
   const isStepUnlocked = useCallback(
     (stepId: number) => {
+      if (isReadMode) return true;
       return stepId === 0 || completedSteps.includes(stepId) || stepId <= maxUnlockedStep;
     },
-    [completedSteps, maxUnlockedStep]
+    [isReadMode, completedSteps, maxUnlockedStep]
   );
 
   // Evaluate tests in real time
@@ -141,6 +145,12 @@ export default function LearnPage() {
         }
       }
 
+      // Load saved read mode preference
+      const savedReadMode = localStorage.getItem("kopicode_read_mode");
+      if (savedReadMode === "true") {
+        setIsReadMode(true);
+      }
+
       // Load saved drafts
       const savedHtml = localStorage.getItem("kopicode_draft_html");
       const savedCss = localStorage.getItem("kopicode_draft_css");
@@ -173,6 +183,33 @@ export default function LearnPage() {
       localStorage.setItem("kopicode_draft_css", val);
     }
   }, []);
+
+  // Toggle Read / Inspect Mode (Bypass validation & unlock all modules)
+  const toggleReadMode = () => {
+    setIsReadMode((prev) => {
+      const next = !prev;
+      if (typeof window !== "undefined") {
+        localStorage.setItem("kopicode_read_mode", String(next));
+      }
+      return next;
+    });
+  };
+
+  // Load example solution for current active module
+  const handleLoadSolution = () => {
+    if (activeModule.solutionHtml) {
+      setHtmlCode(activeModule.solutionHtml);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("kopicode_draft_html", activeModule.solutionHtml);
+      }
+    }
+    if (activeModule.solutionCss) {
+      setCssCode(activeModule.solutionCss);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("kopicode_draft_css", activeModule.solutionCss);
+      }
+    }
+  };
 
   // Debounced cloud sync to PostgreSQL (1500ms debounce)
   useEffect(() => {
@@ -219,11 +256,11 @@ export default function LearnPage() {
     }
   };
 
-  // Next step handler (checks validation and unlocks next step)
+  // Next step handler (checks validation or allows advance in Read Mode)
   const handleNextStep = () => {
-    if (!evaluation.allPassed) return;
+    if (!isReadMode && !evaluation.allPassed) return;
 
-    if (!completedSteps.includes(currentStep)) {
+    if (evaluation.allPassed && !completedSteps.includes(currentStep)) {
       setCompletedSteps((prev) => {
         const next = [...prev, currentStep];
         if (typeof window !== "undefined") {
@@ -345,8 +382,27 @@ export default function LearnPage() {
             })}
           </div>
 
-          {/* Sync & Sidebar Toggle Action */}
-          <div className="flex items-center gap-3 shrink-0 text-xs font-mono">
+          {/* Sync, Mode Switcher & Sidebar Toggle Action */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0 text-xs font-mono">
+            {/* Mode Cek Modul Toggle Button */}
+            <button
+              type="button"
+              onClick={toggleReadMode}
+              title={
+                isReadMode
+                  ? "Mode Cek Modul Aktif: Semua bab terbuka dan tidak wajib lulus tes. Klik untuk beralih kembali ke Mode Praktek."
+                  : "Aktifkan Mode Cek Modul untuk membaca seluruh materi secara bebas tanpa harus menulis kode."
+              }
+              className={`flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono rounded border transition-all cursor-pointer ${
+                isReadMode
+                  ? "bg-amber-500/15 text-amber-300 border-amber-600/60 hover:bg-amber-500/25 shadow-sm"
+                  : "bg-[#141414] text-[#888888] border-[#2b2b2b] hover:text-white hover:border-[#444444]"
+              }`}
+            >
+              {isReadMode ? <BookOpen size={12} className="text-amber-400" /> : <Code2 size={12} />}
+              <span>{isReadMode ? "Mode Cek Modul (Aktif)" : "Mode Cek Modul"}</span>
+            </button>
+
             <span className="hidden sm:inline-block text-[#777777]">
               {isSyncing ? "☁️ Menyimpan..." : lastSynced ? `☁️ Tersimpan (${lastSynced})` : "💾 Disimpan Lokal"}
             </span>
@@ -371,6 +427,27 @@ export default function LearnPage() {
             isSidebarOpen ? "lg:max-w-[52%] xl:max-w-[55%]" : "w-full max-w-4xl mx-auto"
           }`}
         >
+          {/* Read Mode Alert Banner */}
+          {isReadMode && (
+            <div className="mb-6 p-3.5 bg-[#111111] border border-dashed border-amber-700/50 rounded flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono text-amber-300">
+              <div className="flex items-center gap-2">
+                <BookOpen size={15} className="shrink-0 text-amber-400" />
+                <span>
+                  <strong>Mode Cek Modul Aktif:</strong> Anda bebas membaca semua modul &amp; melompat bab tanpa wajib lolos uji kode.
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={handleLoadSolution}
+                title="Muat kode contoh jadi untuk modul ini ke editor dan live preview"
+                className="px-2.5 py-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-200 border border-amber-600/50 rounded text-[11px] whitespace-nowrap cursor-pointer transition-colors flex items-center gap-1.5"
+              >
+                <Sparkles size={11} />
+                Muat Preview Contoh
+              </button>
+            </div>
+          )}
+
           {/* Module Header */}
           <div className="mb-8 pb-6 border-b border-dashed border-[#222222]">
             <div className="flex items-center gap-2 mb-3">
@@ -492,14 +569,14 @@ export default function LearnPage() {
               <button
                 type="button"
                 onClick={handleNextStep}
-                disabled={!evaluation.allPassed}
+                disabled={!isReadMode && !evaluation.allPassed}
                 className={`px-4 py-2 font-mono text-xs font-bold rounded flex items-center gap-2 transition-all ${
-                  evaluation.allPassed
+                  isReadMode || evaluation.allPassed
                     ? "bg-white text-black hover:bg-neutral-200 cursor-pointer shadow-lg"
                     : "bg-[#1a1a1a] text-[#555555] border border-[#2a2a2a] cursor-not-allowed"
                 }`}
               >
-                {!evaluation.allPassed && <Lock size={12} />}
+                {!isReadMode && !evaluation.allPassed && <Lock size={12} />}
                 Lanjut ke Step {currentStep + 1}
                 <ChevronRight size={14} />
               </button>
@@ -522,6 +599,14 @@ export default function LearnPage() {
               </div>
 
               <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleLoadSolution}
+                  title="Muat kode contoh jadi untuk modul ini ke editor & preview"
+                  className="bracket-framer text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1"
+                >
+                  <Sparkles size={11} /> Contoh Jadi
+                </button>
                 <button
                   type="button"
                   onClick={handleResetStarter}
@@ -559,6 +644,7 @@ export default function LearnPage() {
             <div className="shrink-0 p-2 border-t border-b border-[#222222]">
               <TestChecklist
                 evaluation={evaluation}
+                isReadMode={isReadMode}
                 onRunTests={() => {
                   const evalResult = evaluateStep(currentStep, htmlCode, cssCode);
                   setEvaluation(evalResult);

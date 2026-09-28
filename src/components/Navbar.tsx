@@ -74,16 +74,6 @@ export default function Navbar() {
           >
             Showcase
           </Link>
-
-          <Link
-            href="/mentor"
-            className={`bracket-framer text-xs text-amber-400/80 hover:text-amber-300 flex items-center gap-1 ${
-              pathname === "/mentor" ? "active" : ""
-            }`}
-          >
-            <Shield size={12} />
-            Mentor
-          </Link>
         </nav>
 
         {/* Participant Indicator */}

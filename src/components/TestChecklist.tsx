@@ -8,12 +8,14 @@ interface TestChecklistProps {
   evaluation: StepEvaluation;
   onRunTests: () => void;
   isLoading?: boolean;
+  isReadMode?: boolean;
 }
 
 export default function TestChecklist({
   evaluation,
   onRunTests,
   isLoading,
+  isReadMode,
 }: TestChecklistProps) {
   const [expandedHints, setExpandedHints] = useState<Record<string, boolean>>({});
 
@@ -34,12 +36,14 @@ export default function TestChecklist({
           </span>
           <span
             className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold ${
-              evaluation.allPassed
+              isReadMode
+                ? "bg-amber-950/40 text-amber-300 border border-amber-800/60"
+                : evaluation.allPassed
                 ? "bg-emerald-950 text-emerald-400 border border-emerald-800"
                 : "bg-[#1c1c1c] text-amber-400 border border-[#333333]"
             }`}
           >
-            {evaluation.passedTests} / {evaluation.totalTests} LOLOS
+            {isReadMode ? "OPSIONAL (MODE BACA)" : `${evaluation.passedTests} / ${evaluation.totalTests} LOLOS`}
           </span>
         </div>
 
