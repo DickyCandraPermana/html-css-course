@@ -8,13 +8,10 @@ import {
   ChevronLeft,
   ChevronRight,
   Maximize2,
-  Minimize2,
   CheckCircle2,
   Lock,
-  Sparkles,
   RotateCcw,
   Upload,
-  BookOpen,
   Code2,
   PanelRightClose,
   PanelRightOpen,
@@ -31,8 +28,9 @@ import { evaluateStep, StepEvaluation } from "@/lib/validator";
 export default function LearnPage() {
   const router = useRouter();
 
-  // Active module step: 1 to 7
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  // Active module step: 0 to 7
+  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [editorTab, setEditorTab] = useState<"html" | "css">("html");
 
   // Code state
@@ -48,6 +46,8 @@ export default function LearnPage() {
     id: string;
     name: string;
     sessionCode: string;
+    currentStep?: number;
+    completedSteps?: number[];
   } | null>(null);
 
   // Sync state
@@ -57,16 +57,38 @@ export default function LearnPage() {
   // Showcase publish state (Step 7)
   const [cafeName, setCafeName] = useState<string>("");
   const [isPublishing, setIsPublishing] = useState<boolean>(false);
-  const [publishSuccess, setPublishSuccess] = useState<boolean>(false);
 
   // Get current module object
   const activeModule: ModuleData = useMemo(() => {
     return MODULES.find((m) => m.id === currentStep) || MODULES[0];
   }, [currentStep]);
 
+  // CSS visibility
+  const showCssTab = activeModule.requiresCss ?? false;
+
+  // If active module does not need CSS and active tab is CSS, force back to HTML
+  useEffect(() => {
+    if (!showCssTab && editorTab === "css") {
+      setEditorTab("html");
+    }
+  }, [showCssTab, editorTab]);
+
+  // Calculate highest unlocked step
+  const maxUnlockedStep = useMemo(() => {
+    if (completedSteps.length === 0) return 0;
+    return Math.max(0, ...completedSteps.map((s) => s + 1));
+  }, [completedSteps]);
+
+  const isStepUnlocked = useCallback(
+    (stepId: number) => {
+      return stepId === 0 || completedSteps.includes(stepId) || stepId <= maxUnlockedStep;
+    },
+    [completedSteps, maxUnlockedStep]
+  );
+
   // Evaluate tests in real time
   const [evaluation, setEvaluation] = useState<StepEvaluation>(() => {
-    return evaluateStep(1, "", "");
+    return evaluateStep(0, "", "");
   });
 
   // Re-run evaluation whenever code or current step changes
@@ -74,6 +96,19 @@ export default function LearnPage() {
     const evalResult = evaluateStep(currentStep, htmlCode, cssCode);
     setEvaluation(evalResult);
   }, [currentStep, htmlCode, cssCode]);
+
+  // Automatically register completed step when all tests pass
+  useEffect(() => {
+    if (evaluation.allPassed && !completedSteps.includes(currentStep)) {
+      setCompletedSteps((prev) => {
+        const next = [...prev, currentStep];
+        if (typeof window !== "undefined") {
+          localStorage.setItem("kopicode_completed_steps", JSON.stringify(next));
+        }
+        return next;
+      });
+    }
+  }, [evaluation.allPassed, currentStep, completedSteps]);
 
   // Load participant and drafts from LocalStorage on mount
   useEffect(() => {
@@ -83,6 +118,24 @@ export default function LearnPage() {
         try {
           const parsed = JSON.parse(storedParticipant);
           setParticipant(parsed);
+          if (typeof parsed.currentStep === "number") {
+            setCurrentStep(parsed.currentStep);
+          }
+          if (Array.isArray(parsed.completedSteps)) {
+            setCompletedSteps(parsed.completedSteps);
+          }
+        } catch {
+          // ignore
+        }
+      }
+
+      const savedCompleted = localStorage.getItem("kopicode_completed_steps");
+      if (savedCompleted) {
+        try {
+          const parsedArr = JSON.parse(savedCompleted);
+          if (Array.isArray(parsedArr)) {
+            setCompletedSteps(parsedArr);
+          }
         } catch {
           // ignore
         }
@@ -136,6 +189,7 @@ export default function LearnPage() {
             htmlDraft: htmlCode,
             cssDraft: cssCode,
             currentStep,
+            completedSteps,
           }),
         });
         setLastSynced(new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }));
@@ -147,29 +201,53 @@ export default function LearnPage() {
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [htmlCode, cssCode, currentStep, participant]);
+  }, [htmlCode, cssCode, currentStep, completedSteps, participant]);
 
-  // Reset to starter code of current module
+  // Reset to starter code of current module (NO SOLUTION LEAK)
   const handleResetStarter = () => {
-    if (window.confirm("Kembalikan kode ke template awal modul ini?")) {
-      setHtmlCode(activeModule.solutionHtml || activeModule.starterHtml);
-      setCssCode(activeModule.solutionCss || activeModule.starterCss);
+    if (
+      window.confirm(
+        "Reset kode ke template awal modul ini? Pekerjaan Anda pada modul ini akan dikembalikan ke kondisi awal."
+      )
+    ) {
+      setHtmlCode(activeModule.starterHtml);
+      setCssCode(activeModule.starterCss);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("kopicode_draft_html", activeModule.starterHtml);
+        localStorage.setItem("kopicode_draft_css", activeModule.starterCss);
+      }
     }
   };
 
-  // Next step handler (checks validation)
+  // Next step handler (checks validation and unlocks next step)
   const handleNextStep = () => {
-    if (currentStep < MODULES.length) {
-      setCurrentStep((prev) => prev + 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    if (!evaluation.allPassed) return;
+
+    if (!completedSteps.includes(currentStep)) {
+      setCompletedSteps((prev) => {
+        const next = [...prev, currentStep];
+        if (typeof window !== "undefined") {
+          localStorage.setItem("kopicode_completed_steps", JSON.stringify(next));
+        }
+        return next;
+      });
+    }
+
+    if (currentStep < MODULES.length - 1) {
+      const nextStepId = currentStep + 1;
+      setCurrentStep(nextStepId);
+
+      const nextModule = MODULES.find((m) => m.id === nextStepId);
+      if (nextModule && !nextModule.requiresCss) {
+        setEditorTab("html");
+      }
     }
   };
 
   // Prev step handler
   const handlePrevStep = () => {
-    if (currentStep > 1) {
+    if (currentStep > 0) {
       setCurrentStep((prev) => prev - 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -195,7 +273,6 @@ export default function LearnPage() {
       });
 
       if (res.ok) {
-        setPublishSuccess(true);
         confetti({
           particleCount: 120,
           spread: 80,
@@ -213,33 +290,56 @@ export default function LearnPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-[#F5F5F5] flex flex-col">
+    <div className="h-screen w-screen max-h-screen overflow-hidden bg-[#050505] text-[#F5F5F5] flex flex-col select-none">
       <Navbar />
 
-      {/* Step Progress Top Bar */}
-      <div className="bg-[#0a0a0a] border-b border-dashed border-[#333333] px-4 py-2.5 overflow-x-auto">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      {/* Step Progress Top Bar (shrink-0) */}
+      <div className="bg-[#0a0a0a] border-b border-dashed border-[#333333] px-4 py-2 overflow-x-auto shrink-0">
+        <div className="max-w-[1920px] mx-auto flex items-center justify-between gap-4">
           {/* Step Pill Indicators */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 overflow-x-auto py-0.5">
             {MODULES.map((m) => {
               const isActive = m.id === currentStep;
-              const isPast = m.id < currentStep;
+              const isCompleted = completedSteps.includes(m.id);
+              const unlocked = isStepUnlocked(m.id);
 
               return (
                 <button
                   key={m.id}
                   type="button"
-                  onClick={() => setCurrentStep(m.id)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded transition-all whitespace-nowrap ${
+                  disabled={!unlocked}
+                  onClick={() => {
+                    if (unlocked) {
+                      setCurrentStep(m.id);
+                      const mod = MODULES.find((modItem) => modItem.id === m.id);
+                      if (mod && !mod.requiresCss) {
+                        setEditorTab("html");
+                      }
+                    }
+                  }}
+                  title={
+                    !unlocked
+                      ? "Modul ini terkunci. Selesaikan modul sebelumnya terlebih dahulu."
+                      : `${m.badge}: ${m.title}`
+                  }
+                  className={`flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono rounded transition-all whitespace-nowrap ${
                     isActive
                       ? "bg-white text-black font-bold shadow-md ring-1 ring-white"
-                      : isPast
-                      ? "bg-[#161616] text-emerald-400 hover:bg-[#202020] border border-emerald-950"
-                      : "bg-[#111111] text-[#777777] hover:text-white border border-[#222222]"
+                      : isCompleted
+                      ? "bg-[#141414] text-emerald-400 hover:bg-[#1f1f1f] border border-emerald-950 cursor-pointer"
+                      : unlocked
+                      ? "bg-[#111111] text-[#aaaaaa] hover:text-white border border-[#222222] cursor-pointer"
+                      : "bg-[#090909] text-[#444444] border border-[#181818] cursor-not-allowed opacity-40"
                   }`}
                 >
-                  {isPast ? <CheckCircle2 size={13} className="text-emerald-400" /> : <span>0{m.id}</span>}
-                  <span className="hidden sm:inline truncate max-w-[130px]">{m.title.split(",")[0]}</span>
+                  {isCompleted ? (
+                    <CheckCircle2 size={12} className="text-emerald-400" />
+                  ) : !unlocked ? (
+                    <Lock size={11} className="text-[#555555]" />
+                  ) : (
+                    <span>0{m.id}</span>
+                  )}
+                  <span className="hidden md:inline truncate max-w-[120px]">{m.title.split(",")[0]}</span>
                 </button>
               );
             })}
@@ -263,12 +363,12 @@ export default function LearnPage() {
         </div>
       </div>
 
-      {/* Main Learning Workspace */}
-      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden max-w-7xl mx-auto w-full">
-        {/* Left Column: Course Theory & Tasks */}
+      {/* Main Learning Workspace (1x1 Viewport 2-Column Pane) */}
+      <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden w-full select-text">
+        {/* Left Column: Course Theory & Tasks (Independently scrollable) */}
         <div
-          className={`flex-1 p-6 sm:p-10 overflow-y-auto transition-all ${
-            isSidebarOpen ? "lg:max-w-[55%]" : "w-full max-w-4xl mx-auto"
+          className={`flex-1 min-h-0 h-full overflow-y-auto p-6 sm:p-10 transition-all ${
+            isSidebarOpen ? "lg:max-w-[52%] xl:max-w-[55%]" : "w-full max-w-4xl mx-auto"
           }`}
         >
           {/* Module Header */}
@@ -278,7 +378,7 @@ export default function LearnPage() {
                 {activeModule.badge}
               </span>
               <span className="text-[11px] font-mono text-[#666666]">
-                STEP {activeModule.id} DARI 7
+                STEP {activeModule.id} DARI {MODULES.length - 1}
               </span>
             </div>
 
@@ -374,21 +474,21 @@ export default function LearnPage() {
           </div>
 
           {/* Navigation Controls in Left Column */}
-          <div className="flex items-center justify-between pt-6 border-t border-dashed border-[#333333] mt-8">
+          <div className="flex items-center justify-between pt-6 border-t border-dashed border-[#333333] mt-8 mb-6">
             <button
               type="button"
               onClick={handlePrevStep}
-              disabled={currentStep === 1}
+              disabled={currentStep === 0}
               className="bracket-framer text-xs flex items-center gap-1 disabled:opacity-30 disabled:pointer-events-none"
             >
               <ChevronLeft size={14} /> Step Sebelumnya
             </button>
 
             <span className="font-mono text-xs text-[#666666]">
-              {currentStep} / {MODULES.length}
+              {currentStep} / {MODULES.length - 1}
             </span>
 
-            {currentStep < MODULES.length ? (
+            {currentStep < MODULES.length - 1 ? (
               <button
                 type="button"
                 onClick={handleNextStep}
@@ -409,11 +509,11 @@ export default function LearnPage() {
           </div>
         </div>
 
-        {/* Right Column: Practice Sidebar (Editor, Tests, Preview) */}
+        {/* Right Column: Practice Sidebar (Editor, Tests, Preview - Fixed independent column) */}
         {isSidebarOpen && (
-          <div className="lg:w-[45%] border-l border-dashed border-[#333333] bg-[#0c0c0c] flex flex-col h-full lg:h-[calc(100vh-89px)] overflow-hidden">
-            {/* Sidebar Top Toolbar */}
-            <div className="flex items-center justify-between px-3 py-2 bg-[#080808] border-b border-dashed border-[#333333]">
+          <div className="w-full lg:w-[48%] xl:w-[45%] shrink-0 h-full border-l border-dashed border-[#333333] bg-[#0c0c0c] flex flex-col min-h-0 overflow-hidden">
+            {/* Sidebar Top Toolbar (shrink-0) */}
+            <div className="flex items-center justify-between px-3 py-2 bg-[#080808] border-b border-dashed border-[#333333] shrink-0">
               <div className="flex items-center gap-2">
                 <span className="font-mono text-xs font-bold text-white flex items-center gap-1">
                   <Code2 size={13} className="text-amber-400" />
@@ -425,7 +525,7 @@ export default function LearnPage() {
                 <button
                   type="button"
                   onClick={handleResetStarter}
-                  title="Kembalikan kode ke contoh modul ini"
+                  title="Kembalikan kode ke template awal modul ini"
                   className="p-1 text-[#777777] hover:text-white rounded transition-colors"
                 >
                   <RotateCcw size={13} />
@@ -441,8 +541,8 @@ export default function LearnPage() {
               </div>
             </div>
 
-            {/* Code Editor (Upper Section) */}
-            <div className="h-[280px] shrink-0">
+            {/* Code Editor (flex-[1.15] shrink-0 flex flex-col min-h-0) */}
+            <div className="flex-[1.15] min-h-[190px] max-h-[340px] shrink-0 flex flex-col min-h-0">
               <CodeEditor
                 activeTab={editorTab}
                 onTabChange={setEditorTab}
@@ -450,12 +550,13 @@ export default function LearnPage() {
                 cssCode={cssCode}
                 onHtmlChange={handleHtmlChange}
                 onCssChange={handleCssChange}
-                height="230px"
+                height="100%"
+                showCssTab={showCssTab}
               />
             </div>
 
-            {/* Test Checklist (Middle Section) */}
-            <div className="shrink-0 p-2">
+            {/* Test Checklist (shrink-0 p-2) */}
+            <div className="shrink-0 p-2 border-t border-b border-[#222222]">
               <TestChecklist
                 evaluation={evaluation}
                 onRunTests={() => {
@@ -465,8 +566,8 @@ export default function LearnPage() {
               />
             </div>
 
-            {/* Live Preview (Lower Section) */}
-            <div className="flex-1 min-h-[220px] overflow-hidden">
+            {/* Live Preview (flex-1 min-h-[180px] flex flex-col min-h-0 overflow-hidden) */}
+            <div className="flex-1 min-h-[180px] flex flex-col min-h-0 overflow-hidden">
               <LivePreview
                 htmlCode={htmlCode}
                 cssCode={cssCode}
@@ -493,28 +594,23 @@ export default function LearnPage() {
                     type="button"
                     onClick={handlePublishShowcase}
                     disabled={isPublishing || !cafeName.trim()}
-                    className="px-4 py-1.5 bg-amber-500 hover:bg-amber-400 text-black font-mono font-bold text-xs rounded transition-colors flex items-center gap-1.5 disabled:opacity-50"
+                    className="px-4 py-1.5 bg-amber-500 hover:bg-amber-400 text-black font-mono font-bold text-xs rounded transition-colors flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
                   >
                     <Upload size={13} />
                     {isPublishing ? "Menyimpan..." : "Publish Karya 🚀"}
                   </button>
                 </div>
-                {publishSuccess && (
-                  <div className="mt-2 text-center text-xs font-mono text-emerald-400">
-                    🎉 Sukses dipublikasikan! Mengalihkan ke Showcase Gallery...
-                  </div>
-                )}
               </div>
             )}
           </div>
         )}
       </div>
 
-      {/* Fullscreen Zen / Preview Modal */}
+      {/* Zen Fullscreen Modal */}
       <FullscreenModal
         isOpen={fullscreenMode !== "none"}
         onClose={() => setFullscreenMode("none")}
-        mode={fullscreenMode === "preview-only" ? "preview-only" : "zen-split"}
+        mode={fullscreenMode === "zen-split" ? "zen-split" : "preview-only"}
         htmlCode={htmlCode}
         cssCode={cssCode}
         onHtmlChange={handleHtmlChange}
@@ -522,6 +618,7 @@ export default function LearnPage() {
         activeTab={editorTab}
         onTabChange={setEditorTab}
         stepTitle={activeModule.title}
+        showCssTab={showCssTab}
       />
     </div>
   );

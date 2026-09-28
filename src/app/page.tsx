@@ -57,7 +57,8 @@ export default function HomePage() {
         id: "local-" + Date.now(),
         name: name.trim(),
         sessionCode: sessionCode.trim(),
-        currentStep: 1,
+        currentStep: 0,
+        completedSteps: [],
       };
       localStorage.setItem("kopicode_participant", JSON.stringify(localParticipant));
       router.push("/learn");

@@ -16,6 +16,7 @@ interface FullscreenModalProps {
   activeTab: "html" | "css";
   onTabChange: (tab: "html" | "css") => void;
   stepTitle?: string;
+  showCssTab?: boolean;
 }
 
 export default function FullscreenModal({
@@ -29,6 +30,7 @@ export default function FullscreenModal({
   activeTab,
   onTabChange,
   stepTitle,
+  showCssTab = true,
 }: FullscreenModalProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -80,6 +82,7 @@ export default function FullscreenModal({
                 onHtmlChange={onHtmlChange}
                 onCssChange={onCssChange}
                 height="calc(100vh - 120px)"
+                showCssTab={showCssTab}
               />
             </div>
             {/* Preview Half */}

@@ -22,6 +22,7 @@ export interface ModuleData {
   subtitle: string;
   badge: string;
   summary: string;
+  requiresCss?: boolean;
   theory: {
     heading: string;
     concept: string;
@@ -43,11 +44,142 @@ export interface ModuleData {
 
 export const MODULES: ModuleData[] = [
   {
+    id: 0,
+    slug: "anatomi-dokumen-html",
+    title: "Anatomi Tag & Dokumen HTML dari Nol",
+    subtitle: "Menulis Kerangka Wajib Web Tanpa Bantuan Template",
+    badge: "MODUL 00 // HTML SCRATCH",
+    requiresCss: false,
+    summary:
+      "Pahami anatomi tag pembuka & penutup, dan tulis kerangka dokumen HTML lengkap dari halaman kosong dari nol tanpa template.",
+    theory: {
+      heading: "Anatomi Tag & 4 Elemen Utama Dokumen Web",
+      analogy:
+        "Bayangkan dokumen HTML seperti berkas resmi. <!DOCTYPE html> adalah stempel verifikasi internasional, <html> adalah map dokumennya, <head> adalah lembar identitas administrasi, dan <body> adalah isi lembar kerja yang dibaca langsung oleh audiens.",
+      concept:
+        "HTML (HyperText Markup Language) tersusun atas elemen-elemen yang ditulis menggunakan tag pembuka <tag> dan tag penutup </tag>. Setiap dokumen web standar wajib memiliki deklarasi <!DOCTYPE html>, elemen induk <html> beratribut bahasa (lang), elemen kepala <head> dengan <title>, dan elemen tubuh <body> tempat semua konten visual diletakkan.",
+      supportingTips: {
+        title: "💡 Anatomi Elemen & Tag Wajib Dokumen",
+        items: [
+          {
+            tag: "<!DOCTYPE html>",
+            name: "Deklarasi Versi HTML",
+            explanation:
+              "Wajib diletakkan di baris paling pertama agar browser merender halaman menggunakan standar HTML5 modern tanpa quirks mode.",
+            example: "<!DOCTYPE html>",
+          },
+          {
+            tag: '<html lang="id">',
+            name: "Root Element (Akar Dokumen)",
+            explanation:
+              "Membungkus seluruh konten HTML. Atribut lang='id' memberitahu browser dan mesin pencari bahwa konten berbahasa Indonesia.",
+            example: '<html lang="id">...</html>',
+          },
+          {
+            tag: "<head>",
+            name: "Kepala Dokumen (Metadata)",
+            explanation:
+              "Menampung informasi penting yang tidak langsung tampil di canvas, seperti judul tab (<title>) dan setelan karakter.",
+            example: "<head><title>Nama Web</title></head>",
+          },
+          {
+            tag: "<body>",
+            name: "Badan Dokumen (Konten Visual)",
+            explanation:
+              "Wadah utama bagi semua elemen visual (teks, gambar, tombol, formulir) yang akan dilihat oleh pengunjung website.",
+            example: "<body><h1>Halo Dunia</h1></body>",
+          },
+        ],
+      },
+      codeExample: {
+        title: "Contoh Kerangka Minimal Dokumen HTML",
+        language: "html",
+        code: `<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kedai Kopi Saya</title>
+</head>
+<body>
+  <h1>Selamat Datang di Kedai Kopi</h1>
+  <p>Website ini saya bangun dari selembar kode kosong.</p>
+</body>
+</html>`,
+      },
+    },
+    tasks: [
+      "Ketik deklarasi <!DOCTYPE html> di baris paling awal tab index.html.",
+      'Buka tag <html lang="id"> dan pastikan ditutup dengan </html> di baris paling akhir.',
+      "Di dalam tag <html>, buat elemen kepala <head> dan tutup dengan </head>.",
+      "Di dalam <head>, tambahkan tag <title> dengan nama kedai kopimu (contoh: <title>Kedai Kopi Saya</title>).",
+      "Di bawah tag </head>, buat elemen <body>...</body> dan tulis minimal satu tag judul atau teks di dalamnya.",
+    ],
+    starterHtml: `<!-- Tulis struktur dokumen HTML lengkap dari nol di bawah sini -->\n`,
+    starterCss: `/* CSS belum diperlukan pada modul ini */\n`,
+    solutionHtml: `<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kedai Kopi Saya</title>
+</head>
+<body>
+  <h1>Kedai Kopi Saya</h1>
+  <p>Selamat datang di kedai kopi pertama kami.</p>
+</body>
+</html>`,
+    solutionCss: ``,
+    assertions: [
+      {
+        id: "m0-doctype",
+        description: "Deklarasi <!DOCTYPE html> ada di baris pertama.",
+        hint: "Tulis <!DOCTYPE html> di baris paling atas dokumen.",
+        check: (html: string) => /<!DOCTYPE\s+html>/i.test(html),
+      },
+      {
+        id: "m0-html-tag",
+        description: 'Tag <html> pembungkus ada dan memiliki atribut lang (contoh: lang="id").',
+        hint: 'Tulis <html lang="id"> di awal dan </html> di akhir dokumen.',
+        check: (html: string, _css: string, doc: Document) =>
+          Boolean(
+            (doc.querySelector("html") && doc.querySelector("html")?.hasAttribute("lang")) ||
+              /<html\s+[^>]*lang=/i.test(html)
+          ),
+      },
+      {
+        id: "m0-head-tag",
+        description: "Tag <head> ada di dalam <html>.",
+        hint: "Bungkus informasi dokumen di dalam <head>...</head>.",
+        check: (html: string) => /<head[\s>]/i.test(html) && /<\/head>/i.test(html),
+      },
+      {
+        id: "m0-title-tag",
+        description: "Tag <title> ada di dalam <head> dan memiliki teks nama cafe.",
+        hint: "Tambahkan <title>Nama Cafe</title> di dalam tag <head>.",
+        check: (_html: string, _css: string, doc: Document) =>
+          Boolean(doc.title && doc.title.trim().length > 0),
+      },
+      {
+        id: "m0-body-tag",
+        description: "Tag <body> ada di dalam <html> dan berisi teks selamat datang atau judul.",
+        hint: "Buat tag <body>...</body> dan isi dengan teks seperti <h1>Nama Cafe</h1> atau <p>Selamat Datang</p>.",
+        check: (html: string, _css: string, doc: Document) =>
+          Boolean(
+            /<body[\s>]/i.test(html) &&
+              /<\/body>/i.test(html) &&
+              doc.body &&
+              doc.body.textContent &&
+              doc.body.textContent.trim().length > 2
+          ),
+      },
+    ],
+  },
+  {
     id: 1,
     slug: "fondasi-html-banner",
     title: "Fondasi Dokumen, Format Teks & Media",
     subtitle: "Membangun Kerangka Awal & Banner Kedai Kopi",
     badge: "MODUL 01 // HTML CORE",
+    requiresCss: false,
     summary:
       "Pelajari cara browser membaca dokumen web, anatomi tag HTML, hierarki heading, penekanan teks penting, pemisah seksi, dan menampilkan banner foto kedai kopi.",
     theory: {
@@ -204,6 +336,7 @@ body {
     title: "Fasilitas, Lists & Container Div",
     subtitle: "Mengelompokkan Keunggulan Cafe dengan <ul> dan <div>",
     badge: "MODUL 02 // LISTS & DIVS",
+    requiresCss: false,
     summary:
       "Pelajari cara mengelompokkan informasi keunggulan cafe dengan Unordered List (<ul>), Ordered List (<ol>), List Item (<li>), dan mengenal container serbaguna <div>.",
     theory: {
@@ -321,6 +454,7 @@ body {
     title: "Tabel Menu Makanan & Minuman",
     subtitle: "Penyajian Data Terstruktur dengan Semantic Table & Badge Status",
     badge: "MODUL 03 // DATA TABLES",
+    requiresCss: false,
     summary:
       "Pelajari cara merancang tabel data tabular semantik (<table>, <thead>, <tbody>, <tr>, <th>, <td>) dan memanfaatkan tag <mark> untuk menandai menu best seller.",
     theory: {
@@ -463,6 +597,7 @@ body {
     title: "Formulir Reservasi Meja Lengkap",
     subtitle: "Mengumpulkan Input Pengguna dengan Form Controls HTML5",
     badge: "MODUL 04 // FORMS & INPUTS",
+    requiresCss: false,
     summary:
       "Pelajari cara menyusun formulir interaktif lengkap: text, date, number, radio buttons mutually exclusive, select dropdown, textarea, dan button submit.",
     theory: {
@@ -649,6 +784,7 @@ body {
     title: "CSS Box Model, Warna & Mengetengahkan Div",
     subtitle: "Mantra box-sizing, linear-gradient, dan Jurus margin: 0 auto",
     badge: "MODUL 05 // CSS STYLING",
+    requiresCss: true,
     summary:
       "Pelajari Box Model (margin, padding, border, border-radius), mantra wajib box-sizing: border-box, gradasi warna modern linear-gradient, dan jurus paling dicari: cara mengetengahkan div!",
     theory: {
@@ -833,6 +969,7 @@ button {
     title: "Layout Flexbox & Ragam Pseudo-Class",
     subtitle: "Navbar Modern, Efek :hover/:focus/:active, dan Interaksi Mikro Form",
     badge: "MODUL 06 // FLEXBOX & STATES",
+    requiresCss: true,
     summary:
       "Kuasai tata letak Flexbox (display: flex, justify-content, align-items, gap), ragam pseudo-class interaktif (:hover, :active, :focus, :nth-child), dan sentuhan mikro JavaScript pada form.",
     theory: {
@@ -1003,6 +1140,7 @@ button:active {
     title: "Audit Final & Publikasi ke Showcase Gallery",
     subtitle: "Uji Responsivitas Device dan Pamerkan Karyamu ke Publik",
     badge: "MODUL 07 // CELEBRATION",
+    requiresCss: true,
     summary:
       "Periksa kembali kelengkapan struktur website kedai kopi, uji tampilan melalui mode Fullscreen Device Inspector, dan publikasikan karyamu ke Showcase Gallery bersama peserta lain!",
     theory: {

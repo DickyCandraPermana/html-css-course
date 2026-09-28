@@ -5,7 +5,7 @@ export const participants = pgTable("participants", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: varchar("name", { length: 100 }).notNull(),
   sessionCode: varchar("session_code", { length: 50 }).default("default-workshop").notNull(),
-  currentStep: integer("current_step").default(1).notNull(),
+  currentStep: integer("current_step").default(0).notNull(),
   completedSteps: jsonb("completed_steps").$type<number[]>().default([]).notNull(),
   htmlDraft: text("html_draft").default("").notNull(),
   cssDraft: text("css_draft").default("").notNull(),

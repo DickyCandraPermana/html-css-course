@@ -15,6 +15,7 @@ interface CodeEditorProps {
   onHtmlChange: (val: string) => void;
   onCssChange: (val: string) => void;
   height?: string;
+  showCssTab?: boolean;
 }
 
 export default function CodeEditor({
@@ -24,11 +25,15 @@ export default function CodeEditor({
   cssCode,
   onHtmlChange,
   onCssChange,
-  height = "340px",
+  height = "100%",
+  showCssTab = true,
 }: CodeEditorProps) {
+  // If CSS tab is hidden but activeTab is css, force to html
+  const currentTab = !showCssTab ? "html" : activeTab;
+
   const extensions = useMemo(() => {
-    return activeTab === "html" ? [html(), oneDark] : [css(), oneDark];
-  }, [activeTab]);
+    return currentTab === "html" ? [html(), oneDark] : [css(), oneDark];
+  }, [currentTab]);
 
   return (
     <div className="flex flex-col h-full bg-[#111111] border border-[#333333] overflow-hidden">
@@ -39,7 +44,7 @@ export default function CodeEditor({
             type="button"
             onClick={() => onTabChange("html")}
             className={`flex items-center gap-1.5 px-3 py-1 text-xs font-mono transition-all ${
-              activeTab === "html"
+              currentTab === "html"
                 ? "bg-[#1a1a1a] text-white border-b-2 border-white font-semibold"
                 : "text-[#888888] hover:text-white"
             }`}
@@ -47,33 +52,36 @@ export default function CodeEditor({
             <FileCode size={13} className="text-amber-500" />
             index.html
           </button>
-          <button
-            type="button"
-            onClick={() => onTabChange("css")}
-            className={`flex items-center gap-1.5 px-3 py-1 text-xs font-mono transition-all ${
-              activeTab === "css"
-                ? "bg-[#1a1a1a] text-white border-b-2 border-white font-semibold"
-                : "text-[#888888] hover:text-white"
-            }`}
-          >
-            <FileType size={13} className="text-blue-400" />
-            style.css
-          </button>
+
+          {showCssTab && (
+            <button
+              type="button"
+              onClick={() => onTabChange("css")}
+              className={`flex items-center gap-1.5 px-3 py-1 text-xs font-mono transition-all ${
+                currentTab === "css"
+                  ? "bg-[#1a1a1a] text-white border-b-2 border-white font-semibold"
+                  : "text-[#888888] hover:text-white"
+              }`}
+            >
+              <FileType size={13} className="text-blue-400" />
+              style.css
+            </button>
+          )}
         </div>
         <span className="text-[10px] font-mono text-[#666666] tracking-wider uppercase">
-          {activeTab.toUpperCase()} EDITOR // LIVE
+          {currentTab.toUpperCase()} EDITOR // LIVE
         </span>
       </div>
 
       {/* Editor Body */}
       <div className="flex-1 overflow-auto">
         <CodeMirror
-          value={activeTab === "html" ? htmlCode : cssCode}
+          value={currentTab === "html" ? htmlCode : cssCode}
           height={height}
           extensions={extensions}
           theme={oneDark}
           onChange={(value) => {
-            if (activeTab === "html") {
+            if (currentTab === "html") {
               onHtmlChange(value);
             } else {
               onCssChange(value);

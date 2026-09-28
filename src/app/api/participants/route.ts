@@ -49,7 +49,7 @@ export async function POST(request: Request) {
         .values({
           name: trimmedName,
           sessionCode: cleanSession,
-          currentStep: 1,
+          currentStep: 0,
           completedSteps: [],
           htmlDraft: "",
           cssDraft: "",
@@ -68,7 +68,7 @@ export async function POST(request: Request) {
           id: "local-" + Date.now(),
           name: trimmedName,
           sessionCode: cleanSession,
-          currentStep: 1,
+          currentStep: 0,
           completedSteps: [],
           htmlDraft: "",
           cssDraft: "",

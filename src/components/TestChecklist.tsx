@@ -55,7 +55,7 @@ export default function TestChecklist({
       </div>
 
       {/* Checklist Items */}
-      <div className="p-3 space-y-2 max-h-[220px] overflow-y-auto">
+      <div className="p-2 space-y-1.5 max-h-[140px] overflow-y-auto">
         {evaluation.results.map((test) => {
           const isHintOpen = !!expandedHints[test.id];
 

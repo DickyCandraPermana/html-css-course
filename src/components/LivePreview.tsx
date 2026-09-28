@@ -131,12 +131,11 @@ export default function LivePreview({
       </div>
 
       {/* Frame Container */}
-      <div className="flex-1 bg-[#0a0a0a] flex items-center justify-center p-3 overflow-auto">
+      <div className="flex-1 min-h-0 bg-[#0a0a0a] flex items-center justify-center p-2.5 overflow-hidden">
         <div
-          className="h-full bg-white shadow-2xl transition-all duration-300 relative border border-[#333333] rounded overflow-hidden"
+          className="h-full w-full bg-white shadow-2xl transition-all duration-300 relative border border-[#333333] rounded overflow-hidden flex flex-col"
           style={{
-            width: viewportWidth,
-            minHeight: height,
+            maxWidth: viewportWidth,
           }}
         >
           <iframe
@@ -144,7 +143,7 @@ export default function LivePreview({
             title="Live Runner Sandbox"
             srcDoc={srcDoc}
             sandbox="allow-scripts"
-            className="w-full h-full min-h-[320px] border-none bg-white block"
+            className="w-full h-full flex-1 border-none bg-white block min-h-0"
           />
         </div>
       </div>
