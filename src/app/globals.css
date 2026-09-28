@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+:root {
+  /* Portfolio Technical Monochrome Palette */
+  --color-base: #050505;
+  --color-surface: #111111;
+  --color-surface-hover: #1A1A1A;
+  --color-text-primary: #F5F5F5;
+  --color-text-secondary: #888888;
+  --color-accent: #FFFFFF;
+  --color-border: #333333;
+  --color-border-subtle: #222222;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-geist-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* Typography Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+code, pre, .font-mono {
+  font-family: var(--font-jetbrains-mono), monospace;
+}
+
+/* Bracket Framer Signature (from portfolio) */
+.bracket-framer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.875rem;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.bracket-framer::before,
+.bracket-framer::after {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-accent);
+  opacity: 0;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-weight: bold;
+}
+
+.bracket-framer::before {
+  content: '[';
+  left: -0.4rem;
+}
+
+.bracket-framer::after {
+  content: ']';
+  right: -0.4rem;
+}
+
+.bracket-framer:hover,
+.bracket-framer.active {
+  color: var(--color-text-primary);
+}
+
+.bracket-framer:hover::before,
+.bracket-framer.active::before {
+  opacity: 1;
+  left: 0;
+}
+
+.bracket-framer:hover::after,
+.bracket-framer.active::after {
+  opacity: 1;
+  right: 0;
+}
+
+/* Dashed borders & technical cards */
+.dashed-border-b {
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.dashed-border-r {
+  border-right: 1px dashed var(--color-border);
+}
+
+.dashed-border-l {
+  border-left: 1px dashed var(--color-border);
+}
+
+.dashed-border-t {
+  border-top: 1px dashed var(--color-border);
+}
+
+.dashed-box {
+  border: 1px dashed var(--color-border);
+  background-color: var(--color-surface);
+}
+
+/* Custom technical scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+/* CodeMirror overrides */
+.cm-theme {
+  height: 100% !important;
+}
+
+.cm-editor {
+  height: 100% !important;
+  font-family: var(--font-jetbrains-mono), monospace !important;
+  font-size: 13px !important;
+  background-color: var(--color-surface) !important;
+}
+
+.cm-scroller {
+  font-family: var(--font-jetbrains-mono), monospace !important;
+}
+
+.cm-gutters {
+  background-color: #0d0d0d !important;
+  color: #555 !important;
+  border-right: 1px dashed var(--color-border) !important;
+}
