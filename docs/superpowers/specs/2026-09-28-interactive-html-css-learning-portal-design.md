@@ -33,7 +33,7 @@ Platform ini juga dilengkapi dengan:
 ### 2.1 Core Stack
 * **Framework:** Next.js (App Router, React 19, TypeScript)
 * **Styling & Design System:** Tailwind CSS v4 + Vanilla CSS Design Tokens (konsisten dengan portofolio)
-* **Database & ORM:** PostgreSQL (Neon Serverless / Supabase) via **Prisma ORM** (`@prisma/client` + `pg` adapter)
+* **Database & ORM:** Neon Serverless PostgreSQL via **Drizzle ORM** (`drizzle-orm` + `@neondatabase/serverless`)
 * **Code Editor:** CodeMirror 6 / Monaco Editor lightweight (HTML & CSS mode, syntax highlighting, line numbers, auto-closing tags)
 * **Code Execution:** Client-side sandboxed iframe (`sandbox="allow-scripts"`)
 * **Validation Engine:** Client-side DOMParser & CSS AST/Rule Inspector (Zero backend latency)
@@ -211,48 +211,46 @@ Setiap langkah memiliki spesifikasi tes assertion otomatis yang diuji langsung d
 
 ---
 
-## 7. Database Schema (Prisma PostgreSQL)
+## 7. Database Schema (Drizzle ORM & Neon PostgreSQL)
 
-```prisma
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+```typescript
+import { pgTable, uuid, varchar, text, integer, timestamp, jsonb, boolean } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
 
-generator client {
-  provider = "prisma-client-js"
-}
+export const participants = pgTable('participants', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: varchar('name', { length: 100 }).notNull(),
+  sessionCode: varchar('session_code', { length: 50 }).default('default-workshop').notNull(),
+  currentStep: integer('current_step').default(1).notNull(),
+  completedSteps: jsonb('completed_steps').$type<number[]>().default([]).notNull(),
+  htmlDraft: text('html_draft').default('').notNull(),
+  cssDraft: text('css_draft').default('').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
 
-model Participant {
-  id              String     @id @default(uuid())
-  name            String
-  session_code    String     @default("default-workshop")
-  current_step    Int        @default(1)
-  completed_steps Json       @default("[]")
-  html_draft      String     @default("") @db.Text
-  css_draft       String     @default("") @db.Text
-  created_at      DateTime   @default(now())
-  updated_at      DateTime   @updatedAt
-  showcases       Showcase[]
+export const showcases = pgTable('showcases', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  participantId: uuid('participant_id').references(() => participants.id, { onDelete: 'cascade' }).notNull(),
+  cafeName: varchar('cafe_name', { length: 150 }).notNull(),
+  htmlCode: text('html_code').notNull(),
+  cssCode: text('css_code').notNull(),
+  likesCount: integer('likes_count').default(0).notNull(),
+  isApproved: boolean('is_approved').default(true).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
 
-  @@index([session_code])
-}
+export const participantsRelations = relations(participants, ({ many }) => ({
+  showcases: many(showcases),
+}));
 
-model Showcase {
-  id             String      @id @default(uuid())
-  participant_id String
-  participant    Participant @relation(fields: [participant_id], references: [id], onDelete: Cascade)
-  cafe_name      String
-  html_code      String      @db.Text
-  css_code       String      @db.Text
-  likes_count    Int         @default(0)
-  is_approved    Boolean     @default(true)
-  created_at     DateTime    @default(now())
-  updated_at     DateTime    @updatedAt
-
-  @@index([participant_id])
-  @@index([created_at])
-}
+export const showcasesRelations = relations(showcases, ({ one }) => ({
+  participant: one(participants, {
+    fields: [showcases.participantId],
+    references: [participants.id],
+  }),
+}));
 ```
 
 ---
