@@ -9,6 +9,7 @@
     "lint": "eslint",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
+    "db:seed": "node --env-file=.env scripts/seed-showcases.mjs",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
