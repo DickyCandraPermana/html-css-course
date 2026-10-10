@@ -18,6 +18,12 @@
       "sourceType": "github",
       "skillPath": "skills/react-best-practices/SKILL.md",
       "computedHash": "ca7b0c0c6e5f2750043f7f0cd72d16ac4e2abc48f9b5500d047a4b77a2506212"
+    },
+    "kopicode-curriculum-craft": {
+      "source": "local",
+      "sourceType": "in-repo",
+      "skillPath": ".agents/skills/kopicode-curriculum-craft/SKILL.md",
+      "computedHash": "c0c44c6474efd9ef7dbd1051419f10e6a8c4b1762f7cb364076094ae015bdd27"
     }
   }
 }

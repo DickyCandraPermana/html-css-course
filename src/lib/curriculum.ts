@@ -47,62 +47,62 @@ export const MODULES: ModuleData[] = [
     id: 0,
     slug: "anatomi-dokumen-html",
     title: "Struktur Dokumen HTML dari Nol",
-    subtitle: "Bikin Kerangka Dasar Web Pertama Kamu Tanpa Bantuan Template",
-    badge: "MODUL 00 // FONDASI DOKUMEN",
+    subtitle: "Bangun Kerangka Ruko Kedai Kopi Pertamamu dari Lembar Kosong",
+    badge: "MODUL 00 // FONDASI RUKO KEDAI",
     requiresCss: false,
     summary:
-      "Pahami cara kerja tag pembuka dan penutup, lalu tulis sendiri kerangka dokumen HTML lengkap di selembar file kosong.",
+      "Pahami cara browser membaca pasangan tag HTML, lalu bangun sendiri kerangka ruko kedai kopi pertamamu tanpa bantuan template.",
     theory: {
-      heading: "Tag HTML & 4 Elemen Wajib Halaman Web",
+      heading: "Tag HTML & 4 Pilar Utama Dokumen Web",
       analogy:
-        "Bikin file HTML itu mirip kayak nyiapin berkas surat resmi. <!DOCTYPE html> itu kop resminya, <html> itu map pembungkusnya, <head> lembar catatan judul & metadata di luar, dan <body> isi tulisan yang bakal dibaca pengunjung.",
+        "Mendirikan website kedai kopi itu persis seperti membangun ruko fisik: <!DOCTYPE html> adalah surat izin resmi bahwa bangunan ini berstandar modern, <html> adalah batas tapak tanah kavling kedai, <head> adalah papan plang di atap ruko luar yang dibaca orang dari jalan, dan <body> adalah ruangan dalam ruko tempat barista menyeduh, meja kasir melayani, dan tamu menikmati kopi.",
       concept:
-        "Browser membaca kode HTML lewat tag-tag berpasangan (<tag>konten</tag>) dan tag mandiri. Setiap file web standar wajib punya 4 bagian: deklarasi <!DOCTYPE html>, elemen root <html lang=\"id\">, elemen <head> buat judul tab, dan <body> buat semua hal yang tampil di layar.",
+        "Browser mengenali elemen halaman lewat pasangan tag pembuka dan penutup (<tag> dan </tag>). Setiap dokumen web standar wajib memiliki empat bagian utama: deklarasi <!DOCTYPE html> di baris pertama, pembungkus kavling <html lang=\"id\">, ruang metadata <head> untuk judul tab, dan ruang visual <body> untuk semua hal yang tampil di layar.",
       supportingTips: {
-        title: "💡 4 Elemen Wajib Dokumen HTML",
+        title: "4 Pilar Wajib Dokumen HTML",
         items: [
           {
             tag: "<!DOCTYPE html>",
-            name: "Deklarasi Standar HTML5",
+            name: "Surat Izin Standar HTML5",
             explanation:
-              "Wajib ditaruh di baris paling atas agar browser merender halaman dengan standar modern.",
+              "Wajib di baris paling atas agar browser merender halaman dengan standar web modern tanpa mode kompatibilitas usang.",
             example: "<!DOCTYPE html>",
           },
           {
             tag: '<html lang="id">',
-            name: "Root Element (Akar Halaman)",
+            name: "Kavling Utama (Root)",
             explanation:
-              "Membungkus seluruh isi file HTML. Atribut lang='id' memberitahu browser bahasa yang dipakai.",
+              "Membungkus seluruh bangunan web. Atribut lang='id' memberitahu browser bahwa kedai ini melayani pengunjung berbahasa Indonesia.",
             example: '<html lang="id">...</html>',
           },
           {
             tag: "<head>",
-            name: "Kepala Dokumen (Metadata)",
+            name: "Papan Informasi Atap (Metadata)",
             explanation:
-              "Tempat naruh info yang tidak tampil di canvas, seperti judul tab browser (<title>).",
+              "Wadah informasi teknis dan judul tab browser (<title>) yang dibaca orang dari luar sebelum melangkah masuk.",
             example: "<head><title>Nama Web</title></head>",
           },
           {
             tag: "<body>",
-            name: "Badan Dokumen (Konten Visual)",
+            name: "Ruang Dalam Kedai (Konten Visual)",
             explanation:
-              "Wadah utama buat semua teks, gambar, tombol, dan tabel yang dilihat pengunjung web.",
+              "Wadah utama tempat semua teks plang, pigura foto, daftar menu, dan meja kasir diletakkan.",
             example: "<body><h1>Halo Dunia</h1></body>",
           },
         ],
       },
       codeExample: {
-        title: "Contoh Kerangka Minimal Dokumen HTML",
+        title: "Kerangka Standar Ruko Kedai Kopi",
         language: "html",
         code: `<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Kedai Kopi Saya</title>
+  <title>Kedai Kopi Sudut Temu</title>
 </head>
 <body>
-  <h1>Selamat Datang di Kedai Kopi</h1>
-  <p>Website ini saya bangun dari selembar kode kosong.</p>
+  <h1>Kedai Kopi Sudut Temu</h1>
+  <p>Selamat datang di kedai kopi seduh manual pertama kami.</p>
 </body>
 </html>`,
       },
@@ -110,9 +110,9 @@ export const MODULES: ModuleData[] = [
     tasks: [
       "Ketik deklarasi <!DOCTYPE html> di baris paling atas tab index.html.",
       'Buka tag <html lang="id"> dan pastikan ditutup dengan </html> di baris paling bawah.',
-      "Di dalam tag <html>, buat blok <head>...</head>.",
-      "Di dalam <head>, tambahkan tag <title> dengan nama kedai kopi kamu.",
-      "Di bawah tag </head>, buat blok <body>...</body> dan isi dengan minimal satu kalimat sapaan atau nama cafe.",
+      "Di dalam tag <html>, buat blok informasi <head>...</head>.",
+      "Di dalam <head>, pasang tag <title> berisi nama kedai kopimu.",
+      "Di bawah tag </head>, buka blok <body>...</body> lalu isi dengan minimal satu baris sapaan atau nama cafe.",
     ],
     starterHtml: `<!-- Tulis struktur dokumen HTML lengkap dari nol di bawah sini -->\n`,
     starterCss: `/* CSS belum diperlukan pada modul ini */\n`,
@@ -120,24 +120,24 @@ export const MODULES: ModuleData[] = [
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Kedai Kopi Saya</title>
+  <title>Kedai Kopi Sudut Temu</title>
 </head>
 <body>
-  <h1>Kedai Kopi Saya</h1>
-  <p>Selamat datang di kedai kopi pertama kami.</p>
+  <h1>Kedai Kopi Sudut Temu</h1>
+  <p>Selamat datang di kedai kopi seduh manual pertama kami.</p>
 </body>
 </html>`,
     solutionCss: ``,
     assertions: [
       {
         id: "m0-doctype",
-        description: "Deklarasi <!DOCTYPE html> ada di baris pertama.",
+        description: "Deklarasi <!DOCTYPE html> terpasang di baris pertama.",
         hint: "Tulis <!DOCTYPE html> di baris paling atas dokumen.",
         check: (html: string) => /<!DOCTYPE\s+html>/i.test(html),
       },
       {
         id: "m0-html-tag",
-        description: 'Tag <html> pembungkus ada dan memiliki atribut lang (contoh: lang="id").',
+        description: 'Tag <html> pembungkus tersedia dan memiliki atribut lang (contoh: lang="id").',
         hint: 'Tulis <html lang="id"> di awal dan </html> di akhir dokumen.',
         check: (html: string, _css: string, doc: Document) =>
           Boolean(
@@ -147,20 +147,20 @@ export const MODULES: ModuleData[] = [
       },
       {
         id: "m0-head-tag",
-        description: "Tag <head> ada di dalam <html>.",
+        description: "Tag <head> terpasang di dalam <html>.",
         hint: "Bungkus informasi dokumen di dalam <head>...</head>.",
         check: (html: string) => /<head[\s>]/i.test(html) && /<\/head>/i.test(html),
       },
       {
         id: "m0-title-tag",
-        description: "Tag <title> ada di dalam <head> dan memiliki teks nama cafe.",
-        hint: "Tambahkan <title>Nama Cafe</title> di dalam tag <head>.",
+        description: "Tag <title> terpasang di dalam <head> dan memiliki teks nama cafe.",
+        hint: "Tambahkan <title>Kedai Kopi Sudut Temu</title> di dalam tag <head>.",
         check: (_html: string, _css: string, doc: Document) =>
           Boolean(doc.title && doc.title.trim().length > 0),
       },
       {
         id: "m0-body-tag",
-        description: "Tag <body> ada di dalam <html> dan berisi teks selamat datang atau judul.",
+        description: "Tag <body> terpasang di dalam <html> dan berisi teks selamat datang atau judul.",
         hint: "Buat tag <body>...</body> dan isi dengan teks seperti <h1>Nama Cafe</h1> atau <p>Selamat Datang</p>.",
         check: (html: string, _css: string, doc: Document) =>
           Boolean(
@@ -176,52 +176,52 @@ export const MODULES: ModuleData[] = [
   {
     id: 1,
     slug: "fondasi-html-banner",
-    title: "Struktur Konten & Media Banner",
-    subtitle: "Bikin Header, Teks Penjelas, dan Banner Foto Kedai Kopi",
-    badge: "MODUL 01 // KONTEN DASAR",
+    title: "Fasad Kedai Kopi & Foto Suasana",
+    subtitle: "Pasang Plang Neon Box, Cerita Seduhan, dan Banner Meja Barista",
+    badge: "MODUL 01 // FASAD & MEDIA",
     requiresCss: false,
     summary:
-      "Mulai mengisi halaman web dengan konten nyata: judul utama (h1), deskripsi (p), penekanan kata (strong, em), garis pemisah (hr), dan foto banner (img).",
+      "Mulai isi ruang kedai dengan konten nyata: plang nama utama (h1), papan kapur cerita (p), penekanan kata (strong, em), lis kayu pembatas (hr), dan foto meja seduh (img).",
     theory: {
-      heading: "Menata Elemen Konten Teks & Gambar",
+      heading: "Menata Fasad Depan: Judul, Paragraf & Foto",
       analogy:
-        "Sederhananya, HTML itu kerangka fisik sebuah toko: plang nama toko di atas, papan deskripsi di kaca depan, dan poster foto menu utama. Tanpa kerangka ini, pengunjung nggak tahu toko apa ini.",
+        "Berdiri di depan pintu kedai kopi: <h1> adalah plang neon box nama brand yang menyala terang di atas pintu. <p> adalah papan kapur di samping pintu yang menceritakan racikan biji kopi andalan, lengkap dengan spidol tebal (<strong>) untuk jam buka dan tulisan miring barista (<em>) untuk metode seduhan. Lis kayu pembatas (<hr>) memisahkan area plang dengan etalase, dan <img> adalah pigura foto besar suasana meja seduh di dalam.",
       concept:
-        "Di dalam tag <body>, kita menyusun konten visual yang dibaca pengguna. Browser membaca tag dari atas ke bawah. Tag <h1> digunakan untuk judul terpenting, <p> untuk kalimat deskripsi, <strong> untuk teks tebal penting, <em> untuk penekanan miring, <hr> untuk garis pemisah, dan <img> untuk menampilkan gambar dengan atribut src dan alt.",
+        "Browser membaca elemen di dalam <body> secara berurutan dari atas ke bawah. Tag <h1> punya hierarki tertinggi untuk nama kedai. Paragraf <p> menampung kalimat cerita. Tag inline seperti <strong> dan <em> memberi penekanan makna pada kata tertentu tanpa memutus alur kalimat. Tag <hr> memberi garis jeda visual, sementara tag <img> memanggil file foto lewat atribut src dan menyediakan teks alternatif lewat atribut alt jika foto gagal dimuat.",
       supportingTips: {
-        title: "💡 Penekanan Teks & Tag Pembantu",
+        title: "Penekanan Teks & Lis Pembatas",
         items: [
           {
             tag: "<strong>",
-            name: "Teks Tebal Berbobot (Importance)",
+            name: "Spidol Tebal (Penting)",
             explanation:
-              "Menandai teks penting. Berguna untuk SEO dan pembaca layar (screen reader).",
-            example: "<strong>Buka 24 Jam</strong>",
+              "Menandai informasi penting seperti jam operasional kedai agar terbaca jelas oleh mata maupun screen reader.",
+            example: "<strong>Buka jam 08.00 pagi</strong>",
           },
           {
             tag: "<em>",
-            name: "Penekanan Miring (Emphasis)",
+            name: "Tulisan Miring (Intonasi)",
             explanation:
-              "Menandai kata dengan intonasi berbeda atau aksen khusus.",
-            example: "<em>resep asli</em>",
+              "Menandai nama varietas biji kopi atau istilah seduhan dengan intonasi khusus.",
+            example: "<em>single origin Ciwidey</em>",
           },
           {
             tag: "<hr>",
-            name: "Garis Pembatas (Horizontal Rule)",
+            name: "Lis Kayu Pembatas",
             explanation:
-              "Tag mandiri tanpa penutup untuk memberi jeda visual antar bagian.",
+              "Tag mandiri tanpa penutup untuk memberi garis jeda visual antar bagian etalase.",
             example: "<hr>",
           },
           {
             tag: "<br>",
-            name: "Ganti Baris (Break Line)",
-            explanation: "Membuat teks turun satu baris tanpa membuat paragraf baru.",
+            name: "Ganti Baris Seduhan",
+            explanation: "Menurunkan teks satu baris ke bawah tanpa membuat blok paragraf baru.",
             example: "Kopi Susu<br>Gula Aren",
           },
         ],
       },
       codeExample: {
-        title: "Contoh Header Kedai Kopi dengan Foto",
+        title: "Contoh Fasad Kedai Kopi dengan Foto",
         language: "html",
         code: `<!DOCTYPE html>
 <html lang="id">
@@ -242,7 +242,7 @@ export const MODULES: ModuleData[] = [
     },
     tasks: [
       "Pastikan kerangka dokumen HTML (<!DOCTYPE html>, <html>, <head>, <body>) sudah siap di tab index.html.",
-      "Buat judul nama kedai kopimu memakai tag <h1>.",
+      "Tulis nama kedai kopimu memakai tag <h1>.",
       "Tulis satu paragraf deskripsi singkat dengan tag <p>, lalu beri tag <strong> atau <em> pada kata yang ingin ditekankan.",
       "Tambahkan garis pembatas horizontal memakai tag <hr>.",
       "Tampilkan foto banner kedai kopi memakai tag <img> lengkap dengan atribut src dan alt.",
@@ -287,8 +287,8 @@ body {
     assertions: [
       {
         id: "m1-h1",
-        description: "Tag <h1> harus ada dan memiliki teks nama cafe.",
-        hint: "Tambahkan tag <h1>Nama Cafe Anda</h1> di dalam <body>.",
+        description: "Tag <h1> terpasang dan memuat nama kedai kopi.",
+        hint: "Tambahkan tag <h1>Kedai Kopi Sudut Temu</h1> di dalam <body>.",
         check: (_html, _css, doc) => {
           const h1 = doc.querySelector("h1");
           return !!(h1 && h1.textContent && h1.textContent.trim().length > 0);
@@ -296,8 +296,8 @@ body {
       },
       {
         id: "m1-p",
-        description: "Tag <p> harus ada sebagai kalimat tagline atau deskripsi cafe.",
-        hint: "Tambahkan tag <p>Kalimat tagline...</p> di bawah judul.",
+        description: "Tag <p> terpasang sebagai kalimat cerita atau deskripsi kedai kopi.",
+        hint: "Tambahkan tag <p>Tempat ngopi santai...</p> di bawah judul utama.",
         check: (_html, _css, doc) => {
           const p = doc.querySelector("p");
           return !!(p && p.textContent && p.textContent.trim().length > 0);
@@ -306,14 +306,14 @@ body {
       {
         id: "m1-format",
         description: "Gunakan tag <strong> atau <em> untuk memberi penekanan pada kata.",
-        hint: "Bungkus salah satu kata di dalam paragraf dengan <strong> atau <em>.",
+        hint: "Bungkus salah satu kata penting dengan <strong> atau <em>.",
         check: (_html, _css, doc) => {
           return !!(doc.querySelector("strong") || doc.querySelector("em") || doc.querySelector("b") || doc.querySelector("i"));
         },
       },
       {
         id: "m1-hr",
-        description: "Terdapat garis pemisah horizontal <hr>.",
+        description: "Garis pembatas horizontal <hr> terpasang.",
         hint: "Tambahkan tag <hr> setelah paragraf deskripsi.",
         check: (_html, _css, doc) => {
           return !!doc.querySelector("hr");
@@ -321,8 +321,8 @@ body {
       },
       {
         id: "m1-img",
-        description: "Tag <img> harus memiliki atribut src dan alt.",
-        hint: 'Gunakan <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800" alt="Foto Suasana Cafe">.',
+        description: "Tag <img> memiliki atribut src dan alt.",
+        hint: 'Gunakan <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800" alt="Suasana Meja Kayu dan Mesin Kopi Sudut Temu">.',
         check: (_html, _css, doc) => {
           const img = doc.querySelector("img");
           return !!(img && img.getAttribute("src") && img.getAttribute("alt"));
@@ -333,43 +333,43 @@ body {
   {
     id: 2,
     slug: "fasilitas-list-container",
-    title: "Daftar Fasilitas & Pengelompokan Elemen",
-    subtitle: "Rapikan Poin Layanan Pakai <ul>, <li>, dan Pembungkus <div>",
-    badge: "MODUL 02 // LIST & CONTAINER",
+    title: "Daftar Fasilitas & Sekat Ruangan",
+    subtitle: "Kelompokkan Poin Fasilitas Pakai <ul>, <li>, dan Sekat Partisi <div>",
+    badge: "MODUL 02 // DAFTAR & SEKAT KEDAI",
     requiresCss: false,
     summary:
-      "Kelompokkan info fasilitas cafe ke dalam daftar butir (ul, li), pelajari bedanya dengan list berurutan (ol), dan gunakan div untuk mengelompokkan satu bagian halaman.",
+      "Kelompokkan info kenyamanan kedai ke dalam daftar butir (ul, li), pahami bedanya dengan urutan resep seduh (ol), dan gunakan sekat div untuk mengelompokkan area ruko.",
     theory: {
-      heading: "Menyusun Daftar Poin & Mengelompokkan Konten",
+      heading: "Daftar Poin & Sekat Pengelompokan Ruang",
       analogy:
-        "Kayak papan info fasilitas di pintu masuk cafe: pengunjung langsung tahu ada Wi-Fi kencang, banyak colokan listrik, atau ruangan ber-AC tanpa harus membaca paragraf panjang.",
+        "Di kedai kopi ada dua macam daftar: fasilitas dan resep seduh. Fasilitas kedai (Wi-Fi, colokan, area merokok) cocok memakai <ul> (Unordered List) karena urutannya bebas dibolak-balik tanpa mengubah arti. Sebaliknya, 4 langkah seduh resep V60 barista wajib memakai <ol> (Ordered List) karena urutan nomor 1 sampai 4 pantang tertukar kalau tidak ingin seduhan kopinya gagal. Tiap butirnya dicatat dalam <li>. Agar seluruh fasilitas ini tidak berserakan dan terpisah rapi dari meja kasir, kita bungkus di dalam sekat partisi <div>.",
       concept:
-        "Gunakan <ul> (Unordered List) saat urutan butir tidak harus bertingkat (misal daftar fasilitas). Kalau urutannya harus langkah demi langkah (misal resep), pakai <ol> (Ordered List). Tiap butir selalu dibungkus tag <li>. Tag <div> dipakai sebagai kotak pembungkus netral untuk mengelompokkan beberapa elemen menjadi satu seksi.",
+        "<ul> menampilkan butir poin tanpa nomor, sedangkan <ol> menampilkan deretan angka berurutan. Setiap butir daftar selalu dibungkus tag <li>. Elemen <div> bertindak sebagai sekat kontainer netral bertipe block untuk mengelompokkan beberapa elemen menjadi satu area tersendiri. Tautan <a> dengan atribut href bertindak sebagai papan petunjuk arah agar pengunjung bisa melompat ke bagian lain halaman.",
       supportingTips: {
-        title: "💡 Kontainer Pembungkus: <div> vs <span> dan Link <a>",
+        title: "Sekat Ruang & Penunjuk Jalan",
         items: [
           {
             tag: "<div>",
-            name: "Generic Block Container",
-            explanation: "Membungkus kumpulan elemen agar menjadi satu blok/seksi tersendiri.",
+            name: "Sekat Partisi Ruang (Block)",
+            explanation: "Membungkus sekelompok elemen agar menjadi satu seksi ruangan tersendiri yang mudah diatur posisinya.",
             example: '<div id="fasilitas">...</div>',
           },
           {
             tag: "<span>",
-            name: "Generic Inline Container",
-            explanation: "Membungkus sebagian kata di tengah kalimat tanpa bikin baris baru.",
+            name: "Stempel Teks (Inline)",
+            explanation: "Membungkus kata kecil di tengah kalimat tanpa memutus baris teks.",
             example: '<span class="status">Buka</span>',
           },
           {
             tag: "<a>",
-            name: "Anchor Link (Tautan)",
-            explanation: "Tautan untuk melompat ke bagian halaman lain (#menu) atau link luar.",
+            name: "Papan Petunjuk Jalan (Anchor)",
+            explanation: "Tautan navigasi untuk melompat ke seksi lain di halaman yang sama (#menu) atau situs luar.",
             example: '<a href="#menu">Lihat Daftar Menu</a>',
           },
         ],
       },
       codeExample: {
-        title: "Contoh Seksi Fasilitas & Link Menu",
+        title: "Contoh Seksi Fasilitas & Tautan Menu",
         language: "html",
         code: `<div id="fasilitas">
   <h2>Fasilitas & Layanan Kami</h2>
@@ -383,7 +383,7 @@ body {
       },
     },
     tasks: [
-      'Buat kotak pembungkus <div id="fasilitas"> di bawah banner foto cafe.',
+      'Buat sekat partisi <div id="fasilitas"> di bawah banner foto cafe.',
       'Buat judul seksi dengan tag <h2> bertuliskan "Fasilitas & Layanan Kami".',
       "Buat elemen <ul> untuk menampung butir-butir fasilitas.",
       "Tambahkan minimal 3 poin fasilitas memakai tag <li>.",
@@ -421,26 +421,26 @@ body {
     assertions: [
       {
         id: "m2-h2",
-        description: "Tag <h2> harus ada sebagai judul seksi fasilitas.",
-        hint: "Tambahkan <h2>Fasilitas & Keunggulan Kami</h2>.",
+        description: "Tag <h2> terpasang sebagai judul seksi fasilitas.",
+        hint: "Tambahkan <h2>Fasilitas & Layanan Kami</h2>.",
         check: (_html, _css, doc) => !!doc.querySelector("h2"),
       },
       {
         id: "m2-list",
-        description: "Terdapat elemen list (<ul> atau <ol>).",
-        hint: "Bungkus item fasilitas dengan tag <ul>.",
+        description: "Tersedia elemen list (<ul> atau <ol>).",
+        hint: "Bungkus butir fasilitas dengan tag <ul>.",
         check: (_html, _css, doc) => !!(doc.querySelector("ul") || doc.querySelector("ol")),
       },
       {
         id: "m2-items",
-        description: "Terdapat minimal 3 item fasilitas dengan tag <li>.",
+        description: "Tersedia minimal 3 butir fasilitas memakai tag <li>.",
         hint: "Tambahkan minimal 3 tag <li> di dalam <ul>.",
         check: (_html, _css, doc) => doc.querySelectorAll("li").length >= 3,
       },
       {
         id: "m2-anchor",
-        description: "Terdapat elemen tautan <a> dengan atribut href.",
-        hint: 'Tambahkan tautan seperti <a href="#menu">Lihat Menu</a>.',
+        description: "Tersedia elemen tautan <a> dengan atribut href.",
+        hint: 'Tambahkan tautan navigasi seperti <a href="#menu">Lihat Daftar Menu</a>.',
         check: (_html, _css, doc) => {
           const a = doc.querySelector("a");
           return !!(a && a.getAttribute("href"));
@@ -451,35 +451,37 @@ body {
   {
     id: 3,
     slug: "tabel-menu-harga",
-    title: "Tabel Menu Minuman & Harga",
-    subtitle: "Menata Menu Minuman Rapi Pakai <table>, <thead>, dan <tbody>",
-    badge: "MODUL 03 // TABEL DATA",
+    title: "Papan Menu & Tabel Harga Meja Kasir",
+    subtitle: "Tata Daftar Minuman Presisi Pakai <table>, <thead>, dan <tbody>",
+    badge: "MODUL 03 // PAPAN MENU KASIR",
     requiresCss: false,
     summary:
-      "Susun daftar menu dan harga ke dalam format tabel semantik, lengkapi dengan header kolom dan tandai menu favorit memakai tag mark.",
+      "Susun daftar minuman dan harga ke dalam format tabel semantik, lengkapi dengan bilah kepala kolom, dan tandai minuman andalan barista memakai tag mark.",
     theory: {
-      heading: "Struktur Tabel Data Dua Dimensi",
+      heading: "Papan Tabel Dua Dimensi Meja Kasir",
       analogy:
-        "Buku menu fisik di meja kasir punya kolom yang jelas: Kategori, Nama Menu, dan Harga. Pengunjung bisa langsung lirik minuman yang dicari dan harganya tanpa bingung.",
+        "Papan menu di atas meja kasir wajib punya kisi-kisi yang tegas agar barista dan pelanggan tidak salah hitung harga. <table> adalah papan kisi utamanya. <thead> adalah bilah kayu penunjuk kepala kolom (Kategori, Minuman, Harga). <tbody> adalah deretan kartu menu harian (<tr>) yang masing-masing punya kotak nama dan harga (<td>). Minuman racikan barista yang paling laris kita beri stabilo kuning memakai <mark> agar langsung menarik perhatian mata pelanggan.",
       concept:
-        "Tabel HTML yang terstruktur memisahkan baris judul kolom di dalam <thead> dan deretan baris data di <tbody>. Tiap baris dinyatakan dengan <tr>, judul kolom dengan <th> (otomatis tebal), dan sel data dengan <td>.",
+        "Elemen <table> menata data dalam struktur baris dan kolom dua dimensi. Kepala tabel dibungkus di dalam <thead> dengan sel judul <th> yang otomatis tercetak tebal dan berada di tengah. Isi data menu ditampung di dalam <tbody> yang tersusun atas baris-baris <tr> dan sel data <td>. Tag <mark> memberi aksen stabilo kuning untuk menu andalan (signature), sedangkan <small> cocok untuk catatan takaran porsi atau keterangan pajak.",
       supportingTips: {
-        title: "💡 Label Tambahan: <mark> & <small>",
+        title: "Aksen Stabilo & Catatan Porsi",
         items: [
           {
             tag: "<mark>",
-            name: "Highlight Stabilo",
-            explanation: "Cocok untuk menandai menu andalan: <mark>Favorit</mark> atau <mark>Best Seller</mark>.",
+            name: "Stabilo Menu Andalan",
+            explanation: "Menandai minuman signature racikan barista agar langsung dilirik pengunjung: <mark>Favorit</mark>.",
+            example: "V60 Aceh Gayo <mark>Favorit</mark>",
           },
           {
             tag: "<small>",
-            name: "Keterangan Ukuran / Porsi",
-            explanation: "Catatan kecil di samping nama: <small>(Panas / Dingin)</small>.",
+            name: "Catatan Porsi / Pajang",
+            explanation: "Catatan kecil di samping nama atau harga: <small>(Porsi 250ml)</small>.",
+            example: "<small>(Panas / Dingin)</small>",
           },
         ],
       },
       codeExample: {
-        title: "Contoh Tabel Menu Minuman",
+        title: "Contoh Tabel Menu Meja Kasir",
         language: "html",
         code: `<div id="menu">
   <h2>Daftar Menu Favorit</h2>
@@ -498,7 +500,7 @@ body {
         <td>Rp 26.000</td>
       </tr>
       <tr>
-        <td>Espresso</td>
+        <td>Espresso Based</td>
         <td>Kopi Susu Gula Aren</td>
         <td>Rp 22.000</td>
       </tr>
@@ -513,8 +515,8 @@ body {
       },
     },
     tasks: [
-      'Buat pembungkus <div id="menu"> di bawah seksi fasilitas.',
-      'Buat sub-judul <h2> bertuliskan "Daftar Menu Favorit".',
+      'Buat sekat pembungkus <div id="menu"> di bawah seksi fasilitas.',
+      'Buat judul seksi <h2> bertuliskan "Daftar Menu Favorit".',
       "Buat elemen <table> yang memiliki blok <thead> dan <tbody>.",
       'Di dalam <thead>, buat 1 baris <tr> dengan 3 header kolom <th>: "Kategori", "Menu", dan "Harga".',
       "Di dalam <tbody>, buat minimal 3 baris data <tr>, masing-masing dengan 3 sel <td>.",
@@ -564,7 +566,7 @@ body {
     assertions: [
       {
         id: "m3-structure",
-        description: "Elemen <table> harus memiliki <thead> dan <tbody>.",
+        description: "Elemen <table> memiliki blok <thead> dan <tbody>.",
         hint: "Pastikan tabel dibungkus dengan <table><thead>..</thead><tbody>..</tbody></table>.",
         check: (_html, _css, doc) => {
           const table = doc.querySelector("table");
@@ -573,20 +575,20 @@ body {
       },
       {
         id: "m3-headers",
-        description: "Terdapat minimal 3 kolom header <th> pada <thead>.",
+        description: "Tersedia minimal 3 kolom kepala <th> di dalam <thead>.",
         hint: "Tambahkan 3 kolom <th> di baris <tr> dalam <thead> (Kategori, Menu, Harga).",
         check: (_html, _css, doc) => doc.querySelectorAll("thead th").length >= 3,
       },
       {
         id: "m3-rows",
-        description: "Terdapat minimal 3 baris menu <tr> di dalam <tbody>.",
+        description: "Tersedia minimal 3 baris menu <tr> di dalam <tbody>.",
         hint: "Tambahkan minimal 3 baris <tr> di dalam <tbody>.",
         check: (_html, _css, doc) => doc.querySelectorAll("tbody tr").length >= 3,
       },
       {
         id: "m3-mark",
-        description: "Gunakan tag <mark> untuk menandai salah satu menu rekomendasi.",
-        hint: "Bungkus label seperti <mark>Best Seller</mark> pada salah satu sel <td>.",
+        description: "Gunakan tag <mark> untuk menandai salah satu menu rekomendasi barista.",
+        hint: "Bungkus label seperti <mark>Favorit</mark> pada salah satu sel <td>.",
         check: (_html, _css, doc) => !!doc.querySelector("table mark"),
       },
     ],
@@ -594,42 +596,45 @@ body {
   {
     id: 4,
     slug: "form-reservasi-meja",
-    title: "Formulir Pemesanan Meja",
-    subtitle: "Bikin Form Interaktif: Text, Tanggal, Pilihan Area, & Tombol Kirim",
-    badge: "MODUL 04 // FORM & INPUT",
+    title: "Formulir Bon Reservasi Meja",
+    subtitle: "Rakit Form Interaktif: Nama Tamu, Tanggal, Pilihan Area, & Tombol Pesan",
+    badge: "MODUL 04 // BON RESERVASI",
     requiresCss: false,
     summary:
-      "Bangun formulir pemesanan lengkap menggunakan elemen form, berbagai tipe input (text, date, number, radio), dropdown select, catatan textarea, dan tombol submit.",
+      "Bangun formulir pemesanan meja interaktif: clipboard pembungkus (form), kolom isian tamu (input text, date, number), pilihan area duduk (radio), opsi cabang (select), catatan barista (textarea), dan tombol kirim.",
     theory: {
-      heading: "Mengumpulkan Data Pengunjung Lewat Form HTML5",
+      heading: "Formulir Pemesanan Tamu & Validasi Input",
       analogy:
-        "Mirip lembar reservasi yang disodorkan barista: nama pemesan siapa, tanggal datang kapan, mau pesan berapa kursi, duduk di area ber-AC atau outdoor, plus catatan tambahan.",
+        "Ketika pelanggan ingin memesan meja untuk kumpul sore, barista menyodorkan papan bon reservasi (<form>). Di atas kertas bon itu ada kotak isian nama (<input type=\"text\">), kalender meja untuk memilih hari booking (type=\"date\"), kotak hitung kursi (type=\"number\"), sakelar pilihan area duduk indoor AC atau outdoor senja (type=\"radio\"), buku katalog pilihan cabang kedai (<select>), serta kolom catatan lapang (<textarea>) untuk pesan khusus. Begitu selesai diisi, pelanggan menekan tombol bel kasir (<button type=\"submit\">) untuk menyerahkan pesanan.",
       concept:
-        "Semua kontrol input wajib dibungkus di dalam tag <form>. Tag <label for='...'> menghubungkan teks keterangan dengan input pasangannya. Atribut type menentukan bentuk kontrol (date memunculkan kalender bawaan browser, number membatasi input ke angka). Radio button yang memiliki atribut name yang sama akan saling mengunci (hanya bisa dipilih salah satu).",
+        "Tag <form> mengikat semua kontrol input menjadi satu paket data siap kirim. Label <label for=\"id\"> wajib dihubungkan ke atribut id pada input agar kolom mudah diklik dan ramah pembaca layar (screen reader). Atribut name yang sama pada radio button memastikan pelanggan hanya bisa memilih satu opsi area duduk. Atribut required mencegah form dikirim dalam keadaan kosong dengan validasi langsung dari browser.",
       supportingTips: {
-        title: "💡 Atribut Penting pada Elemen Form",
+        title: "Atribut Kunci Kontrol Form",
         items: [
           {
             tag: 'name="..."',
             name: "Kunci Identitas Data",
             explanation:
-              "Wajib sama untuk pilihan radio button agar pilihan bersifat eksklusif (hanya 1 yang bisa dipilih).",
+              "Wajib seragam untuk kelompok tombol radio agar pilihan bersifat eksklusif (hanya satu area yang bisa dipilih).",
+            example: 'name="area"',
           },
           {
             tag: "required",
-            name: "Validasi Wajib Diisi",
+            name: "Validasi Wajib Isi",
             explanation:
-              "Mencegah form dikirim jika isian ini masih kosong, langsung divalidasi oleh browser.",
+              "Browser otomatis menolak pengiriman formulir jika kolom ini masih dibiarkan kosong.",
+            example: "required",
           },
           {
             tag: 'placeholder="..."',
-            name: "Teks Panduan Awal",
-            explanation: "Teks bayangan abu-abu di dalam kolom sebagai contoh isian.",
+            name: "Panduan Isian Samar",
+            explanation: "Teks abu-abu di dalam kolom sebagai contoh format penulisan sebelum tamu mengetik.",
+            example: 'placeholder="Tulis nama Anda"',
           },
         ],
       },
       codeExample: {
-        title: "Contoh Form Pemesanan Meja",
+        title: "Contoh Bon Reservasi Meja Cafe",
         language: "html",
         code: `<div id="reservasi">
   <h2>Reservasi Meja Cafe</h2>
@@ -639,7 +644,7 @@ body {
       <input type="text" id="nama" name="nama" placeholder="Tulis nama Anda" required>
     </div>
     <div>
-      <label for="tanggal">Tanggal Datang:</label>
+      <label for="tanggal">Tanggal Kunjungan:</label>
       <input type="date" id="tanggal" name="tanggal" required>
     </div>
     <div>
@@ -668,7 +673,7 @@ body {
       },
     },
     tasks: [
-      'Buat pembungkus <div id="reservasi"> di bawah tabel menu.',
+      'Buat sekat pembungkus <div id="reservasi"> di bawah tabel menu.',
       'Buat sub-judul <h2> bertuliskan "Reservasi Meja Cafe".',
       'Buat elemen <form id="form-reservasi"> yang membungkus semua input dan tombol.',
       'Buat kolom nama dengan <input type="text" placeholder="..." required>.',
@@ -728,13 +733,13 @@ body {
     assertions: [
       {
         id: "m4-form",
-        description: "Elemen <form> harus ada membungkus formulir.",
+        description: "Elemen <form> terpasang membungkus seluruh kolom reservasi.",
         hint: "Bungkus seluruh field input di dalam tag <form>..</form>.",
         check: (_html, _css, doc) => !!doc.querySelector("form"),
       },
       {
         id: "m4-text",
-        description: "Terdapat input teks nama tamu dengan atribut required.",
+        description: "Tersedia input teks nama tamu dengan atribut required.",
         hint: 'Gunakan <input type="text" name="nama" required>.',
         check: (_html, _css, doc) => {
           const inp = doc.querySelector('input[type="text"]');
@@ -743,20 +748,20 @@ body {
       },
       {
         id: "m4-date",
-        description: "Terdapat input pemilih tanggal (type='date').",
+        description: "Tersedia input pemilih tanggal kunjungan (type='date').",
         hint: 'Gunakan <input type="date" name="tanggal" required>.',
         check: (_html, _css, doc) => !!doc.querySelector('input[type="date"]'),
       },
       {
         id: "m4-radio",
-        description: "Terdapat minimal 2 radio button untuk pemilihan area meja.",
+        description: "Tersedia minimal 2 radio button untuk pemilihan area meja.",
         hint: 'Gunakan <input type="radio" name="area" value="indoor">.',
         check: (_html, _css, doc) => doc.querySelectorAll('input[type="radio"]').length >= 2,
       },
       {
         id: "m4-select",
-        description: "Terdapat dropdown <select> dengan minimal 2 <option>.",
-        hint: "Gunakan <select><option>Cabang A</option><option>Cabang B</option></select>.",
+        description: "Tersedia dropdown <select> dengan minimal 2 <option> cabang.",
+        hint: "Gunakan <select><option>Cabang Pusat</option><option>Cabang Timur</option></select>.",
         check: (_html, _css, doc) => {
           const select = doc.querySelector("select");
           return !!(select && select.querySelectorAll("option").length >= 2);
@@ -764,14 +769,14 @@ body {
       },
       {
         id: "m4-textarea",
-        description: "Terdapat input <textarea> untuk catatan reservasi.",
+        description: "Tersedia input <textarea> untuk catatan reservasi.",
         hint: 'Tambahkan tag <textarea name="catatan"></textarea>.',
         check: (_html, _css, doc) => !!doc.querySelector("textarea"),
       },
       {
         id: "m4-submit",
-        description: "Terdapat tombol submit untuk mengirim formulir.",
-        hint: 'Gunakan <button type="submit">Pesan Meja</button>.',
+        description: "Tersedia tombol submit untuk mengirim formulir pesanan meja.",
+        hint: 'Gunakan <button type="submit">Pesan Meja Sekarang</button>.',
         check: (_html, _css, doc) => {
           return !!(doc.querySelector('button[type="submit"]') || doc.querySelector("form button"));
         },
@@ -781,46 +786,46 @@ body {
   {
     id: 5,
     slug: "css-box-model-gradient",
-    title: "CSS Box Model, Warna & Posisi Kontainer",
-    subtitle: "Pahami Margin, Padding, border-box, dan Trik margin: 0 auto",
-    badge: "MODUL 05 // DASAR CSS",
+    title: "Box Model Meja Cafe, Cat Dinding & Posisi Kontainer",
+    subtitle: "Kuasai Margin, Padding, border-box, dan Trik margin: 0 auto",
+    badge: "MODUL 05 // BOX MODEL & WARNA",
     requiresCss: true,
     summary:
-      "Pahami konsep Box Model (margin, padding, border), pentingnya box-sizing: border-box agar ukuran elemen tidak meleset, membuat latar gradasi warna, dan cara merapikan kontainer ke tengah layar.",
+      "Pahami Box Model meja cafe (margin, padding, border), pentingnya reset box-sizing: border-box agar meja tidak membengkak, sapuan gradasi warna dinding, dan penempatan kontainer tepat di tengah ruko.",
     theory: {
-      heading: "Memahami Box Model, Pewarnaan & Posisi Kontainer",
+      heading: "Box Model Meja Cafe & Tata Warna Ruang",
       analogy:
-        "Kalau HTML bikin dinding dan sekat ruangannya, CSS yang ngecat warna dinding, ngatur jarak antar meja (margin), pasang bantalan busa di kursi (padding), dan mastiin posisi bangunan simetris di tengah ruko.",
+        "Setiap elemen di halaman web diperlakukan browser sebagai meja cafe persegi (Box Model). Permukaan kayu tempat cangkir ditaruh adalah content. Tatakan karet empuk di bawah cangkir adalah padding. Lis kayu pelindung di pinggir meja adalah border. Ruang lorong jalan barista antar meja agar tidak menyenggol kursi tetangga adalah margin. Tanpa aturan box-sizing: border-box, setiap kali kamu menambah lis kayu atau bantalan, ukuran total meja bakal membengkak dan menabrak jalan barista! Terakhir, trik margin: 0 auto menempatkan meja display utama persis di tengah-tengah ruko.",
       concept:
-        "Semua elemen HTML dihitung sebagai kotak persegi (Box Model). Secara default, padding dan border akan menambah ukuran total elemen, sehingga 'box-sizing: border-box' penting digunakan agar kalkulasi lebar tetap presisi. Untuk menempatkan kontainer utama di tengah layar, kombinasi 'max-width: 820px; margin: 0 auto;' adalah teknik standar yang paling sering dipakai.",
+        "CSS Box Model mengatur kalkulasi dimensi setiap elemen dari lapisan terdalam (konten), bantalan dalam (padding), garis batas (border), hingga jarak luar (margin). Reset universal * { box-sizing: border-box; } memastikan nilai width sudah mencakup padding dan border sehingga ukuran kontainer tidak melar. Properti max-width dipadu dengan margin: 0 auto adalah cara standar untuk menjaga kontainer tetap berada di tengah layar monitor maupun laptop.",
       supportingTips: {
-        title: "💡 Box Model & Posisi Kontainer",
+        title: "Box Model & Posisi Kontainer",
         items: [
           {
             name: "box-sizing: border-box",
-            explanation: "Reset standar agar padding dan border tidak menambah lebar total elemen.",
+            explanation: "Reset penggaris standar agar bantalan padding dan lis border tidak menambah ukuran total kotak elemen.",
             example: "* { box-sizing: border-box; }",
           },
           {
             name: "margin: 0 auto",
             explanation:
-              "Menempatkan elemen block di tengah layar secara otomatis jika dipadukan dengan max-width.",
+              "Menempatkan elemen block persis di tengah layar secara otomatis jika dipadukan dengan max-width.",
             example: ".main-container { max-width: 820px; margin: 0 auto; }",
           },
           {
             name: "linear-gradient(...)",
-            explanation: "Gradasi dua warna halus untuk memberi sentuhan visual modern pada kartu atau header.",
+            explanation: "Sapuan gradasi halus dua warna untuk memberi nuansa hangat dinding semen ekspos atau header kedai.",
             example: "background: linear-gradient(135deg, #292524, #1c1917);",
           },
           {
             name: "border-collapse: collapse",
-            explanation: "Menyatukan garis ganda pada sel tabel agar garis pembatas jadi tipis dan rapi.",
+            explanation: "Merapatkan garis ganda antar sel tabel menu menjadi satu garis tipis yang tegas dan rapi.",
             example: "table { border-collapse: collapse; }",
           },
         ],
       },
       codeExample: {
-        title: "Contoh Aturan Box Model & Warna",
+        title: "Aturan Box Model & Tata Warna Kedai",
         language: "css",
         code: `* {
   box-sizing: border-box;
@@ -940,18 +945,18 @@ button {
       {
         id: "m5-colors",
         description: "Definisikan warna teks (color) dan warna latar (background-color).",
-        hint: "Atur body { background-color: #...; color: #...; }.",
+        hint: "Atur body { background-color: #0c0a09; color: #f5f5f4; }.",
         check: (_html, css) => /color\s*:/i.test(css) && /background(-color)?\s*:/i.test(css),
       },
       {
         id: "m5-centering",
-        description: "Gunakan margin: 0 auto untuk mengetengahkan kontainer utama.",
-        hint: "Gunakan margin: 0 auto; max-width: 800px; pada kelas kontainer.",
+        description: "Gunakan margin: 0 auto untuk mengetengahkan kontainer utama kedai kopi.",
+        hint: "Gunakan margin: 0 auto; max-width: 820px; pada kelas kontainer.",
         check: (_html, css) => /margin\s*:\s*0\s+auto/i.test(css) || /margin-left\s*:\s*auto/i.test(css) || /display\s*:\s*flex/i.test(css),
       },
       {
         id: "m5-gradient",
-        description: "Terapkan efek latar gradasi linear-gradient(...).",
+        description: "Terapkan efek latar gradasi linear-gradient(...) pada header.",
         hint: "Gunakan background: linear-gradient(135deg, #292524, #1c1917); pada header.",
         check: (_html, css) => /linear-gradient/i.test(css),
       },
@@ -966,43 +971,43 @@ button {
   {
     id: 6,
     slug: "flexbox-layout-pseudoclasses",
-    title: "Layout Navigasi Flexbox & Efek Interaksi",
-    subtitle: "Sejajarkan Menu Pakai Flexbox dan Respons Tombol Saat Disentuh",
-    badge: "MODUL 06 // FLEXBOX & HOVER",
+    title: "Tata Letak Bar Barista Flexbox & Respons Interaksi",
+    subtitle: "Sejajarkan Bar Navbar Pakai Flexbox dan Pasang Efek Sentuh :hover & :focus",
+    badge: "MODUL 06 // FLEXBOX & RESPON FISIK",
     requiresCss: true,
     summary:
-      "Gunakan Flexbox untuk menyejajarkan logo dan tautan navigasi, tambahkan efek interaktif kursor melayang (:hover) serta kolom input aktif (:focus), dan pasang respon pengiriman form.",
+      "Gunakan Flexbox untuk menyejajarkan logo dan tautan menu di meja bar, pasang respons sentuhan kursor (:hover) serta kolom input aktif (:focus), dan siapkan pesan konfirmasi pesanan meja.",
     theory: {
-      heading: "Tata Letak Sejajar & Interaksi Elemen",
+      heading: "Tata Letak Sejajar Bar Barista & Respon Fisik",
       analogy:
-        "Bayangin sakelar atau kenop pintu cafe: pas tangan mendekat ada bayangan (:hover), pas ditekan ada respon klik (:active), dan pas aktif lampunya menyala terang (:focus). Interaksi visual mikro ini bikin pengunjung betah karena website terasa hidup.",
+        "Meja bar kasir barista selalu tertata rapi dalam satu garis lurus: mesin kasir di sudut kiri dan etalase roti di sudut kanan, dengan ruang lega di tengahnya. Di CSS, kita membuat bar sejajar ini memakai display: flex dan justify-content: space-between. Elemen web juga punya respons fisik seperti perabotan kedai: saat tangan pengunjung mendekati tombol, warnanya menyala (:hover). Saat tombol ditekan ke bawah, posisinya sedikit amblas (:active). Saat kolom formulir mulai diketik, garis tepinya berpijar terang (:focus). Begitu tombol reservasi ditekan, barista mengangguk ramah lewat jendela konfirmasi onsubmit.",
       concept:
-        "Flexbox (display: flex) adalah teknik paling praktis untuk menata elemen secara mendatar dalam satu baris (seperti logo di ujung kiri dan link menu di ujung kanan). Pseudo-classes seperti :hover dan :focus memungkinkan kita memberikan feedback visual instan saat pengguna berinteraksi dengan elemen.",
+        "display: flex mengubah kontainer menjadi fleksibel dalam satu sumbu. Properti justify-content: space-between menyebarkan elemen anak ke ujung kiri dan kanan, sementara align-items: center menyamakan posisi vertikalnya di garis tengah. Pseudo-class (:hover, :active, :focus) memberi tanda visual langsung ke pengunjung bahwa elemen siap menerima interaksi, dan atribut onsubmit pada form menangani respon pengiriman data.",
       supportingTips: {
-        title: "💡 Pseudo-Class Interaktif Populer",
+        title: "Pseudo-Class Interaksi Fisik",
         items: [
           {
             tag: ":hover",
-            name: "Kursor Melayang",
-            explanation: "Mengubah warna atau posisi tombol saat didekati mouse pengguna.",
+            name: "Kursor Mendekat",
+            explanation: "Mengubah warna tombol atau tautan navigasi saat didekati mouse pengunjung.",
             example: "button:hover { background-color: #f59e0b; }",
           },
           {
             tag: ":active",
-            name: "Tombol Sedang Ditekan",
-            explanation: "Efek animasi tombol tertekan ke bawah saat diklik.",
+            name: "Tombol Ditekan",
+            explanation: "Memberi efek tombol sedikit turun ke bawah saat diklik dengan jari.",
             example: "button:active { transform: translateY(0); }",
           },
           {
             tag: ":focus",
-            name: "Kolom Input Aktif",
-            explanation: "Menyalakan garis batas saat pengguna sedang mengetik di dalam kolom.",
+            name: "Kolom Aktif Mengetik",
+            explanation: "Menyalakan garis tepi tegas saat pengunjung sedang mengisi isian formulir.",
             example: "input:focus { outline: 2px solid #f59e0b; }",
           },
         ],
       },
       codeExample: {
-        title: "Contoh Navbar Flexbox & Pseudo-Class",
+        title: "Contoh Navbar Flexbox & Respons Tombol",
         language: "css",
         code: `.navbar {
   display: flex;
@@ -1128,7 +1133,7 @@ button:active {
       },
       {
         id: "m6-onsubmit",
-        description: "Formulir memiliki interaksi mikro onsubmit dengan pesan alert.",
+        description: "Formulir memiliki interaksi mikro onsubmit dengan pesan konfirmasi.",
         hint: 'Tambahkan onsubmit="alert(\'Reservasi terkirim!\'); return false;" pada tag <form>.',
         check: (html) => /onsubmit\s*=/i.test(html) || /alert\(/i.test(html),
       },
@@ -1137,28 +1142,30 @@ button:active {
   {
     id: 7,
     slug: "final-polish-showcase",
-    title: "Cek Tampilan Akhir & Simpan ke Galeri",
-    subtitle: "Uji Tampilan di Berbagai Layar dan Simpan Website Kedai Kopi Buatanmu",
-    badge: "MODUL 07 // PUBLIKASI",
+    title: "Kalibrasi Akhir & Buka Pintu Kedai Kopi",
+    subtitle: "Inspeksi Kerapian di Layar Penuh dan Pajang Karyamu di Galeri Showcase",
+    badge: "MODUL 07 // GRAND OPENING",
     requiresCss: true,
     summary:
-      "Periksa kembali hasil akhir website kedai kopi yang sudah dibuat, uji tampilannya di mode layar penuh, dan simpan websitemu ke galeri Showcase publik.",
+      "Lakukan inspeksi menyeluruh pada website kedai kopi buatanmu, uji tampilannya di mode layar penuh, dan resmikan publikasi karyamu ke galeri Showcase publik.",
     theory: {
-      heading: "Pemeriksaan Akhir & Langkah Publikasi",
+      heading: "Inspeksi Kerapian & Peresmian Karya",
       analogy:
-        "Website kedai kopimu sekarang sudah punya kerangka lengkap, daftar menu rapi, form reservasi, dan styling modern. Sebelum ditunjukkan ke orang lain, saatnya cek tampilannya di layar laptop maupun ponsel.",
+        "Sebelum membuka tirai ruko dan membalik plang dari 'CLOSED' menjadi 'OPEN', barista selalu melakukan inspeksi terakhir: mengelap meja bar, menyalakan lampu gantung, dan mencicipi seduhan espresso pertama untuk kalibrasi rasa. Di modul penutup ini, kamu memeriksa seluruh hasil kodemu dari Modul 00 sampai 06, memastikan tampilan rapi di layar monitor maupun ponsel, lalu meresmikan nama kedai kopimu dan memajang karyamu di galeri Showcase publik.",
       concept:
-        "Tahap akhir ini memastikan seluruh struktur HTML dan aturan CSS bekerja harmonis dan proporsional. Setelah modul-modul sebelumnya selesai, kamu bisa memasukkan nama brand kedai kopi buatanmu lalu mempublikasikannya agar tersimpan di database dan bisa diakses lewat galeri Showcase.",
+        "Tahap kalibrasi ini menguji keutuhan dokumen: apakah header, daftar fasilitas, tabel menu, dan form reservasi sudah menyatu rapi dengan styling CSS. Setelah semua checklist pengujian lolos, kamu memasukkan nama brand kedai kopi pilihanmu dan menekan tombol 'Publish Karya' untuk menyimpan website ke database agar bisa dinikmati dan diapresiasi oleh pengunjung lain.",
       supportingTips: {
-        title: "💡 Checklist Kesiapan Tampilan",
+        title: "Checklist Kesiapan Grand Opening",
         items: [
           {
-            name: "Struktur HTML Lengkap",
-            explanation: "Header banner, daftar fasilitas, tabel harga menu, dan formulir reservasi tertata rapi.",
+            name: "Kelengkapan Struktur HTML",
+            explanation: "Fasad nama ruko, daftar fasilitas, tabel menu kasir, dan bon reservasi terpasang utuh.",
+            example: "<header>, <ul>, <table>, <form>",
           },
           {
-            name: "Kerapian Styling CSS",
-            explanation: "Navigasi sejajar, warna kontras mudah dibaca, dan proporsi jarak nyaman di layar.",
+            name: "Kerapian Tata Letak CSS",
+            explanation: "Navigasi bar sejajar, warna kontras nyaman di mata, dan kontainer meja berada tepat di tengah layar.",
+            example: "display: flex; margin: 0 auto;",
           },
         ],
       },

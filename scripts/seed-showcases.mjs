@@ -1,11 +1,16 @@
 import { neon } from "@neondatabase/serverless";
 
-if (!process.env.DATABASE_URL) {
-  console.error("DATABASE_URL is not set in environment!");
-  process.exit(1);
+let sqlInstance;
+function getSql() {
+  if (!sqlInstance) {
+    if (!process.env.DATABASE_URL) {
+      console.error("DATABASE_URL is not set in environment!");
+      process.exit(1);
+    }
+    sqlInstance = neon(process.env.DATABASE_URL);
+  }
+  return sqlInstance;
 }
-
-const sql = neon(process.env.DATABASE_URL);
 
 export const SEED_SHOWCASES = [
   {
@@ -1853,6 +1858,7 @@ mark {
 ];
 
 async function seed() {
+  const sql = getSql();
   console.log("🌱 Mulai seeding 5 showcase otentik yang memenuhi seluruh kriteria 8 modul...");
 
   try {
@@ -1915,4 +1921,6 @@ async function seed() {
   }
 }
 
-seed();
+if (process.argv[1] && process.argv[1].endsWith("seed-showcases.mjs")) {
+  seed();
+}
