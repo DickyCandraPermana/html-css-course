@@ -5,6 +5,7 @@ export interface SlideData {
   title: string;
   subtitle: string;
   category: "intro" | "html" | "css" | "review" | "outro";
+  relatedModuleId?: number;
   concept: string;
   analogy: {
     title: string;
@@ -126,6 +127,7 @@ export const SLIDES: SlideData[] = [
     title: "Anatomi Dokumen HTML dari Nol",
     subtitle: "4 Elemen Wajib Dokumen Web Standar W3C",
     category: "html",
+    relatedModuleId: 0,
     concept:
       "Setiap halaman web di dunia tersusun atas 4 pilar utama. Browser memerlukan deklarasi standar DOCTYPE dan pembungkus root <html> sebelum dapat menampilkan konten di layar.",
     analogy: {
@@ -178,6 +180,7 @@ export const SLIDES: SlideData[] = [
     title: "Struktur Konten & Media Banner",
     subtitle: "Menata Plang Nama Toko, Teks Penjelas, dan Foto Banner",
     category: "html",
+    relatedModuleId: 1,
     concept:
       "Informasi web harus memiliki hierarki visual yang jelas. Tag <h1> hanya boleh satu per halaman sebagai topik utama, sedangkan gambar memerlukan atribut src dan teks alternatif alt untuk aksesibilitas.",
     analogy: {
@@ -231,6 +234,7 @@ export const SLIDES: SlideData[] = [
     title: "Daftar Fasilitas & Pengelompokan Elemen",
     subtitle: "Menata Poin Layanan Menggunakan <ul>, <li>, dan <div>",
     category: "html",
+    relatedModuleId: 2,
     concept:
       "Halaman web yang panjang perlu dibagi ke dalam blok-blok logis menggunakan <div>. Untuk informasi berupa poin, elemen list (<ul> & <li>) memberikan struktur semantik yang jauh lebih rapi dibanding mengetik titik manual.",
     analogy: {
@@ -280,6 +284,7 @@ export const SLIDES: SlideData[] = [
     title: "Tabel Menu Minuman & Harga",
     subtitle: "Menata Data Dua Dimensi dengan <table> Semantik",
     category: "html",
+    relatedModuleId: 3,
     concept:
       "Tabel HTML modern memisahkan baris judul kolom (<thead>) dan isi data (<tbody>). Elemen semantik ini menjamin data terbaca rapi oleh browser, search engine, dan pembaca layar.",
     analogy: {
@@ -318,6 +323,11 @@ export const SLIDES: SlideData[] = [
         <td>Kopi Susu Gula Aren</td>
         <td>Rp 22.000</td>
       </tr>
+      <tr>
+        <td>Camilan</td>
+        <td>Roti Bakar Cokelat</td>
+        <td>Rp 18.000</td>
+      </tr>
     </tbody>
   </table>
 </div>`,
@@ -344,6 +354,7 @@ export const SLIDES: SlideData[] = [
     title: "Formulir Pemesanan Meja Interaktif",
     subtitle: "Mengumpulkan Data Pengunjung dengan Kontrol Input HTML5",
     category: "html",
+    relatedModuleId: 4,
     concept:
       "Formulir memungkinkan interaksi dua arah antara pengunjung dan pengelola web. Atribut 'type' menentukan rupa kontrol input (text, date, number, radio), sementara 'required' memberi validasi otomatis tanpa JavaScript.",
     analogy: {
@@ -375,6 +386,17 @@ export const SLIDES: SlideData[] = [
     <label><input type="radio" name="area" value="indoor" checked> Ruang AC</label>
     <label><input type="radio" name="area" value="outdoor"> Area Luar</label>
   </div>
+  <div>
+    <label for="cabang">Pilih Cabang:</label>
+    <select id="cabang" name="cabang">
+      <option value="utama">Cabang Pusat</option>
+      <option value="timur">Cabang Timur</option>
+    </select>
+  </div>
+  <div>
+    <label for="catatan">Catatan Meja:</label>
+    <textarea id="catatan" name="catatan" rows="2" placeholder="Catatan khusus..."></textarea>
+  </div>
   <button type="submit">Pesan Meja Sekarang</button>
 </form>`,
     },
@@ -401,6 +423,7 @@ export const SLIDES: SlideData[] = [
     title: "CSS Box Model, Warna & Posisi Kontainer",
     subtitle: "Mengatur Margin, Padding, border-box, dan Trik margin: 0 auto",
     category: "css",
+    relatedModuleId: 5,
     concept:
       "Semua elemen HTML di mata CSS adalah kotak persegi panjang. Box Model mengatur Padding (bantalan dalam), Border (garis pinggir), dan Margin (jarak antar kotak). Reset 'box-sizing: border-box' adalah senjata utama desainer web modern.",
     analogy: {
@@ -468,6 +491,7 @@ table {
     title: "Layout Navigasi Flexbox & Efek Interaksi",
     subtitle: "Sejajarkan Menu dengan Flexbox dan Hidupkan Tombol dengan Pseudo-Class",
     category: "css",
+    relatedModuleId: 6,
     concept:
       "Flexbox (display: flex) menyederhanakan penataan elemen mendatar. Pseudo-class seperti :hover, :focus, dan :active memberi umpan balik instan sehingga website terasa responsif dan hidup.",
     analogy: {
@@ -529,6 +553,7 @@ input:focus {
     title: "Pemeriksaan Akhir & Publikasi Showcase",
     subtitle: "Uji Tampilan di Berbagai Layar dan Simpan Website ke Galeri",
     category: "review",
+    relatedModuleId: 7,
     concept:
       "Sebelum karya dipublikasikan, web developer melakukan tahap QA (Quality Assurance): memastikan seluruh tautan bekerja, form tervalidasi, dan tampilan rapi di perangkat desktop maupun smartphone.",
     analogy: {
